@@ -32,7 +32,11 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({color, focused}) => {
               const iconSize = focused ? vw(7) : vw(6);
-              return <View>{homeIcon(iconSize, iconSize, color)}</View>;
+              return (
+                <View style={focused ? styles.focusTab : styles.unfocusTab}>
+                  {homeIcon(iconSize, iconSize, color)}
+                </View>
+              );
             },
           }}
         />
@@ -43,7 +47,11 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({color, focused}) => {
               const iconSize = focused ? vw(7) : vw(6);
-              return <View>{clockIcon(iconSize, iconSize, color)}</View>;
+              return (
+                <View style={focused ? styles.focusTab : styles.unfocusTab}>
+                  {clockIcon(iconSize, iconSize, color)}
+                </View>
+              );
             },
           }}
         />
@@ -54,7 +62,11 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({color, focused}) => {
               const iconSize = focused ? vw(7) : vw(6);
-              return <View>{docsIcon(iconSize, iconSize, color)}</View>;
+              return (
+                <View style={focused ? styles.focusTab : styles.unfocusTab}>
+                  {docsIcon(iconSize, iconSize, color)}
+                </View>
+              );
             },
           }}
         />
@@ -65,7 +77,11 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({color, focused}) => {
               const iconSize = focused ? vw(7) : vw(6);
-              return <View>{cupIcon(iconSize, iconSize, color)}</View>;
+              return (
+                <View style={focused ? styles.focusTab : styles.unfocusTab}>
+                  {cupIcon(iconSize, iconSize, color)}
+                </View>
+              );
             },
           }}
         />
@@ -102,15 +118,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEF1FE',
   },
   focusTab: {
-    backgroundColor: '#1940B6',
-    width: '40%',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: vh(1),
     borderRadius: vw(20),
+    backgroundColor: '#1940B6',
+    width: '100%',
   },
   unfocusTab: {
-    width: '20%',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: vh(1),
