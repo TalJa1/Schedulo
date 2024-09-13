@@ -32,11 +32,7 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({color, focused}) => {
               const iconSize = focused ? vw(7) : vw(6);
-              return (
-                <View style={focused ? styles.focusTab : styles.unfocusTab}>
-                  {homeIcon(iconSize, iconSize, color)}
-                </View>
-              );
+              return <View>{homeIcon(iconSize, iconSize, color)}</View>;
             },
           }}
         />
@@ -47,11 +43,7 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({color, focused}) => {
               const iconSize = focused ? vw(7) : vw(6);
-              return (
-                <View style={focused ? styles.focusTab : styles.unfocusTab}>
-                  {clockIcon(iconSize, iconSize, color)}
-                </View>
-              );
+              return <View>{clockIcon(iconSize, iconSize, color)}</View>;
             },
           }}
         />
@@ -62,11 +54,7 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({color, focused}) => {
               const iconSize = focused ? vw(7) : vw(6);
-              return (
-                <View style={focused ? styles.focusTab : styles.unfocusTab}>
-                  {docsIcon(iconSize, iconSize, color)}
-                </View>
-              );
+              return <View>{docsIcon(iconSize, iconSize, color)}</View>;
             },
           }}
         />
@@ -77,11 +65,7 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({color, focused}) => {
               const iconSize = focused ? vw(7) : vw(6);
-              return (
-                <View style={focused ? styles.focusTab : styles.unfocusTab}>
-                  {cupIcon(iconSize, iconSize, color)}
-                </View>
-              );
+              return <View>{cupIcon(iconSize, iconSize, color)}</View>;
             },
           }}
         />
