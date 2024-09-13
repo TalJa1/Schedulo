@@ -1,118 +1,134 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
+/* eslint-disable react/no-unstable-nested-components */
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import Home from './views/bottomTabs/Home';
+import {vh, vw} from './services/styleSheet';
+import Promodoro from './views/bottomTabs/Promodoro';
+import {clockIcon, cupIcon, docsIcon, homeIcon} from './assets/svgXML';
+import StoragePage from './views/bottomTabs/StoragePage';
+import Profile from './views/bottomTabs/Profile';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+const App = () => {
+  const TabNavigator = () => {
+    return (
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          tabBarActiveTintColor: '#FFFFFF',
+          tabBarInactiveTintColor: '#ACBAE7',
+          tabBarShowLabel: false,
+          tabBarStyle: styles.tabBar,
+        }}>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, focused}) => {
+              const iconSize = focused ? vw(7) : vw(6);
+              return (
+                <View style={focused ? styles.focusTab : styles.unfocusTab}>
+                  {homeIcon(iconSize, iconSize, color)}
+                </View>
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Promodoro"
+          component={Promodoro}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, focused}) => {
+              const iconSize = focused ? vw(7) : vw(6);
+              return (
+                <View style={focused ? styles.focusTab : styles.unfocusTab}>
+                  {clockIcon(iconSize, iconSize, color)}
+                </View>
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="StoragePage"
+          component={StoragePage}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, focused}) => {
+              const iconSize = focused ? vw(7) : vw(6);
+              return (
+                <View style={focused ? styles.focusTab : styles.unfocusTab}>
+                  {docsIcon(iconSize, iconSize, color)}
+                </View>
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, focused}) => {
+              const iconSize = focused ? vw(7) : vw(6);
+              return (
+                <View style={focused ? styles.focusTab : styles.unfocusTab}>
+                  {cupIcon(iconSize, iconSize, color)}
+                </View>
+              );
+            },
+          }}
+        />
+      </Tab.Navigator>
+    );
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      {/* Main || Login */}
+      <Stack.Navigator initialRouteName="Login">
+        {/* Main layout with 3 bottom tabs */}
+        <Stack.Screen
+          name="Main"
+          component={TabNavigator}
+          options={{headerShown: false}}
+        />
+        {/* end here */}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;
+
+const styles = StyleSheet.create({
+  tabBar: {
+    height: vh(8),
+    borderRadius: vw(20),
+    position: 'absolute',
+    bottom: vh(2),
+    left: vw(5),
+    right: vw(5),
+    backgroundColor: '#EEF1FE',
+  },
+  focusTab: {
+    backgroundColor: '#1940B6',
+    width: '40%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: vh(1),
+    borderRadius: vw(20),
+  },
+  unfocusTab: {
+    width: '20%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: vh(1),
+  },
+});
