@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     left: vw(5),
     right: vw(5),
     backgroundColor: '#EEF1FE',
+    paddingHorizontal: vw(5),
   },
   focusTab: {
     alignItems: 'center',
