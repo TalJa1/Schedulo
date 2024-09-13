@@ -50,7 +50,7 @@ const CustomTabBar = ({state, navigation}: BottomTabBarProps) => {
             onPress={onPress}
             style={[
               styles.tabItem,
-              {backgroundColor, flex: isFocused ? 1.5 : 1},
+              {backgroundColor, flex: isFocused ? 1.5 : 0.7},
             ]}>
             <View>{icon}</View>
           </TouchableOpacity>
