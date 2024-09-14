@@ -1,11 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {vh, vw} from '../../services/styleSheet';
 import {backIcon, homeNotiIcon, nextIcon} from '../../assets/svgXML';
 import {
   getCurrentMonthAndYear,
   getCurrentWeekDays,
+  getTodayIndex,
 } from '../../services/timeServices';
 import {HeaderComponentProps} from '../../services/typeProps';
 
@@ -26,7 +27,18 @@ const HeaderTime: React.FC<{
   setDayIndex: React.Dispatch<React.SetStateAction<number>>;
 }> = ({dayIndex, setDayIndex}) => {
   const currentWeek = getCurrentWeekDays();
+  const [dateTimeTxT, setDateTimeTxT] = useState('Hôm nay');
   const today = new Date().getDate().toString().padStart(2, '0');
+
+  useEffect(() => {
+    if (dayIndex === getTodayIndex() - 1) {
+      setDateTimeTxT('Hôm qua');
+    } else if (dayIndex === getTodayIndex()) {
+      setDateTimeTxT('Hôm nay');
+    } else {
+      setDateTimeTxT(' ');
+    }
+  }, [dayIndex, setDateTimeTxT]);
 
   return (
     <View style={{rowGap: vh(2)}}>
@@ -47,7 +59,7 @@ const HeaderTime: React.FC<{
           </Text>
           {nextIcon(vw(4), vw(4))}
         </View>
-        <Text style={{color: 'white'}}>Hôm qua</Text>
+        <Text style={{color: 'white'}}>{dateTimeTxT}</Text>
       </View>
       <View
         style={{
@@ -66,6 +78,7 @@ const HeaderTime: React.FC<{
         {currentWeek.map((day, index) => {
           const isToday = day.dayOfMonth === today;
           const isSelected = index === dayIndex;
+
           return (
             <TouchableOpacity
               key={index}
