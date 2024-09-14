@@ -15,9 +15,12 @@ import HeaderComponent from '../../components/home/HeaderComponent';
 import {getDayOfWeekByIndex, getTodayIndex} from '../../services/timeServices';
 import {tabs} from '../../services/renderData';
 import {floatingBtnIcon} from '../../assets/svgXML';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const Home = () => {
   useStatusBar('#363851');
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [weekDayIndex, setWeekDayIndex] = useState(getTodayIndex());
   const [selectedDay, setSelectedDay] = useState('');
   const [tabCurrent, setTabCurrent] = useState(0);
@@ -26,6 +29,17 @@ const Home = () => {
   useEffect(() => {
     setSelectedDay(getDayOfWeekByIndex(weekDayIndex));
   }, [weekDayIndex]);
+
+  const handleNavigate = () => {
+    switch (tabCurrent) {
+      case 0:
+        navigation.navigate('TaskAddition');
+        break;
+      case 1:
+        console.log('Navigate to challenge');
+        break;
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -40,7 +54,11 @@ const Home = () => {
             <DoneTaskView />
           ) : (
             <>
-              <NoTaskView selectedDay={selectedDay} />
+              <NoTaskView
+                selectedDay={selectedDay}
+                tabIndex={tabCurrent}
+                handleNavigate={handleNavigate}
+              />
             </>
           )}
         </View>
@@ -50,7 +68,11 @@ const Home = () => {
   );
 };
 
-const NoTaskView: React.FC<{selectedDay: string}> = ({selectedDay}) => {
+const NoTaskView: React.FC<{
+  selectedDay: string;
+  tabIndex: number;
+  handleNavigate: () => void;
+}> = ({selectedDay, handleNavigate, tabIndex}) => {
   return (
     <View
       style={[
@@ -68,7 +90,10 @@ const NoTaskView: React.FC<{selectedDay: string}> = ({selectedDay}) => {
         Schedulo giúp bạn nào.
       </Text>
       <Image source={require('../../assets/home/noContent2.png')} />
-      <TouchableOpacity style={styles.btnStyle}>
+      <TouchableOpacity
+        disabled={tabIndex > 1}
+        onPress={handleNavigate}
+        style={styles.btnStyle}>
         <Text style={styles.txtBtnStyle}>Tạo việc mới</Text>
       </TouchableOpacity>
     </View>
@@ -99,7 +124,7 @@ const DoneTaskView: React.FC = () => {
   );
 };
 
-const FloatingActionButton = () => {
+const FloatingActionButton: React.FC = () => {
   return (
     <TouchableOpacity
       style={{

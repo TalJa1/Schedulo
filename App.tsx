@@ -8,6 +8,7 @@ import Promodoro from './views/bottomTabs/Promodoro';
 import StoragePage from './views/bottomTabs/StoragePage';
 import Profile from './views/bottomTabs/Profile';
 import CustomTabBar from './components/CustomTabbar';
+import TaskAddition from './views/home/TaskAddition';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,10 +52,15 @@ const App = () => {
           component={TabNavigator}
           options={{headerShown: false}}
         />
+        {/*  */}
+        <Stack.Screen
+          name="TaskAddition"
+          component={TaskAddition}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default App;
-
