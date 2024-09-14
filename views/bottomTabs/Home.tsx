@@ -7,20 +7,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {centerAll, containerStyle, vh, vw} from '../../services/styleSheet';
 import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
-import {getTodayIndex} from '../../services/timeServices';
+import {getDayOfWeekByIndex, getTodayIndex} from '../../services/timeServices';
 import {tabs} from '../../services/renderData';
 import {floatingBtnIcon} from '../../assets/svgXML';
 
 const Home = () => {
   useStatusBar('#363851');
   const [weekDayIndex, setWeekDayIndex] = useState(getTodayIndex());
+  const [selectedDay, setSelectedDay] = useState('');
   const [tabCurrent, setTabCurrent] = useState(0);
   const todayIndex = getTodayIndex();
+
+  useEffect(() => {
+    setSelectedDay(getDayOfWeekByIndex(weekDayIndex));
+  }, [weekDayIndex]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,12 +39,39 @@ const Home = () => {
           {weekDayIndex < todayIndex && tabCurrent === 0 ? (
             <DoneTaskView />
           ) : (
-            <></>
+            <>
+              <NoTaskView selectedDay={selectedDay} />
+            </>
           )}
         </View>
         <FloatingActionButton />
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const NoTaskView: React.FC<{selectedDay: string}> = ({selectedDay}) => {
+  return (
+    <View
+      style={[
+        {paddingHorizontal: vw(5), marginTop: vh(2), rowGap: vh(2)},
+        centerAll,
+      ]}>
+      <Text
+        style={{
+          color: '#1940B6',
+          fontSize: 20,
+          fontWeight: '700',
+          textAlign: 'center',
+        }}>
+        Bạn có đầu việc cần làm vào {selectedDay} tuần này không? Tạo trước để
+        Schedulo giúp bạn nào.
+      </Text>
+      <Image source={require('../../assets/home/noContent2.png')} />
+      <TouchableOpacity style={styles.btnStyle}>
+        <Text style={styles.txtBtnStyle}>Tạo việc mới</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -60,16 +92,8 @@ const DoneTaskView: React.FC = () => {
         Tốt lắm! Bạn đã hoàn thành các công việc đề ra trong ngày!
       </Text>
       <Image source={require('../../assets/home/noContent.png')} />
-      <TouchableOpacity
-        disabled
-        style={{
-          borderWidth: 1,
-          borderColor: '#2F2F2F',
-          borderRadius: 10,
-          paddingHorizontal: vw(12),
-          paddingVertical: vh(1),
-        }}>
-        <Text style={{color: '#2F2F2F', fontSize: 16}}>Xem lại</Text>
+      <TouchableOpacity disabled style={styles.btnStyle}>
+        <Text style={styles.txtBtnStyle}>Xem lại</Text>
       </TouchableOpacity>
     </View>
   );
@@ -139,4 +163,12 @@ const styles = StyleSheet.create({
     borderRadius: vw(20),
     padding: vw(2),
   },
+  btnStyle: {
+    borderWidth: 1,
+    borderColor: '#2F2F2F',
+    borderRadius: 10,
+    paddingHorizontal: vw(12),
+    paddingVertical: vh(1),
+  },
+  txtBtnStyle: {color: '#2F2F2F', fontSize: 16},
 });

@@ -45,3 +45,16 @@ export const getTodayIndex = () => {
   const currentDay = currentDate.getDay();
   return currentDay === 0 ? 6 : currentDay - 1; // Adjust so that Monday is 0 and Sunday is 6
 };
+
+export const getDayOfWeekByIndex = (index: number) => {
+  const daysOfWeek = [
+    'Thứ hai',
+    'Thứ ba',
+    'Thứ tư',
+    'Thứ năm',
+    'Thứ sáu',
+    'Thứ bảy',
+    'Chủ nhật',
+  ];
+  return daysOfWeek[index];
+};
