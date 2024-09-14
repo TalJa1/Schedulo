@@ -9,6 +9,42 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const logoutIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.5 1L19.875 1C23.6972 1 23.625 6 23.625 11C23.625 16 23.6972 21 19.875 21H15.5M1.75 11L16.75 11M1.75 11L6.75 6M1.75 11L6.75 16" stroke=${
+    color ?? 'black'
+  } style="stroke:black;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const userIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="22" height="26" viewBox="0 0 22 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.875 24.2501H4.125C2.39911 24.2501 1 22.851 1 21.1251C1 16.0242 8.5 16.1251 11 16.1251C13.5 16.1251 21 16.0242 21 21.1251C21 22.851 19.6009 24.2501 17.875 24.2501Z" stroke=${
+    color ?? 'black'
+  } style="stroke:black;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11 11.75C13.7614 11.75 16 9.51142 16 6.75C16 3.98858 13.7614 1.75 11 1.75C8.23858 1.75 6 3.98858 6 6.75C6 9.51142 8.23858 11.75 11 11.75Z" stroke=${
+    color ?? 'black'
+  } style="stroke:black;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const profileLinkIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="26" height="20" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M24.6375 6.25H15.522C13.4388 6.25 11.75 7.92893 11.75 10C11.75 12.0711 13.4388 13.75 15.522 13.75H24.6375M15.5 10V10.0125M2.44444 2.15278C3.10417 1.70139 7.72222 1.25 13 1.25C18.2778 1.25 22.8958 1.70139 23.5556 2.15278C23.9445 2.41889 24.3334 4.25134 24.5872 5.93757C24.6509 6.36118 24.7061 6.81501 24.7507 7.29173C24.8296 8.13627 24.875 9.05263 24.875 10.0001C24.875 11.4823 24.7638 12.8885 24.5872 14.0626C24.3334 15.7488 23.9445 17.5811 23.5556 17.8472C22.8958 18.2986 18.2778 18.75 13 18.75C7.72222 18.75 3.10417 18.2986 2.44444 17.8472C1.78472 17.3958 1.125 13.6112 1.125 10.0001C1.125 9.05263 1.17041 8.13627 1.24932 7.29173C1.47118 4.91737 1.95781 2.48574 2.44444 2.15278Z" stroke=${
+    color ?? 'black'
+  } style="stroke:black;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const searchIcon = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M17.0459 15.3822L23.3226 21.6588C23.5432 21.8796 23.667 22.179 23.6669 22.4911C23.6668 22.8032 23.5427 23.1025 23.322 23.3231C23.1012 23.5437 22.8018 23.6676 22.4897 23.6675C22.1776 23.6673 21.8783 23.5433 21.6577 23.3225L15.3811 17.0458C13.5047 18.4991 11.1452 19.183 8.78254 18.9584C6.41986 18.7338 4.23149 17.6175 2.66262 15.8367C1.09374 14.0559 0.26221 11.7443 0.337182 9.37212C0.412154 6.99998 1.388 4.74549 3.06619 3.06729C4.74439 1.3891 6.99888 0.413252 9.37102 0.338281C11.7432 0.263309 14.0548 1.09484 15.8356 2.66372C17.6164 4.23259 18.7327 6.42096 18.9573 8.78363C19.1819 11.1463 18.498 13.5058 17.0447 15.3822H17.0459ZM9.66672 16.6667C11.5232 16.6667 13.3037 15.9292 14.6165 14.6164C15.9292 13.3036 16.6667 11.5232 16.6667 9.66665C16.6667 7.81014 15.9292 6.02966 14.6165 4.71691C13.3037 3.40415 11.5232 2.66665 9.66672 2.66665C7.8102 2.66665 6.02973 3.40415 4.71697 4.71691C3.40422 6.02966 2.66672 7.81014 2.66672 9.66665C2.66672 11.5232 3.40422 13.3036 4.71697 14.6164C6.02973 15.9292 7.8102 16.6667 9.66672 16.6667Z" fill=${
