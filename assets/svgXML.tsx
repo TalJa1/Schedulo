@@ -9,6 +9,28 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const playIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="19" height="22" viewBox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.666687 0V22L19 11L0.666687 0Z" fill=${
+    color ?? 'white'
+  } style="fill:white;fill-opacity:1;"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const btnClockIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="41" height="40" viewBox="0 0 41 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" width="40" height="40" rx="20" fill="#363851" style="fill:#363851;fill:color(display-p3 0.2118 0.2196 0.3176);fill-opacity:1;"/>
+<path d="M35.5 20C35.5 28.2843 28.7843 35 20.5 35C12.2157 35 5.5 28.2843 5.5 20C5.5 11.7157 12.2157 5 20.5 5C28.7843 5 35.5 11.7157 35.5 20Z" fill="#363851" style="fill:#363851;fill:color(display-p3 0.2118 0.2196 0.3176);fill-opacity:1;"/>
+<path d="M20.5 13.3333V20L23.8333 23.3333M35.5 20C35.5 28.2843 28.7843 35 20.5 35C12.2157 35 5.5 28.2843 5.5 20C5.5 11.7157 12.2157 5 20.5 5C28.7843 5 35.5 11.7157 35.5 20Z" stroke="white" style="stroke:white;stroke-opacity:1;" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const logoutIcon = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M15.5 1L19.875 1C23.6972 1 23.625 6 23.625 11C23.625 16 23.6972 21 19.875 21H15.5M1.75 11L16.75 11M1.75 11L6.75 6M1.75 11L6.75 16" stroke=${
