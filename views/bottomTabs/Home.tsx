@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -8,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {containerStyle, vh, vw} from '../../services/styleSheet';
+import {centerAll, containerStyle, vh, vw} from '../../services/styleSheet';
 import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
 import {getTodayIndex} from '../../services/timeServices';
@@ -29,10 +30,43 @@ const Home = () => {
             setDayIndex={setWeekDayIndex}
           />
           <TabRender tabCurrent={tabCurrent} setTabCurrent={setTabCurrent} />
+          <DoneTaskView />
           <FloatingActionButton />
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const DoneTaskView: React.FC = () => {
+  return (
+    <View
+      style={[
+        {paddingHorizontal: vw(10), rowGap: vh(4), marginTop: vh(2)},
+        centerAll,
+      ]}>
+      <Text
+        style={{
+          color: '#1940B6',
+          fontSize: 20,
+          fontWeight: '700',
+          textAlign: 'center',
+        }}>
+        Tốt lắm! Bạn đã hoàn thành các công việc đề ra trong ngày!
+      </Text>
+      <Image source={require('../../assets/home/noContent.png')} />
+      <TouchableOpacity
+        disabled
+        style={{
+          borderWidth: 1,
+          borderColor: '#2F2F2F',
+          borderRadius: 10,
+          paddingHorizontal: vw(12),
+          paddingVertical: vh(1),
+        }}>
+        <Text style={{color: '#2F2F2F', fontSize: 16}}>Xem lại</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
