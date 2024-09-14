@@ -2,7 +2,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {vh, vw} from '../../services/styleSheet';
-import {homeNotiIcon, nextIcon} from '../../assets/svgXML';
+import {backIcon, homeNotiIcon, nextIcon} from '../../assets/svgXML';
 import {
   getCurrentMonthAndYear,
   getCurrentWeekDays,
@@ -49,7 +49,14 @@ const HeaderTime: React.FC<{
         </View>
         <Text style={{color: 'white'}}>Hôm qua</Text>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: vw(100),
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity>{backIcon(vw(4), vw(4))}</TouchableOpacity>
         {currentWeek.map((day, index) => {
           const isToday = day.dayOfMonth === today;
           const isSelected = index === dayIndex;
@@ -72,6 +79,7 @@ const HeaderTime: React.FC<{
             </TouchableOpacity>
           );
         })}
+        <TouchableOpacity>{nextIcon(vw(4), vw(4))}</TouchableOpacity>
       </View>
     </View>
   );
