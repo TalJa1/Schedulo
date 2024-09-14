@@ -20,6 +20,7 @@ const Home = () => {
   useStatusBar('#363851');
   const [weekDayIndex, setWeekDayIndex] = useState(getTodayIndex());
   const [tabCurrent, setTabCurrent] = useState(0);
+  const todayIndex = getTodayIndex();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,9 +31,13 @@ const Home = () => {
             setDayIndex={setWeekDayIndex}
           />
           <TabRender tabCurrent={tabCurrent} setTabCurrent={setTabCurrent} />
-          <DoneTaskView />
-          <FloatingActionButton />
+          {weekDayIndex < todayIndex && tabCurrent === 0 ? (
+            <DoneTaskView />
+          ) : (
+            <></>
+          )}
         </View>
+        <FloatingActionButton />
       </ScrollView>
     </SafeAreaView>
   );
