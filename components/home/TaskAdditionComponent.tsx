@@ -21,11 +21,11 @@ const TaskAdditionComponent: React.FC<TaskAdditionComponentProps> = ({
 }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View>
+      <ScrollView contentContainerStyle={{flex: 1}}>
+        <View style={{flex: 1}}>
           <Header title={title} />
           <View style={styles.nodeContainer}>{children}</View>
-          <View style={styles.nodeContainer}>{subInput}</View>
+          <View style={styles.nodeContainer1}>{subInput}</View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -38,16 +38,16 @@ const Header: React.FC<{title: string}> = ({title}) => {
     <View
       style={{
         flexDirection: 'row',
-        backgroundColor: '#1940B6',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         alignItems: 'center',
         paddingVertical: vh(1),
+        paddingHorizontal: vw(5),
       }}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        {backArrowIcon(vw(7), vw(7))}
+        {backArrowIcon(vw(6), vw(6))}
       </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>
-      {searchIcon(vw(7), vw(7))}
+      {searchIcon(vw(6), vw(6))}
     </View>
   );
 };
@@ -55,7 +55,14 @@ const Header: React.FC<{title: string}> = ({title}) => {
 export default TaskAdditionComponent;
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
+  container: {flex: 1, backgroundColor: '#1940B6'},
   title: {fontSize: 24, fontWeight: '700', color: '#FFFFFF'},
   nodeContainer: {marginBottom: 10},
+  nodeContainer1: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    overflow: 'hidden',
+    flex: 1,
+  },
 });

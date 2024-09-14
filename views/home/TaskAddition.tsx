@@ -6,7 +6,7 @@ import TaskAdditionComponent from '../../components/home/TaskAdditionComponent';
 const TaskAddition = () => {
   useStatusBar('#1940B6');
   return (
-    <TaskAdditionComponent title="Task Addition" subInput={<SubInput />}>
+    <TaskAdditionComponent title="Việc cần làm mới" subInput={<SubInput />}>
       <MainInput />
     </TaskAdditionComponent>
   );
