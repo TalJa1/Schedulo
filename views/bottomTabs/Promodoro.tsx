@@ -5,23 +5,43 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React from 'react';
 import useStatusBar from '../../services/useStatusBarCustom';
 import {centerAll, containerStyle, vh, vw} from '../../services/styleSheet';
+import {floatingBtnIcon} from '../../assets/svgXML';
 
 const Promodoro = () => {
   useStatusBar('#1940B6');
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={{flex: 1}}>
         <Header />
         <View>
           <Text>Promodoro</Text>
         </View>
+        <FloatingActionButton />
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const FloatingActionButton: React.FC = () => {
+  return (
+    <TouchableOpacity
+      style={{
+        position: 'absolute',
+        bottom: vh(15),
+        right: vw(5),
+        backgroundColor: '#1940B6',
+        padding: vw(3),
+        borderRadius: vw(20),
+        zIndex: 2,
+      }}>
+      <Text style={{color: 'white'}}>{floatingBtnIcon(vw(8), vw(8))}</Text>
+    </TouchableOpacity>
   );
 };
 
