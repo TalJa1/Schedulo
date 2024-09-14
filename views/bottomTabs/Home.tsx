@@ -12,12 +12,12 @@ import {containerStyle, vh, vw} from '../../services/styleSheet';
 import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
 import {getTodayIndex} from '../../services/timeServices';
+import {tabs} from '../../services/renderData';
 
 const Home = () => {
   useStatusBar('#363851');
   const [weekDayIndex, setWeekDayIndex] = useState(getTodayIndex());
   const [tabCurrent, setTabCurrent] = useState(0);
-  const tabs = ['Việc cần làm', 'Thử thách', 'Thời gian biểu'];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,36 +27,42 @@ const Home = () => {
             dayIndex={weekDayIndex}
             setDayIndex={setWeekDayIndex}
           />
-          <View
-            style={{
-              paddingHorizontal: vw(5),
-              flexDirection: 'row',
-              columnGap: vw(2),
-              marginVertical: vh(1),
-            }}>
-            {tabs.map((tab, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => setTabCurrent(index)}
-                  style={[
-                    styles.tabBtn,
-                    index === tabCurrent && {backgroundColor: '#363851'},
-                  ]}
-                  key={index}>
-                  <Text
-                    style={[
-                      styles.tabTxt,
-                      index === tabCurrent && {color: 'white'},
-                    ]}>
-                    {tab}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+          <TabRender tabCurrent={tabCurrent} setTabCurrent={setTabCurrent} />
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const TabRender: React.FC<{
+  tabCurrent: number;
+  setTabCurrent: React.Dispatch<React.SetStateAction<number>>;
+}> = ({tabCurrent, setTabCurrent}) => {
+  return (
+    <View
+      style={{
+        paddingHorizontal: vw(5),
+        flexDirection: 'row',
+        columnGap: vw(2),
+        marginVertical: vh(1),
+      }}>
+      {tabs.map((tab, index) => {
+        return (
+          <TouchableOpacity
+            onPress={() => setTabCurrent(index)}
+            style={[
+              styles.tabBtn,
+              index === tabCurrent && {backgroundColor: '#363851'},
+            ]}
+            key={index}>
+            <Text
+              style={[styles.tabTxt, index === tabCurrent && {color: 'white'}]}>
+              {tab}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
   );
 };
 
