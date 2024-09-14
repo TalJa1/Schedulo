@@ -65,7 +65,9 @@ const HeaderTime: React.FC<{
               key={index}
               style={[styles.button, isSelected && styles.selectedButton]}
               onPress={() => setDayIndex(index)}>
-              <Text style={{color: '#9D9D9D'}}>{day.dayOfWeek}</Text>
+              <Text style={{color: '#9D9D9D', fontSize: 12}}>
+                {day.dayOfWeek}
+              </Text>
               <Text
                 style={[
                   styles.dayOfMonth,
@@ -122,15 +124,14 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     rowGap: vh(1),
-    padding: vh(1),
-    borderRadius: vw(4),
+    padding: vh(0.5),
   },
   selectedButton: {
     backgroundColor: 'white',
-    borderRadius: vw(4),
+    borderRadius: 10,
   },
   dayOfMonth: {
-    padding: vh(1),
+    padding: vh(0.5),
     borderRadius: vw(40),
     color: '#FFFFFF',
     fontSize: 14,
