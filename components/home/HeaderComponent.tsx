@@ -56,7 +56,13 @@ const HeaderTime: React.FC<{
           width: vw(100),
           alignItems: 'center',
         }}>
-        <TouchableOpacity>{backIcon(vw(4), vw(4))}</TouchableOpacity>
+        <TouchableOpacity
+          disabled={dayIndex === 0}
+          onPress={() => {
+            setDayIndex(dayIndex - 1);
+          }}>
+          {backIcon(vw(4), vw(4))}
+        </TouchableOpacity>
         {currentWeek.map((day, index) => {
           const isToday = day.dayOfMonth === today;
           const isSelected = index === dayIndex;
@@ -81,7 +87,13 @@ const HeaderTime: React.FC<{
             </TouchableOpacity>
           );
         })}
-        <TouchableOpacity>{nextIcon(vw(4), vw(4))}</TouchableOpacity>
+        <TouchableOpacity
+          disabled={dayIndex === 6}
+          onPress={() => {
+            setDayIndex(dayIndex + 1);
+          }}>
+          {nextIcon(vw(4), vw(4))}
+        </TouchableOpacity>
       </View>
     </View>
   );
