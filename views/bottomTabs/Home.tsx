@@ -13,6 +13,7 @@ import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
 import {getTodayIndex} from '../../services/timeServices';
 import {tabs} from '../../services/renderData';
+import {floatingBtnIcon} from '../../assets/svgXML';
 
 const Home = () => {
   useStatusBar('#363851');
@@ -21,16 +22,34 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View>
+      <ScrollView contentContainerStyle={{flex: 1}}>
+        <View style={{flex: 1}}>
           <HeaderComponent
             dayIndex={weekDayIndex}
             setDayIndex={setWeekDayIndex}
           />
           <TabRender tabCurrent={tabCurrent} setTabCurrent={setTabCurrent} />
+          <FloatingActionButton />
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const FloatingActionButton = () => {
+  return (
+    <TouchableOpacity
+      style={{
+        position: 'absolute',
+        bottom: vh(15),
+        right: vw(5),
+        backgroundColor: '#1940B6',
+        padding: vw(3),
+        borderRadius: vw(20),
+        zIndex: 2,
+      }}>
+      <Text style={{color: 'white'}}>{floatingBtnIcon(vw(8), vw(8))}</Text>
+    </TouchableOpacity>
   );
 };
 

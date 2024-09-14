@@ -128,7 +128,6 @@ export default HeaderComponent;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#363851',
     paddingVertical: vh(1),
     rowGap: vh(1),

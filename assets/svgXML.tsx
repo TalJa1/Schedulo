@@ -9,6 +9,17 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const floatingBtnIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="29" height="30" viewBox="0 0 29 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M21.2917 16.4584V28.125M15.4583 22.2917H27.125M18.375 1.14587V6.97921M9.625 1.14587V6.97921M9.625 14.2709H1.62944M1.62944 14.2709C1.61237 14.7388 1.60416 15.2247 1.60416 15.7292C1.60416 22.8888 3.26803 26.3046 8.16666 27.5477M1.62944 14.2709C1.93317 5.94783 5.02535 3.33337 14 3.33337C21.8282 3.33337 25.1808 5.32253 26.1111 11.3542" stroke=${
+    color ?? 'white'
+  } style="stroke:white;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const backIcon = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.87501 1.66663L1.54167 7.99996L7.87501 14.3333" stroke=${
