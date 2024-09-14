@@ -19,7 +19,7 @@ export const getCurrentWeekDays = () => {
   endOfWeek.setDate(startOfWeek.getDate() + 6);
 
   const daysOfWeek = [
-    'Chủ Nhật',
+    'C.Nhật',
     'Thứ 2',
     'Thứ 3',
     'Thứ 4',
@@ -38,4 +38,10 @@ export const getCurrentWeekDays = () => {
   }
 
   return weekDays;
+};
+
+export const getTodayIndex = () => {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDay();
+  return currentDay === 0 ? 6 : currentDay - 1; // Adjust so that Monday is 0 and Sunday is 6
 };

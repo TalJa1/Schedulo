@@ -1,35 +1,78 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {vh, vw} from '../../services/styleSheet';
 import {homeNotiIcon, nextIcon} from '../../assets/svgXML';
-import {getCurrentMonthAndYear} from '../../services/timeServices';
+import {
+  getCurrentMonthAndYear,
+  getCurrentWeekDays,
+} from '../../services/timeServices';
+import {HeaderComponentProps} from '../../services/typeProps';
 
-const HeaderComponent = () => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({
+  dayIndex,
+  setDayIndex,
+}) => {
   return (
     <View style={styles.container}>
       <UserMain />
-      <HeaderTime />
+      <HeaderTime dayIndex={dayIndex} setDayIndex={setDayIndex} />
     </View>
   );
 };
 
-const HeaderTime: React.FC = () => {
+const HeaderTime: React.FC<{
+  dayIndex: number;
+  setDayIndex: React.Dispatch<React.SetStateAction<number>>;
+}> = ({dayIndex, setDayIndex}) => {
+  const currentWeek = getCurrentWeekDays();
+  const today = new Date().getDate().toString().padStart(2, '0');
+
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        paddingHorizontal: vw(5),
-        justifyContent: 'space-between',
-      }}>
+    <View style={{rowGap: vh(2)}}>
       <View
-        style={{flexDirection: 'row', alignItems: 'center', columnGap: vw(2)}}>
-        <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: '700'}}>
-          {getCurrentMonthAndYear()}
-        </Text>
-        {nextIcon(vw(4), vw(4))}
+        style={{
+          flexDirection: 'row',
+          paddingHorizontal: vw(5),
+          justifyContent: 'space-between',
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            columnGap: vw(2),
+          }}>
+          <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: '700'}}>
+            {getCurrentMonthAndYear()}
+          </Text>
+          {nextIcon(vw(4), vw(4))}
+        </View>
+        <Text style={{color: 'white'}}>Hôm qua</Text>
       </View>
-      <Text style={{color: 'white'}}>Hôm qua</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        {currentWeek.map((day, index) => {
+          const isToday = day.dayOfMonth === today;
+          const isSelected = index === dayIndex;
+          return (
+            <TouchableOpacity
+              key={index}
+              style={[styles.button, isSelected && styles.selectedButton]}
+              onPress={() => setDayIndex(index)}>
+              <Text style={{color: '#9D9D9D'}}>{day.dayOfWeek}</Text>
+              <Text
+                style={[
+                  styles.dayOfMonth,
+                  isToday && styles.today,
+                  index === dayIndex && !isToday
+                    ? {color: '#363851', fontWeight: '700'}
+                    : {},
+                ]}>
+                {day.dayOfMonth}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
   );
 };
@@ -67,5 +110,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#363851',
     paddingVertical: vh(1),
     rowGap: vh(1),
+  },
+  button: {
+    alignItems: 'center',
+    rowGap: vh(1),
+    padding: vh(1),
+    borderRadius: vw(4),
+  },
+  selectedButton: {
+    backgroundColor: 'white',
+    borderRadius: vw(4),
+  },
+  dayOfMonth: {
+    padding: vh(1),
+    borderRadius: vw(40),
+    color: '#FFFFFF',
+    fontSize: 14,
+  },
+  today: {
+    backgroundColor: 'red',
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
   },
 });
