@@ -9,6 +9,27 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const nextIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="9" height="15" viewBox="0 0 9 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.125 13.8333L7.45833 7.49996L1.125 1.16663" stroke=${
+    color ?? 'white'
+  } style="stroke:white;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const homeNotiIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.2927 29.6666V31.3333C15.2927 34.0947 17.5312 35.4999 20.2927 35.4999C23.0541 35.4999 25.2927 34.0947 25.2927 31.3333V29.6666M10.2926 14.6666C10.2926 9.14374 14.7698 6.33325 20.2926 6.33325C25.8155 6.33325 30.2926 9.14374 30.2926 14.6666C30.2926 17.8985 31.4677 21.5221 32.6786 24.3981C33.684 26.7861 31.9963 29.6666 29.4053 29.6666H11.1799C8.58896 29.6666 6.9013 26.7861 7.90669 24.3981C9.11754 21.5221 10.2926 17.8985 10.2926 14.6666Z" stroke="white" style="stroke:white;stroke-opacity:1;" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="29.4594" cy="8" rx="7.5" ry="7.5" fill="#EA4E4E" style="fill:#EA4E4E;fill:color(display-p3 0.9176 0.3059 0.3059);fill-opacity:1;"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const homeIcon = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M6 2H22.5M6 8H22.5M6 14H22.5M1.5 2V2.01499M1.5 8V8.01499M1.5 14V14.015" stroke=${

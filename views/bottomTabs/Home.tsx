@@ -3,6 +3,7 @@ import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {containerStyle} from '../../services/styleSheet';
 import useStatusBar from '../../services/useStatusBarCustom';
+import HeaderComponent from '../../components/home/HeaderComponent';
 
 const Home = () => {
   useStatusBar('#363851');
@@ -10,6 +11,7 @@ const Home = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View>
+          <HeaderComponent />
           <Text>Home</Text>
         </View>
       </ScrollView>
