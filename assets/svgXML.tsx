@@ -9,6 +9,16 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const pauseICon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="35" cy="35" r="35" fill="#1940B6" style="fill:#1940B6;fill:color(display-p3 0.0980 0.2510 0.7137);fill-opacity:1;"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M30.9167 49.2918H22.75V20.7085H30.9167V49.2918ZM39.0833 49.2918V20.7085H47.25V49.2918H39.0833Z" fill="white" style="fill:white;fill-opacity:1;"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const promoBackIcon = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="40" y="40" width="40" height="40" rx="20" transform="rotate(180 40 40)" fill="black" fill-opacity="0.22" style="fill:black;fill-opacity:0.22;"/>

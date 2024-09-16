@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {centerAll, containerStyle, vh, vw} from '../../services/styleSheet';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../services/typeProps';
 import {
   cancelIcon,
+  pauseICon,
   promoBackIcon,
   redPlayIcon,
   refreshIcon,
@@ -45,27 +46,47 @@ const PromoSegment = () => {
 const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
   const {time} = PromodoroPlayContent[segmentIndex];
   const segmentTime = time / 4; // Divide the time into 4 segments
-  const [remainingTime, setRemainingTime] = useState(segmentTime);
+  const [remainingTime, setRemainingTime] = useState(segmentTime * 60); // Convert to seconds
   const [currentSegment, setCurrentSegment] = useState(1);
+  const [isRunning, setIsRunning] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setRemainingTime(prevTime => {
-        if (prevTime <= 1) {
-          if (currentSegment < 4) {
-            setCurrentSegment(prevSegment => prevSegment + 1);
-            return segmentTime * 60; // Reset to segment time in seconds
-          } else {
-            clearInterval(timer);
-            return 0;
+    if (isRunning) {
+      timerRef.current = setInterval(() => {
+        setRemainingTime(prevTime => {
+          if (prevTime <= 1) {
+            if (currentSegment < 4) {
+              setCurrentSegment(prevSegment => prevSegment + 1);
+              return segmentTime * 60; // Reset to segment time in seconds
+            } else {
+              clearInterval(timerRef.current!);
+              return 0;
+            }
           }
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
+          return prevTime - 1;
+        });
+      }, 1000);
+    } else if (!isRunning && timerRef.current) {
+      clearInterval(timerRef.current);
+    }
 
-    return () => clearInterval(timer);
-  }, [currentSegment, segmentTime]);
+    return () => clearInterval(timerRef.current!);
+  }, [isRunning, currentSegment, segmentTime]);
+
+  const handleRefresh = () => {
+    setRemainingTime(segmentTime * 60);
+  };
+
+  const handlePlayPause = () => {
+    setIsRunning(prev => !prev);
+  };
+
+  const handleStop = () => {
+    setIsRunning(false);
+    setCurrentSegment(1);
+    setRemainingTime(segmentTime * 60);
+  };
 
   const minutes = Math.floor(remainingTime / 60);
   const seconds = remainingTime % 60;
@@ -109,11 +130,16 @@ const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
               height: vw(10),
             },
             centerAll,
-          ]}>
+          ]}
+          onPress={handleRefresh}>
           {refreshIcon(vw(5), vw(5))}
         </TouchableOpacity>
-        <TouchableOpacity>{redPlayIcon(vw(15), vw(15))}</TouchableOpacity>
-        <TouchableOpacity>{stopIcon(vw(10), vw(10))}</TouchableOpacity>
+        <TouchableOpacity onPress={handlePlayPause}>
+          {isRunning ? pauseICon(vw(15), vw(15)) : redPlayIcon(vw(15), vw(15))}
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleStop}>
+          {stopIcon(vw(10), vw(10))}
+        </TouchableOpacity>
       </View>
     </View>
   );
