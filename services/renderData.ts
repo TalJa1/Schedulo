@@ -17,3 +17,6 @@ export const PromodoroPlayContent = [
     time: 4,
   },
 ];
+
+export const pdfImage = require('../assets/fileStorage/pdf.png'); // Adjust the import path as needed
+export const docxImage = require('../assets/fileStorage/docs.png'); // Adjust the import path as needed

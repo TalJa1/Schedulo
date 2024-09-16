@@ -22,6 +22,7 @@ import {
 } from '../../assets/svgXML';
 import DocumentPicker from 'react-native-document-picker';
 import {FileDataProps} from '../../services/typeProps';
+import { docxImage, pdfImage } from '../../services/renderData';
 
 const StoragePage = () => {
   useStatusBar('#F9FAFF');
@@ -102,7 +103,10 @@ const MainContent: React.FC<{fileStorage: FileDataProps[]}> = ({
       <View>
         {fileStorage.map((file, index) => (
           <TouchableOpacity key={index} style={styles.fileRow}>
-            <Image source={{uri: file.uri}} style={styles.fileImage} />
+            <Image
+              source={file.type === 'application/pdf' ? pdfImage : docxImage}
+              style={styles.fileImage}
+            />
             <View style={styles.fileInfo}>
               <Text style={styles.fileName}>{file.name}</Text>
               <View style={styles.fileDateContainer}>
