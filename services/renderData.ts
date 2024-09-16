@@ -17,3 +17,5 @@ export const PromodoroPlayContent = [
     time: 4,
   },
 ];
+
+export const fileStorage = [];

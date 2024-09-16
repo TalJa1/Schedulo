@@ -5,13 +5,19 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React from 'react';
 import {containerStyle, vh, vw} from '../../services/styleSheet';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../../services/useStatusBarCustom';
-import {arrowDownIcon, homeNotiIcon, searchIcon} from '../../assets/svgXML';
+import {
+  arrowDownIcon,
+  homeNotiIcon,
+  searchIcon,
+  uploadFileIcon,
+} from '../../assets/svgXML';
 
 const StoragePage = () => {
   useStatusBar('#F9FAFF');
@@ -22,7 +28,25 @@ const StoragePage = () => {
         <DescriptionContent />
         <MainContent />
       </ScrollView>
+      <FloatingActionButton />
     </SafeAreaView>
+  );
+};
+
+const FloatingActionButton: React.FC = () => {
+  return (
+    <TouchableOpacity
+      style={{
+        position: 'absolute',
+        bottom: vh(15),
+        right: vw(5),
+        backgroundColor: '#1940B6',
+        padding: vw(3),
+        borderRadius: vw(20),
+        zIndex: 2,
+      }}>
+      <Text style={{color: 'white'}}>{uploadFileIcon(vw(8), vw(8))}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -34,6 +58,7 @@ const MainContent: React.FC = () => {
         <Text style={{color: '#000000'}}>Được tôi mở lần cuối</Text>
         {arrowDownIcon(vw(4), vw(4))}
       </View>
+      <View>{/* Render files here */}</View>
     </View>
   );
 };
