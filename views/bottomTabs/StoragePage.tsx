@@ -14,10 +14,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../../services/useStatusBarCustom';
 import {
   arrowDownIcon,
+  emptyStarIcon,
   homeNotiIcon,
   searchIcon,
+  threedotsIcon,
   uploadFileIcon,
 } from '../../assets/svgXML';
+import DocumentPicker from 'react-native-document-picker';
+import {fileStorage} from '../../services/renderData';
 
 const StoragePage = () => {
   useStatusBar('#F9FAFF');
@@ -34,8 +38,24 @@ const StoragePage = () => {
 };
 
 const FloatingActionButton: React.FC = () => {
+  const handlePickFile = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+      console.log(res);
+      // Handle the picked file here
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('User cancelled the picker');
+      } else {
+        console.log('Unknown error: ', err);
+      }
+    }
+  };
   return (
     <TouchableOpacity
+      onPress={handlePickFile}
       style={{
         position: 'absolute',
         bottom: vh(15),
@@ -58,7 +78,23 @@ const MainContent: React.FC = () => {
         <Text style={{color: '#000000'}}>Được tôi mở lần cuối</Text>
         {arrowDownIcon(vw(4), vw(4))}
       </View>
-      <View>{/* Render files here */}</View>
+      <View>
+        {fileStorage.map((file, index) => (
+          <TouchableOpacity key={index} style={styles.fileRow}>
+            <Image source={{uri: file.uri}} style={styles.fileImage} />
+            <View style={styles.fileInfo}>
+              <Text style={styles.fileName}>{file.name}</Text>
+              <View style={styles.fileDateContainer}>
+                <TouchableOpacity>
+                  {!file.check && emptyStarIcon(vw(4), vw(4))}
+                </TouchableOpacity>
+                <Text style={styles.fileDate}>{file.date}</Text>
+              </View>
+            </View>
+            <TouchableOpacity>{threedotsIcon(vw(4), vw(4))}</TouchableOpacity>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };
@@ -148,5 +184,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flex: 1,
     marginRight: 10,
+  },
+  // File row
+  fileRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginVertical: vw(2),
+  },
+  fileImage: {
+    width: vw(10),
+    height: vw(10),
+    marginRight: vw(3),
+  },
+  fileInfo: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  fileName: {
+    fontSize: vw(4),
+    color: '#000000',
+  },
+  fileDateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: vw(2),
+  },
+  fileDate: {
+    fontSize: vw(3.5),
+    color: '#A4A2A2',
+    marginRight: vw(2),
   },
 });
