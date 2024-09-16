@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -22,7 +23,7 @@ import {
 } from '../../assets/svgXML';
 import DocumentPicker from 'react-native-document-picker';
 import {FileDataProps} from '../../services/typeProps';
-import { docxImage, pdfImage } from '../../services/renderData';
+import {docxImage, pdfImage} from '../../services/renderData';
 
 const StoragePage = () => {
   useStatusBar('#F9FAFF');
@@ -93,6 +94,23 @@ const FloatingActionButton: React.FC<{
 const MainContent: React.FC<{fileStorage: FileDataProps[]}> = ({
   fileStorage,
 }) => {
+  const handleFileClick = async (_file: FileDataProps) => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+      Alert.alert('File Selected', `You selected ${res[0].name}`);
+      // Add your file reading logic here
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        Alert.alert('Canceled', 'File selection was canceled');
+      } else {
+        Alert.alert('Error', 'Unknown error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
+  };
+
   return (
     <View style={{paddingHorizontal: vw(5)}}>
       <View
@@ -102,7 +120,10 @@ const MainContent: React.FC<{fileStorage: FileDataProps[]}> = ({
       </View>
       <View>
         {fileStorage.map((file, index) => (
-          <TouchableOpacity key={index} style={styles.fileRow}>
+          <TouchableOpacity
+            key={index}
+            style={styles.fileRow}
+            onPress={() => handleFileClick(file)}>
             <Image
               source={file.type === 'application/pdf' ? pdfImage : docxImage}
               style={styles.fileImage}
