@@ -24,7 +24,7 @@ import {
 import DocumentPicker from 'react-native-document-picker';
 import {FileDataProps} from '../../services/typeProps';
 import {docxImage, pdfImage} from '../../services/renderData';
-import RNFS from 'react-native-fs';
+import FileViewer from 'react-native-file-viewer';
 
 const StoragePage = () => {
   useStatusBar('#F9FAFF');
@@ -97,17 +97,11 @@ const MainContent: React.FC<{fileStorage: FileDataProps[]}> = ({
 }) => {
   const handleFileClick = async (file: FileDataProps) => {
     try {
-      // Log the file details for debugging
-      console.log('File details:', file);
-
       const filePath = file.uri; // Use the provided file's URI
-      const fileContent = await RNFS.readFile(filePath, 'base64'); // Read the file as base64
-      Alert.alert('File Content', 'File read successfully');
-      // Add your file processing logic here, e.g., converting base64 to a readable format if needed
-      console.log('File content (base64):', fileContent);
+      await FileViewer.open(filePath, { showOpenWithDialog: true });
     } catch (err) {
-      Alert.alert('Error', 'Unable to read file: ' + JSON.stringify(err));
-      console.error('Error reading file:', err);
+      Alert.alert('Error', 'Unable to open file: ' + JSON.stringify(err));
+      console.error('Error opening file:', err);
     }
   };
 
