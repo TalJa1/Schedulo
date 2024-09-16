@@ -1,9 +1,17 @@
-import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import React from 'react';
 import {containerStyle, vh, vw} from '../../services/styleSheet';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../../services/useStatusBarCustom';
-import {homeNotiIcon, searchIcon} from '../../assets/svgXML';
+import {arrowDownIcon, homeNotiIcon, searchIcon} from '../../assets/svgXML';
 
 const StoragePage = () => {
   useStatusBar('#F9FAFF');
@@ -11,11 +19,49 @@ const StoragePage = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Header />
-        <View>
-          <Text>StoragePage</Text>
-        </View>
+        <DescriptionContent />
+        <MainContent />
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const MainContent: React.FC = () => {
+  return (
+    <View style={{paddingHorizontal: vw(5)}}>
+      <View
+        style={{flexDirection: 'row', alignItems: 'center', columnGap: vw(2)}}>
+        <Text style={{color: '#000000'}}>Được tôi mở lần cuối</Text>
+        {arrowDownIcon(vw(4), vw(4))}
+      </View>
+    </View>
+  );
+};
+
+const DescriptionContent: React.FC = () => {
+  return (
+    <View>
+      <Image
+        width={vw(100)}
+        resizeMode="contain"
+        source={require('../../assets/fileStorage/file1.png')}
+      />
+      <View
+        style={{
+          paddingHorizontal: vw(5),
+          marginVertical: vh(2),
+          rowGap: vh(1),
+        }}>
+        <Text style={{color: '#000000', fontWeight: '700', fontSize: 16}}>
+          Làm việc khi không có mạng
+        </Text>
+        <Text style={{color: '#000000'}}>
+          Giờ đây bạn có thể mở cá tệp tài liệu học tập trên thiết bị này khi
+          không có kết nối Internet. Schedulo - Lưu trữ tài liệu và học tập ở
+          mọi nơi.
+        </Text>
+      </View>
+    </View>
   );
 };
 

@@ -9,6 +9,17 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const arrowDownIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 12.3337L5 1.66699M5 12.3337L1 8.33366M5 12.3337L9 8.33366" stroke=${
+    color ?? '#363851'
+  } style="stroke:#363851;stroke:color(display-p3 0.2118 0.2196 0.3176);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const pauseICon = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="35" cy="35" r="35" fill="#1940B6" style="fill:#1940B6;fill:color(display-p3 0.0980 0.2510 0.7137);fill-opacity:1;"/>
