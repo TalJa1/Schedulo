@@ -9,6 +9,16 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const promoBackIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="40" width="40" height="40" rx="20" transform="rotate(180 40 40)" fill="black" fill-opacity="0.22" style="fill:black;fill-opacity:0.22;"/>
+<path d="M25 6.66683L11.6667 20.0002L25 33.3335" stroke="white" style="stroke:white;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const redPlayIcon = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="0.5" y="0.5" width="69" height="69" rx="34.5" fill="#E0483C" style="fill:#E0483C;fill:color(display-p3 0.8784 0.2824 0.2353);fill-opacity:1;"/>
@@ -33,10 +43,10 @@ export const refreshIcon = (w?: any, h?: any, color?: any) => {
 };
 
 export const stopIcon = (w?: any, h?: any, color?: any) => {
-  const xml = `<svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect y="0.5" width="15" height="15" rx="2" fill=${
-    color ?? '#878787'
-  } style="fill:#878787;fill:color(display-p3 0.5292 0.5292 0.5292);fill-opacity:1;"/>
+  const xml = `<svg width="45" height="46" viewBox="0 0 45 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="1" width="44" height="44" rx="22" fill="#F1F1F1" style="fill:#F1F1F1;fill:color(display-p3 0.9458 0.9458 0.9458);fill-opacity:1;"/>
+<rect x="0.5" y="1" width="44" height="44" rx="22" stroke="#F1F1F1" style="stroke:#F1F1F1;stroke:color(display-p3 0.9458 0.9458 0.9458);stroke-opacity:1;"/>
+<rect x="15" y="16.5" width="15" height="15" rx="2" fill="#878787" style="fill:#878787;fill:color(display-p3 0.5292 0.5292 0.5292);fill-opacity:1;"/>
 </svg>
 `;
 
@@ -44,10 +54,9 @@ export const stopIcon = (w?: any, h?: any, color?: any) => {
 };
 
 export const cancelIcon = (w?: any, h?: any, color?: any) => {
-  const xml = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M24.6667 1.3335L1.33331 24.6669M1.33336 1.3335L24.6667 24.6669" stroke=${
-    color ?? 'white'
-  } style="stroke:white;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  const xml = `<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="40" height="40" rx="20" fill="black" fill-opacity="0.22" style="fill:black;fill-opacity:0.22;"/>
+<path d="M31.6667 8.3335L8.33331 31.6669M8.33336 8.3335L31.6667 31.6669" stroke="white" style="stroke:white;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
 

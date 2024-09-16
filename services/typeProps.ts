@@ -8,3 +8,7 @@ export interface TaskAdditionComponentProps {
   subInput: React.ReactNode;
   children: React.ReactNode; // Add children to the props interface
 }
+
+export type RootStackParamList = {
+  PromoSegment: {segmentIndex: number};
+};

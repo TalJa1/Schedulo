@@ -13,6 +13,8 @@ import useStatusBar from '../../services/useStatusBarCustom';
 import {centerAll, containerStyle, vh, vw} from '../../services/styleSheet';
 import {clockIcon, floatingBtnIcon, playIcon} from '../../assets/svgXML';
 import {PromodoroPlayContent} from '../../services/renderData';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const Promodoro = () => {
   useStatusBar('#1940B6');
@@ -28,6 +30,7 @@ const Promodoro = () => {
 };
 
 const PlayContentContainer: React.FC = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
     <View style={{rowGap: vh(1)}}>
       {PromodoroPlayContent.map((item, index) => {
@@ -63,7 +66,10 @@ const PlayContentContainer: React.FC = () => {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('PromoSegment', {segmentIndex: index});
+              }}>
               {playIcon(vw(10), vw(10))}
             </TouchableOpacity>
           </View>
