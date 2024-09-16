@@ -94,6 +94,7 @@ const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
   return (
     <View style={{alignItems: 'center', rowGap: vh(3)}}>
       <AnimatedCircularProgress
+        lineCap="round"
         style={{borderRadius: vw(20)}}
         size={vw(70)}
         width={15}
