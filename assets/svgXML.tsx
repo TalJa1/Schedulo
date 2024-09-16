@@ -9,6 +9,47 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const yellowStarIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 11.3333L4 13.3333L5 9.33333L2 6L6.33333 5.66667L8 2L9.66667 5.66667L14 6L11 9.33333L12 13.3333L8 11.3333Z" fill="#F5C443" style="fill:#F5C443;fill:color(display-p3 0.9608 0.7686 0.2627);fill-opacity:1;"/>
+<path d="M8 11.3333L4 13.3333L5 9.33333L2 6L6.33333 5.66667L8 2L9.66667 5.66667L14 6L11 9.33333L12 13.3333L8 11.3333Z" stroke="#F5C443" style="stroke:#F5C443;stroke:color(display-p3 0.9608 0.7686 0.2627);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const emptyStarIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.3397 12.613C8.12585 12.5046 7.87415 12.5046 7.6603 12.613L4.91962 14.002C4.33917 14.2962 3.68562 13.7648 3.84301 13.1266L4.48384 10.5283C4.54511 10.2798 4.48053 10.0168 4.31153 9.82643L2.1961 7.44383C1.77443 6.96891 2.07397 6.21005 2.70244 6.16105L5.65351 5.93094C5.92956 5.90942 6.17219 5.73735 6.28676 5.48185L7.30849 3.20331C7.57835 2.6015 8.42165 2.6015 8.69151 3.20331L9.71324 5.48185C9.82781 5.73735 10.0704 5.90942 10.3465 5.93094L13.2976 6.16105C13.926 6.21005 14.2256 6.96891 13.8039 7.44383L11.6885 9.82643C11.5195 10.0168 11.4549 10.2798 11.5162 10.5283L12.157 13.1266C12.3144 13.7648 11.6608 14.2962 11.0804 14.002L8.3397 12.613Z" stroke="#363851" style="stroke:#363851;stroke:color(display-p3 0.2118 0.2196 0.3176);stroke-opacity:1;" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const threedotsIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="14" height="4" viewBox="0 0 14 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.6667 2.66634C12.0348 2.66634 12.3333 2.36786 12.3333 1.99967C12.3333 1.63148 12.0348 1.33301 11.6667 1.33301C11.2985 1.33301 11 1.63148 11 1.99967C11 2.36786 11.2985 2.66634 11.6667 2.66634Z" stroke="#363851" style="stroke:#363851;stroke:color(display-p3 0.2118 0.2196 0.3176);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.99999 2.66634C7.36818 2.66634 7.66666 2.36786 7.66666 1.99967C7.66666 1.63148 7.36818 1.33301 6.99999 1.33301C6.6318 1.33301 6.33332 1.63148 6.33332 1.99967C6.33332 2.36786 6.6318 2.66634 6.99999 2.66634Z" stroke="#363851" style="stroke:#363851;stroke:color(display-p3 0.2118 0.2196 0.3176);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2.33332 2.66634C2.70151 2.66634 2.99999 2.36786 2.99999 1.99967C2.99999 1.63148 2.70151 1.33301 2.33332 1.33301C1.96513 1.33301 1.66666 1.63148 1.66666 1.99967C1.66666 2.36786 1.96513 2.66634 2.33332 2.66634Z" stroke="#363851" style="stroke:#363851;stroke:color(display-p3 0.2118 0.2196 0.3176);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const uploadFileIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="30" height="28" viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.70833 10.083V8.62467C7.70833 4.5976 10.9729 1.33301 15 1.33301C19.0271 1.33301 22.2917 4.5976 22.2917 8.62467V10.083C25.5133 10.083 28.125 12.6947 28.125 15.9163C28.125 18.0755 26.9519 20.0119 25.2083 21.0205M7.70833 10.083C4.48667 10.083 1.875 12.6947 1.875 15.9163C1.875 18.0755 3.04808 20.0119 4.79167 21.0205M7.70833 10.083C8.33958 10.083 8.9474 10.1833 9.51675 10.3687M15 12.9997V26.1247M15 12.9997L19.375 17.3747M15 12.9997L10.625 17.3747" stroke=${
+    color ?? 'white'
+  } style="stroke:white;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const arrowDownIcon = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5 12.3337L5 1.66699M5 12.3337L1 8.33366M5 12.3337L9 8.33366" stroke=${
