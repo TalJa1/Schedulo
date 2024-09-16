@@ -46,9 +46,11 @@ const PromoSegment = () => {
 const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
   const {time} = PromodoroPlayContent[segmentIndex];
   const segmentTime = time / 4; // Divide the time into 4 segments
+  const relaxTime = 5 * 60; // 5 minutes in seconds
   const [remainingTime, setRemainingTime] = useState(segmentTime * 60); // Convert to seconds
   const [currentSegment, setCurrentSegment] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
+  const [isRelaxing, setIsRelaxing] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -56,12 +58,13 @@ const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
       timerRef.current = setInterval(() => {
         setRemainingTime(prevTime => {
           if (prevTime <= 1) {
-            if (currentSegment < 4) {
+            if (isRelaxing) {
+              setIsRelaxing(false);
               setCurrentSegment(prevSegment => prevSegment + 1);
               return segmentTime * 60; // Reset to segment time in seconds
             } else {
-              clearInterval(timerRef.current!);
-              return 0;
+              setIsRelaxing(true);
+              return relaxTime; // Reset to relax time in seconds
             }
           }
           return prevTime - 1;
@@ -72,10 +75,11 @@ const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
     }
 
     return () => clearInterval(timerRef.current!);
-  }, [isRunning, currentSegment, segmentTime]);
+  }, [isRunning, isRelaxing, currentSegment, segmentTime, relaxTime]);
 
   const handleRefresh = () => {
     setRemainingTime(segmentTime * 60);
+    setIsRelaxing(false);
   };
 
   const handlePlayPause = () => {
@@ -85,6 +89,7 @@ const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
   const handleStop = () => {
     setIsRunning(false);
     setCurrentSegment(1);
+    setIsRelaxing(false);
     setRemainingTime(segmentTime * 60);
   };
 
@@ -98,22 +103,28 @@ const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
         style={{borderRadius: vw(20)}}
         size={vw(70)}
         width={15}
-        fill={(remainingTime / (segmentTime * 60)) * 100}
-        tintColor="#59C3A1"
-        backgroundColor="#D0E8EB">
+        fill={
+          (remainingTime / (isRelaxing ? relaxTime : segmentTime * 60)) * 100
+        }
+        tintColor={isRelaxing ? '#FF6347' : '#59C3A1'} // Change color based on segment type
+        backgroundColor={isRelaxing ? '#F9DAD8' : '#D0E8EB'}>
         {() => (
           <View>
-            <Text style={styles.timeText}>
+            <Text style={[styles.timeText, isRelaxing && {color: '#E0483C'}]}>
               {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
             </Text>
             <Text style={{color: '#878787', textAlign: 'center'}}>
-              {currentSegment}/4 phiên
+              {isRelaxing
+                ? `Phiên nghỉ ${currentSegment}`
+                : `${currentSegment}/4 phiên`}
             </Text>
           </View>
         )}
       </AnimatedCircularProgress>
       <Text style={{color: '#878787', textAlign: 'center'}}>
-        Tập trung trong vòng {time} phút
+        {isRelaxing
+          ? 'Nghỉ ngơi 5 phút đi nàoooo'
+          : `Tập trung trong vòng ${segmentTime} phút`}
       </Text>
       <View
         style={{
@@ -123,6 +134,7 @@ const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
           alignItems: 'center',
         }}>
         <TouchableOpacity
+          disabled={isRelaxing}
           style={[
             {
               backgroundColor: '#F1F1F1',
@@ -135,10 +147,10 @@ const Timer: React.FC<{segmentIndex: number}> = ({segmentIndex}) => {
           onPress={handleRefresh}>
           {refreshIcon(vw(5), vw(5))}
         </TouchableOpacity>
-        <TouchableOpacity onPress={handlePlayPause}>
+        <TouchableOpacity disabled={isRelaxing} onPress={handlePlayPause}>
           {isRunning ? pauseICon(vw(15), vw(15)) : redPlayIcon(vw(15), vw(15))}
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleStop}>
+        <TouchableOpacity disabled={isRelaxing} onPress={handleStop}>
           {stopIcon(vw(10), vw(10))}
         </TouchableOpacity>
       </View>

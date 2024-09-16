@@ -14,6 +14,6 @@ export const PromodoroPlayContent = [
   {
     img: require('../assets/promodoro/drawing.png'),
     title: 'Vẽ tranh',
-    time: 60,
+    time: 4,
   },
 ];
