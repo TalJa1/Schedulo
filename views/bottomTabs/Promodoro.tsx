@@ -63,17 +63,8 @@ const PlayContentContainer: React.FC = () => {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity
-              style={[
-                {
-                  backgroundColor: '#59C3A1',
-                  borderRadius: vw(20),
-                  width: vw(10),
-                  height: vw(10),
-                },
-                centerAll,
-              ]}>
-              {playIcon(vw(6), vw(6), 'white')}
+            <TouchableOpacity>
+              {playIcon(vw(10), vw(10))}
             </TouchableOpacity>
           </View>
         );

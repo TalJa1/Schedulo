@@ -9,11 +9,56 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
-export const playIcon = (w?: any, h?: any, color?: any) => {
-  const xml = `<svg width="19" height="22" viewBox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.666687 0V22L19 11L0.666687 0Z" fill=${
+export const redPlayIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="0.5" width="69" height="69" rx="34.5" fill="#E0483C" style="fill:#E0483C;fill:color(display-p3 0.8784 0.2824 0.2353);fill-opacity:1;"/>
+<rect x="0.5" y="0.5" width="69" height="69" rx="34.5" stroke="#E0483C" style="stroke:#E0483C;stroke:color(display-p3 0.8784 0.2824 0.2353);stroke-opacity:1;"/>
+<path d="M23.3333 17.5V52.5L52.5 35L23.3333 17.5Z" fill="white" style="fill:white;fill-opacity:1;"/>
+<path d="M23.3333 17.5V52.5L52.5 35L23.3333 17.5Z" stroke="white" style="stroke:white;stroke-opacity:1;" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const refreshIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.63084 1.69386C4.4806 2.09914 3.49323 2.86728 2.81748 3.88255C2.14173 4.89782 1.81422 6.10522 1.8843 7.32283C1.95437 8.54044 2.41823 9.70229 3.20599 10.6333C3.99375 11.5644 5.06273 12.2141 6.25186 12.4848C7.44099 12.7554 8.68586 12.6322 9.7989 12.1337C10.9119 11.6353 11.8328 10.7886 12.4229 9.7212C13.0129 8.65382 13.24 7.42358 13.0701 6.21585C12.7833 4.17682 11.3054 2.82966 10 1.375M10 1.375L13.75 1.375M10 1.375L10 5.125" stroke=${
+    color ?? '#878787'
+  } style="stroke:#878787;stroke:color(display-p3 0.5292 0.5292 0.5292);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const stopIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect y="0.5" width="15" height="15" rx="2" fill=${
+    color ?? '#878787'
+  } style="fill:#878787;fill:color(display-p3 0.5292 0.5292 0.5292);fill-opacity:1;"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const cancelIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M24.6667 1.3335L1.33331 24.6669M1.33336 1.3335L24.6667 24.6669" stroke=${
     color ?? 'white'
-  } style="fill:white;fill-opacity:1;"/>
+  } style="stroke:white;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const playIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="44" height="44" rx="22" fill="#59C3A1" style="fill:#59C3A1;fill:color(display-p3 0.3490 0.7647 0.6314);fill-opacity:1;"/>
+<path d="M14.6667 11V33L33 22L14.6667 11Z" fill="white" style="fill:white;fill-opacity:1;"/>
+<path d="M14.6667 11V33L33 22L14.6667 11Z" stroke="white" style="stroke:white;stroke-opacity:1;" stroke-width="1.5" stroke-linejoin="round"/>
 </svg>
 `;
 
