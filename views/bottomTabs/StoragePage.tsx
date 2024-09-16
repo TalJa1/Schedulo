@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {containerStyle, vh, vw} from '../../services/styleSheet';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../../services/useStatusBarCustom';
@@ -21,29 +21,48 @@ import {
   uploadFileIcon,
 } from '../../assets/svgXML';
 import DocumentPicker from 'react-native-document-picker';
-import {fileStorage} from '../../services/renderData';
+import {FileDataProps} from '../../services/typeProps';
 
 const StoragePage = () => {
   useStatusBar('#F9FAFF');
+  const [fileData, setFileData] = useState<FileDataProps[]>([]);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Header />
         <DescriptionContent />
-        <MainContent />
+        <MainContent fileStorage={fileData} />
       </ScrollView>
-      <FloatingActionButton />
+      <FloatingActionButton setData={setFileData} />
     </SafeAreaView>
   );
 };
 
-const FloatingActionButton: React.FC = () => {
+const FloatingActionButton: React.FC<{
+  setData: React.Dispatch<React.SetStateAction<FileDataProps[]>>;
+}> = ({setData}) => {
   const handlePickFile = async () => {
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
-      console.log(res);
+      setData(prev => [
+        ...prev,
+        {
+          fileCopyUri: res[0].fileCopyUri ?? '',
+          name: res[0].name ?? '',
+          size: res[0].size ?? 0,
+          type: res[0].type ?? '',
+          uri: res[0].uri,
+          check: false,
+          date: new Date().toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }),
+        },
+      ]);
       // Handle the picked file here
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
@@ -70,7 +89,9 @@ const FloatingActionButton: React.FC = () => {
   );
 };
 
-const MainContent: React.FC = () => {
+const MainContent: React.FC<{fileStorage: FileDataProps[]}> = ({
+  fileStorage,
+}) => {
   return (
     <View style={{paddingHorizontal: vw(5)}}>
       <View

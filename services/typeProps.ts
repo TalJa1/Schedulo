@@ -12,3 +12,13 @@ export interface TaskAdditionComponentProps {
 export type RootStackParamList = {
   PromoSegment: {segmentIndex: number};
 };
+
+export interface FileDataProps {
+  fileCopyUri: string | null;
+  name: string;
+  size: number;
+  type: string;
+  uri: string;
+  check: boolean;
+  date: string;
+}
