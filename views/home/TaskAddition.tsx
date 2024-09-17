@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
   Image,
+  Modal,
   StyleSheet,
   Text,
   TextInput,
@@ -14,18 +15,20 @@ import {centerAll, vh, vw} from '../../services/styleSheet';
 import {datePickerIcon} from '../../assets/svgXML';
 import {SubTaskInputProps, TaskAdditionProps} from '../../services/typeProps';
 import DatePicker from 'react-native-date-picker';
+import DateTimePicker from 'react-native-ui-datepicker';
 import {
   TaskGroupRadio,
   TaskReminderRadio,
   TaskRepeatRadio,
 } from '../../services/renderData';
+import dayjs from 'dayjs';
 
 const TaskAddition = () => {
   useStatusBar('#1940B6');
   const [taskData, setTaskData] = useState<TaskAdditionProps>({
     title: '',
     note: '',
-    date: '',
+    date: dayjs(),
     time: '', //format HH:mm - HH:mm
     reminder: '',
     repeat: [],
@@ -70,6 +73,8 @@ const TextInputGroup: React.FC<{
 };
 
 const MainInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   return (
     <View style={{paddingHorizontal: vw(5), rowGap: vh(2)}}>
       <TextInputGroup
@@ -97,15 +102,68 @@ const MainInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
               borderBottomWidth: 1,
               borderColor: '#D2D2D2',
             }}
-            value={taskData.date}
+            value={taskData.date.toString()}
             placeholder={'Chọn 1 ngày'}
             placeholderTextColor={'#FFFFFF4D'}
           />
-          <TouchableOpacity style={{position: 'absolute', right: 0}}>
+          <TouchableOpacity
+            onPress={() => setShowDatePicker(!showDatePicker)}
+            style={{position: 'absolute', right: 0}}>
             {datePickerIcon(vw(7), vw(7))}
           </TouchableOpacity>
         </View>
       </View>
+      <Modal
+        transparent={true}
+        visible={showDatePicker}
+        animationType="slide"
+        onRequestClose={() => setShowDatePicker(false)}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View
+              style={[
+                {
+                  backgroundColor: 'white',
+                  width: '100%',
+                  paddingVertical: vh(1),
+                },
+                centerAll,
+              ]}>
+              <Text style={{color: '#1940B6', fontSize: 20, fontWeight: '700'}}>
+                Chọn ngày
+              </Text>
+            </View>
+            <DateTimePicker
+              onChange={params =>
+                setTaskData({...taskData, date: dayjs(params.date)})
+              }
+              firstDayOfWeek={1}
+              mode="single"
+              date={dayjs(taskData.date, 'DD-MM-YYYY').toDate()}
+              todayTextStyle={{color: '#FFFFFF'}}
+              todayContainerStyle={{
+                backgroundColor: '#E0483C',
+                borderColor: '#E0483C',
+              }}
+              minDate={dayjs().startOf('day').toDate()}
+            />
+            <TouchableOpacity
+              onPress={() => setShowDatePicker(false)}
+              style={[
+                {
+                  marginTop: vh(2),
+                  width: '80%',
+                  backgroundColor: 'white',
+                  paddingVertical: vh(1),
+                  borderRadius: 10,
+                },
+                centerAll,
+              ]}>
+              <Text style={{color: '#041725', fontSize: 16}}>Xong</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -392,5 +450,19 @@ const styles = StyleSheet.create({
   durationValue: {
     fontSize: 20,
     color: '#1940B6',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '90%',
+    backgroundColor: '#1940B6',
+    borderRadius: 10,
+    alignItems: 'center',
+    paddingBottom: vh(2),
+    overflow: 'hidden',
   },
 });
