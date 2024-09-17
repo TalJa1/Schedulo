@@ -10,10 +10,11 @@ import {
 import React, {useState} from 'react';
 import useStatusBar from '../../services/useStatusBarCustom';
 import TaskAdditionComponent from '../../components/home/TaskAdditionComponent';
-import {vh, vw} from '../../services/styleSheet';
+import {centerAll, vh, vw} from '../../services/styleSheet';
 import {datePickerIcon} from '../../assets/svgXML';
 import {TaskAdditionProps} from '../../services/typeProps';
 import DatePicker from 'react-native-date-picker';
+import {TaskReminderRadio} from '../../services/renderData';
 
 const TaskAddition = () => {
   useStatusBar('#1940B6');
@@ -106,6 +107,7 @@ const SubInput: React.FC = () => {
   const [endTime, setEndTime] = useState<Date | undefined>(undefined);
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
+  const [selectedReminder, setSelectedReminder] = useState<number | null>(null);
 
   const calculateDuration = () => {
     if (!startTime || !endTime) {
@@ -142,7 +144,7 @@ const SubInput: React.FC = () => {
   };
 
   return (
-    <View style={{marginVertical: vh(2)}}>
+    <View style={{marginVertical: vh(2), rowGap: vh(2)}}>
       <SubInputItemGroup title="Chọn giờ">
         <View style={styles.container}>
           <View style={styles.timeContainer}>
@@ -168,7 +170,9 @@ const SubInput: React.FC = () => {
           </View>
           <View style={styles.durationContainer}>
             <Text style={styles.durationLabel}>Thời lượng</Text>
-            <Text style={styles.durationValue}>({calculateDuration()})</Text>
+            <Text style={styles.durationValue}>
+              ({calculateDuration().length > 0 ? calculateDuration() : '0h 0p'})
+            </Text>
           </View>
         </View>
       </SubInputItemGroup>
@@ -198,6 +202,39 @@ const SubInput: React.FC = () => {
           setShowEndPicker(false);
         }}
       />
+      <SubInputItemGroup title="Nhắc nhở">
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+            flexWrap: 'wrap',
+            marginTop: vh(2),
+            justifyContent: 'space-between',
+            rowGap: vh(2),
+          }}>
+          {TaskReminderRadio.map((item, index) => {
+            const isSelected = selectedReminder === index;
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => setSelectedReminder(index)}
+                style={[
+                  {
+                    width: '23%',
+                    borderRadius: 6,
+                    paddingVertical: vh(1),
+                    backgroundColor: isSelected ? '#1940B6' : '#EEF1FE',
+                  },
+                  centerAll,
+                ]}>
+                <Text style={isSelected ? {color: 'white'} : {color: '#757575'}}>
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </SubInputItemGroup>
     </View>
   );
 };
