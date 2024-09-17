@@ -13,6 +13,7 @@ import TaskAdditionComponent from '../../components/home/TaskAdditionComponent';
 import {vh, vw} from '../../services/styleSheet';
 import {datePickerIcon} from '../../assets/svgXML';
 import {TaskAdditionProps} from '../../services/typeProps';
+import DatePicker from 'react-native-date-picker';
 
 const TaskAddition = () => {
   useStatusBar('#1940B6');
@@ -101,16 +102,20 @@ const SubInputItemGroup: React.FC<{
 };
 
 const SubInput: React.FC = () => {
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [startTime, setStartTime] = useState<Date | undefined>(undefined);
+  const [endTime, setEndTime] = useState<Date | undefined>(undefined);
+  const [showStartPicker, setShowStartPicker] = useState(false);
+  const [showEndPicker, setShowEndPicker] = useState(false);
 
   const calculateDuration = () => {
     if (!startTime || !endTime) {
       return '';
     }
 
-    const [startHours, startMinutes] = startTime.split(':').map(Number);
-    const [endHours, endMinutes] = endTime.split(':').map(Number);
+    const startHours = startTime.getHours();
+    const startMinutes = startTime.getMinutes();
+    const endHours = endTime.getHours();
+    const endMinutes = endTime.getMinutes();
 
     let durationHours = endHours - startHours;
     let durationMinutes = endMinutes - startMinutes;
@@ -127,39 +132,72 @@ const SubInput: React.FC = () => {
     return `${durationHours}h ${durationMinutes}p`;
   };
 
+  const formatTime = (date: Date | undefined) => {
+    if (!date) {
+      return '';
+    }
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
   return (
     <View style={{marginVertical: vh(2)}}>
       <SubInputItemGroup title="Chọn giờ">
         <View style={styles.container}>
           <View style={styles.timeContainer}>
-            <View style={styles.timeLabelContainer}>
-              <Text style={styles.timeLabel}>Start</Text>
-              <Text style={styles.timeLabel}>End</Text>
-            </View>
             <View style={styles.timeInputContainer}>
-              <TextInput
-                style={styles.timeInput}
-                placeholder="HH:mm"
-                value={startTime}
-                onChangeText={setStartTime}
-                keyboardType="numeric"
-              />
+              <View>
+                <Text style={styles.timeLabel}>Bắt đầu</Text>
+                <TouchableOpacity onPress={() => setShowStartPicker(true)}>
+                  <Text style={styles.timeInput}>
+                    {formatTime(startTime) || 'HH:mm'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
               <Text style={styles.separator}>-</Text>
-              <TextInput
-                style={styles.timeInput}
-                placeholder="HH:mm"
-                value={endTime}
-                onChangeText={setEndTime}
-                keyboardType="numeric"
-              />
+              <View>
+                <Text style={styles.timeLabel}>Kết thúc</Text>
+                <TouchableOpacity onPress={() => setShowEndPicker(true)}>
+                  <Text style={styles.timeInput}>
+                    {formatTime(endTime) || 'HH:mm'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <View style={styles.durationContainer}>
             <Text style={styles.durationLabel}>Thời lượng</Text>
-            <Text style={styles.durationValue}>{calculateDuration()}</Text>
+            <Text style={styles.durationValue}>({calculateDuration()})</Text>
           </View>
         </View>
       </SubInputItemGroup>
+      <DatePicker
+        modal
+        open={showStartPicker}
+        date={startTime || new Date()}
+        mode="time"
+        onConfirm={date => {
+          setShowStartPicker(false);
+          setStartTime(date);
+        }}
+        onCancel={() => {
+          setShowStartPicker(false);
+        }}
+      />
+      <DatePicker
+        modal
+        open={showEndPicker}
+        date={endTime || new Date()}
+        mode="time"
+        onConfirm={date => {
+          setShowEndPicker(false);
+          setEndTime(date);
+        }}
+        onCancel={() => {
+          setShowEndPicker(false);
+        }}
+      />
     </View>
   );
 };
@@ -168,7 +206,10 @@ export default TaskAddition;
 
 const styles = StyleSheet.create({
   container: {
-    padding: vw(5),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: vh(2),
   },
   timeContainer: {
     flexDirection: 'column',
@@ -177,46 +218,39 @@ const styles = StyleSheet.create({
   timeLabelContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: vw(5),
   },
   timeLabel: {
     fontSize: 16,
-    fontWeight: '700',
     color: '#363851',
   },
   timeInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: vw(2),
+    columnGap: vw(5),
   },
   timeInput: {
-    width: vw(20),
-    height: vw(10),
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
+    borderColor: '#1940B6',
+    borderBottomWidth: 1,
     textAlign: 'center',
-    fontSize: 16,
+    fontWeight: '700',
+    fontSize: 20,
+    color: '#000000',
   },
   separator: {
     fontSize: 16,
     fontWeight: '700',
-    marginHorizontal: vw(2),
+    color: 'black',
   },
   durationContainer: {
     alignItems: 'center',
-    marginTop: vw(5),
   },
   durationLabel: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#363851',
+    fontSize: 14,
+    color: '#1940B6',
   },
   durationValue: {
-    fontSize: 16,
-    color: '#363851',
-    marginTop: vw(2),
+    fontSize: 20,
+    color: '#1940B6',
   },
 });
