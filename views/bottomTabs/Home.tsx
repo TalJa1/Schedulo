@@ -17,6 +17,7 @@ import {tabs} from '../../services/renderData';
 import {floatingBtnIcon} from '../../assets/svgXML';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeTaskBtnProps} from '../../services/typeProps';
 
 const Home = () => {
   useStatusBar('#363851');
@@ -53,26 +54,27 @@ const Home = () => {
           {weekDayIndex < todayIndex && tabCurrent === 0 ? (
             <DoneTaskView />
           ) : (
-            <>
-              <NoTaskView
-                selectedDay={selectedDay}
-                tabIndex={tabCurrent}
-                handleNavigate={handleNavigate}
-              />
-            </>
+            <NoTaskView
+              selectedDay={selectedDay}
+              tabIndex={tabCurrent}
+              handleNavigate={handleNavigate}
+            />
           )}
         </View>
-        <FloatingActionButton />
+        <FloatingActionButton
+          handleNavigate={handleNavigate}
+          tabIndex={tabCurrent}
+        />
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-const NoTaskView: React.FC<{
-  selectedDay: string;
-  tabIndex: number;
-  handleNavigate: () => void;
-}> = ({selectedDay, handleNavigate, tabIndex}) => {
+const NoTaskView: React.FC<
+  HomeTaskBtnProps & {
+    selectedDay: string;
+  }
+> = ({selectedDay, handleNavigate, tabIndex}) => {
   return (
     <View
       style={[
@@ -124,9 +126,14 @@ const DoneTaskView: React.FC = () => {
   );
 };
 
-const FloatingActionButton: React.FC = () => {
+const FloatingActionButton: React.FC<HomeTaskBtnProps> = ({
+  handleNavigate,
+  tabIndex,
+}) => {
   return (
     <TouchableOpacity
+      disabled={tabIndex > 1}
+      onPress={handleNavigate}
       style={{
         position: 'absolute',
         bottom: vh(15),

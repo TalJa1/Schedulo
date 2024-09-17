@@ -22,3 +22,8 @@ export interface FileDataProps {
   check: boolean;
   date: string;
 }
+
+export interface HomeTaskBtnProps {
+  tabIndex: number;
+  handleNavigate: () => void;
+}
