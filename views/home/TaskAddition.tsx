@@ -25,6 +25,7 @@ import dayjs from 'dayjs';
 import DateTimePicker from 'react-native-ui-datepicker';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
+import {loadData, saveData} from '../../services/storage';
 
 dayjs.locale('vi');
 
@@ -200,6 +201,7 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [tmpStorage, setTmpStorage] = useState<TaskAdditionProps[]>([]);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   useEffect(() => {
@@ -255,11 +257,21 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
     return day === 0 ? 6 : day - 1; // Convert Sunday (0) to 6 and shift other days by 1
   };
 
+  useEffect(() => {
+    loadData<TaskAdditionProps[]>('TaskStorage')
+      .then(data => {
+        setTmpStorage(data);
+      })
+      .catch(() => {
+        setTmpStorage(generateEmptyTaskData());
+      });
+  }, []);
+
   const handleAdd = () => {
-    const emptyTaskData = generateEmptyTaskData();
     const dayIndex = getDayOfWeekIndex(taskData.date);
 
-    emptyTaskData[dayIndex] = {...taskData};
+    tmpStorage[dayIndex] = {...taskData};
+    saveData('TaskStorage', tmpStorage);
     navigation.navigate('Main');
   };
 
