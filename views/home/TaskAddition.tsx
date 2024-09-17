@@ -101,6 +101,7 @@ const MainInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
               borderBottomColor: '#D2D2D2',
               borderBottomWidth: 1,
               borderColor: '#D2D2D2',
+              color: '#FFFFFF',
             }}
             value={taskData.date.toString()}
             placeholder={'Chọn 1 ngày'}
@@ -134,12 +135,18 @@ const MainInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
               </Text>
             </View>
             <DateTimePicker
-              onChange={params =>
-                setTaskData({...taskData, date: dayjs(params.date)})
-              }
+              timePicker={false}
+              locale={'en'}
+              onChange={params => {
+                const selectedDate = dayjs(params.date).startOf('day');
+                setTaskData({
+                  ...taskData,
+                  date: selectedDate,
+                });
+              }}
               firstDayOfWeek={1}
               mode="single"
-              date={dayjs(taskData.date, 'DD-MM-YYYY').toDate()}
+              date={taskData.date}
               todayTextStyle={{color: '#FFFFFF'}}
               todayContainerStyle={{
                 backgroundColor: '#E0483C',
