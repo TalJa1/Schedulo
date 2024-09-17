@@ -32,11 +32,13 @@ const TaskAddition = () => {
     group: '',
   });
 
+  console.log('TaskData', taskData);
+
   return (
     <TaskAdditionComponent
       title="Việc cần làm mới"
       subInput={<SubInput setTaskData={setTaskData} taskData={taskData} />}>
-      <MainInput />
+      <MainInput setTaskData={setTaskData} taskData={taskData} />
     </TaskAdditionComponent>
   );
 };
@@ -44,7 +46,9 @@ const TaskAddition = () => {
 const TextInputGroup: React.FC<{
   title: string;
   placeholder: string;
-}> = ({placeholder, title}) => {
+  value: string;
+  onChangeText: (text: string) => void;
+}> = ({placeholder, title, value, onChangeText}) => {
   return (
     <View>
       <Text style={{color: '#FFFFFF', fontSize: 20, fontWeight: '700'}}>
@@ -58,16 +62,28 @@ const TextInputGroup: React.FC<{
         }}
         placeholder={placeholder}
         placeholderTextColor={'#FFFFFF4D'}
+        value={value}
+        onChangeText={onChangeText}
       />
     </View>
   );
 };
 
-const MainInput: React.FC = () => {
+const MainInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   return (
     <View style={{paddingHorizontal: vw(5), rowGap: vh(2)}}>
-      <TextInputGroup placeholder="Điền tiêu đề" title="Tiêu đề" />
-      <TextInputGroup placeholder="Điền ghi chú" title="Ghi chú" />
+      <TextInputGroup
+        placeholder="Điền tiêu đề"
+        title="Tiêu đề"
+        value={taskData.title}
+        onChangeText={text => setTaskData({...taskData, title: text})}
+      />
+      <TextInputGroup
+        placeholder="Điền ghi chú"
+        title="Ghi chú"
+        value={taskData.note}
+        onChangeText={text => setTaskData({...taskData, note: text})}
+      />
       <View>
         <Text style={{color: '#FFFFFF', fontSize: 20, fontWeight: '700'}}>
           Chọn ngày
@@ -81,7 +97,7 @@ const MainInput: React.FC = () => {
               borderBottomWidth: 1,
               borderColor: '#D2D2D2',
             }}
-            value=""
+            value={taskData.date}
             placeholder={'Chọn 1 ngày'}
             placeholderTextColor={'#FFFFFF4D'}
           />
@@ -113,9 +129,6 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   const [endTime, setEndTime] = useState<Date | undefined>(undefined);
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
-  const [selectedReminder, setSelectedReminder] = useState<number | null>(null);
-  const [selectedRepeat, setSelectedRepeat] = useState<number | null>(null);
-  const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
 
   const calculateDuration = () => {
     if (!startTime || !endTime) {
@@ -192,6 +205,10 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
         onConfirm={date => {
           setShowStartPicker(false);
           setStartTime(date);
+          setTaskData({
+            ...taskData,
+            time: `${formatTime(date)} - ${formatTime(endTime)}`,
+          });
         }}
         onCancel={() => {
           setShowStartPicker(false);
@@ -205,6 +222,10 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
         onConfirm={date => {
           setShowEndPicker(false);
           setEndTime(date);
+          setTaskData({
+            ...taskData,
+            time: `${formatTime(startTime)} - ${formatTime(date)}`,
+          });
         }}
         onCancel={() => {
           setShowEndPicker(false);
@@ -221,11 +242,11 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
             rowGap: vh(2),
           }}>
           {TaskReminderRadio.map((item, index) => {
-            const isSelected = selectedReminder === index;
+            const isSelected = taskData.reminder === item;
             return (
               <TouchableOpacity
                 key={index}
-                onPress={() => setSelectedReminder(index)}
+                onPress={() => setTaskData({...taskData, reminder: item})}
                 style={[
                   {
                     width: '23%',
@@ -255,11 +276,16 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
             rowGap: vh(2),
           }}>
           {TaskRepeatRadio.map((item, index) => {
-            const isSelected = selectedRepeat === index;
+            const isSelected = taskData.repeat.includes(item);
             return (
               <TouchableOpacity
                 key={index}
-                onPress={() => setSelectedRepeat(index)}
+                onPress={() => {
+                  const newRepeat = isSelected
+                    ? taskData.repeat.filter(r => r !== item)
+                    : [...taskData.repeat, item];
+                  setTaskData({...taskData, repeat: newRepeat});
+                }}
                 style={[
                   {
                     borderRadius: vw(20),
@@ -288,10 +314,10 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
             rowGap: vh(2),
           }}>
           {TaskGroupRadio.map((item, index) => {
-            const isSelected = selectedGroup === index;
+            const isSelected = taskData.group === item.label;
             return (
               <TouchableOpacity
-                onPress={() => setSelectedGroup(index)}
+                onPress={() => setTaskData({...taskData, group: item.label})}
                 key={index}
                 style={[
                   {
