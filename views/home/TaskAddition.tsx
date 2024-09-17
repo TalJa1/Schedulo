@@ -16,12 +16,15 @@ import {datePickerIcon} from '../../assets/svgXML';
 import {SubTaskInputProps, TaskAdditionProps} from '../../services/typeProps';
 import DatePicker from 'react-native-date-picker';
 import {
+  generateEmptyTaskData,
   TaskGroupRadio,
   TaskReminderRadio,
   TaskRepeatRadio,
 } from '../../services/renderData';
 import dayjs from 'dayjs';
 import DateTimePicker from 'react-native-ui-datepicker';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
 dayjs.locale('vi');
 
@@ -36,8 +39,6 @@ const TaskAddition = () => {
     repeat: [],
     group: '',
   });
-
-  console.log('TaskData', taskData);
 
   return (
     <TaskAdditionComponent
@@ -199,14 +200,15 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   useEffect(() => {
     validateTaskData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskData]);
 
   const validateTaskData = () => {
-    const { time, reminder, repeat, group } = taskData;
+    const {time, reminder, repeat, group} = taskData;
     if (time && reminder && repeat.length > 0 && group) {
       setIsButtonDisabled(false);
     } else {
@@ -248,7 +250,17 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
     return `${hours}:${minutes}`;
   };
 
-  const handleAdd = () => {};
+  const getDayOfWeekIndex = (date: Date) => {
+    const day = date.getDay();
+    return day === 0 ? 6 : day - 1; // Convert Sunday (0) to 6 and shift other days by 1
+  };
+
+  const handleAdd = () => {
+    const emptyTaskData = generateEmptyTaskData();
+    const dayIndex = getDayOfWeekIndex(taskData.date);
+    emptyTaskData[dayIndex] = taskData;
+    navigation.navigate('Main');
+  };
 
   return (
     <View style={{paddingVertical: vh(2), rowGap: vh(2), flex: 1}}>
@@ -426,6 +438,7 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
       </SubInputItemGroup>
       <View style={centerAll}>
         <TouchableOpacity
+          onPress={handleAdd}
           style={{
             backgroundColor: isButtonDisabled ? '#D3D3D3' : '#1940B6',
             width: '70%',

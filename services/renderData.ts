@@ -96,3 +96,27 @@ export const TaskReminderRadio = [
 ];
 
 export const TaskRepeatRadio = ['Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'CN'];
+
+export interface TaskItem {
+  title: string;
+  note: string;
+  date: Date;
+  time: string; // format HH:mm - HH:mm
+  reminder: string;
+  repeat: string[];
+  group: string;
+}
+
+export const generateEmptyTaskData = (): TaskItem[] => {
+  const emptyTask: TaskItem = {
+    title: '',
+    note: '',
+    date: new Date(),
+    time: '',
+    reminder: '',
+    repeat: [],
+    group: '',
+  };
+
+  return Array(7).fill(emptyTask);
+};
