@@ -23,6 +23,8 @@ import {
 import dayjs from 'dayjs';
 import DateTimePicker from 'react-native-ui-datepicker';
 
+dayjs.locale('vi');
+
 const TaskAddition = () => {
   useStatusBar('#1940B6');
   const [taskData, setTaskData] = useState<TaskAdditionProps>({
@@ -103,7 +105,7 @@ const MainInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
               borderColor: '#D2D2D2',
               color: '#FFFFFF',
             }}
-            value={taskData.date.toString()}
+            value={dayjs(taskData.date).format('dddd, DD - MM - YYYY')}
             placeholder={'Chọn 1 ngày'}
             placeholderTextColor={'#FFFFFF4D'}
           />
@@ -135,8 +137,8 @@ const MainInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
               </Text>
             </View>
             <DateTimePicker
+              locale={'vi-VN'}
               timePicker={false}
-              locale={'en'}
               onChange={params => {
                 const selectedDate = dayjs(params.date).startOf('day');
                 setTaskData({
