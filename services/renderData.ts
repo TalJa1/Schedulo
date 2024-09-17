@@ -118,5 +118,5 @@ export const generateEmptyTaskData = (): TaskItem[] => {
     group: '',
   };
 
-  return Array(7).fill(emptyTask);
+  return Array.from({ length: 7 }, () => ({ ...emptyTask }));
 };

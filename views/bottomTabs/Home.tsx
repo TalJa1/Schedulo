@@ -13,7 +13,7 @@ import {centerAll, containerStyle, vh, vw} from '../../services/styleSheet';
 import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
 import {getDayOfWeekByIndex, getTodayIndex} from '../../services/timeServices';
-import {generateEmptyTaskData, tabs} from '../../services/renderData';
+import {tabs} from '../../services/renderData';
 import {floatingBtnIcon} from '../../assets/svgXML';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -26,8 +26,6 @@ const Home = () => {
   const [selectedDay, setSelectedDay] = useState('');
   const [tabCurrent, setTabCurrent] = useState(0);
   const todayIndex = getTodayIndex();
-
-  console.log('generateEmptyTaskData', generateEmptyTaskData());
 
   useEffect(() => {
     setSelectedDay(getDayOfWeekByIndex(weekDayIndex));

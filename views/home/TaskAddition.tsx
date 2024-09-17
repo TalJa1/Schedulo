@@ -23,8 +23,8 @@ import {
 } from '../../services/renderData';
 import dayjs from 'dayjs';
 import DateTimePicker from 'react-native-ui-datepicker';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 
 dayjs.locale('vi');
 
@@ -258,7 +258,8 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   const handleAdd = () => {
     const emptyTaskData = generateEmptyTaskData();
     const dayIndex = getDayOfWeekIndex(taskData.date);
-    emptyTaskData[dayIndex] = taskData;
+
+    emptyTaskData[dayIndex] = {...taskData};
     navigation.navigate('Main');
   };
 
