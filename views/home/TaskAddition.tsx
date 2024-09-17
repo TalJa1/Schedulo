@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -13,7 +14,11 @@ import {centerAll, vh, vw} from '../../services/styleSheet';
 import {datePickerIcon} from '../../assets/svgXML';
 import {SubTaskInputProps, TaskAdditionProps} from '../../services/typeProps';
 import DatePicker from 'react-native-date-picker';
-import {TaskReminderRadio, TaskRepeatRadio} from '../../services/renderData';
+import {
+  TaskGroupRadio,
+  TaskReminderRadio,
+  TaskRepeatRadio,
+} from '../../services/renderData';
 
 const TaskAddition = () => {
   useStatusBar('#1940B6');
@@ -146,7 +151,7 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   };
 
   return (
-    <View style={{marginVertical: vh(2), rowGap: vh(2)}}>
+    <View style={{marginTop: vh(2), rowGap: vh(2), flex: 1}}>
       <SubInputItemGroup title="Chọn giờ">
         <View style={styles.container}>
           <View style={styles.timeContainer}>
@@ -266,6 +271,36 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
                   style={isSelected ? {color: 'white'} : {color: '#757575'}}>
                   {item}
                 </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </SubInputItemGroup>
+      <SubInputItemGroup title="Nhóm">
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+            flexWrap: 'wrap',
+            marginTop: vh(2),
+            justifyContent: 'space-between',
+            rowGap: vh(2),
+          }}>
+          {TaskGroupRadio.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                style={{
+                  borderRadius: 5,
+                  padding: vh(0.5),
+                  width: '48%',
+                  backgroundColor: '#EEF1FE',
+                  flexDirection: 'row',
+                  columnGap: vw(2),
+                  alignItems: 'center',
+                }}>
+                <Image source={item.img} />
+                <Text style={{color: '#757575'}}>{item.label}</Text>
               </TouchableOpacity>
             );
           })}
