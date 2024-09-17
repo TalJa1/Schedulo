@@ -21,12 +21,10 @@ const TaskAdditionComponent: React.FC<TaskAdditionComponentProps> = ({
 }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{flex: 1}}>
-        <View style={{flex: 1}}>
-          <Header title={title} />
-          <View style={styles.nodeContainer}>{children}</View>
-          <View style={styles.nodeContainer1}>{subInput}</View>
-        </View>
+      <ScrollView>
+        <Header title={title} />
+        <View style={styles.nodeContainer}>{children}</View>
+        <View style={styles.nodeContainer1}>{subInput}</View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -115,6 +115,7 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   const [showEndPicker, setShowEndPicker] = useState(false);
   const [selectedReminder, setSelectedReminder] = useState<number | null>(null);
   const [selectedRepeat, setSelectedRepeat] = useState<number | null>(null);
+  const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
 
   const calculateDuration = () => {
     if (!startTime || !endTime) {
@@ -151,7 +152,7 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   };
 
   return (
-    <View style={{marginTop: vh(2), rowGap: vh(2), flex: 1}}>
+    <View style={{paddingVertical: vh(2), rowGap: vh(2), flex: 1}}>
       <SubInputItemGroup title="Chọn giờ">
         <View style={styles.container}>
           <View style={styles.timeContainer}>
@@ -287,20 +288,25 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
             rowGap: vh(2),
           }}>
           {TaskGroupRadio.map((item, index) => {
+            const isSelected = selectedGroup === index;
             return (
               <TouchableOpacity
+                onPress={() => setSelectedGroup(index)}
                 key={index}
-                style={{
-                  borderRadius: 5,
-                  padding: vh(0.5),
-                  width: '48%',
-                  backgroundColor: '#EEF1FE',
-                  flexDirection: 'row',
-                  columnGap: vw(2),
-                  alignItems: 'center',
-                }}>
+                style={[
+                  {
+                    borderRadius: 5,
+                    padding: vh(0.5),
+                    width: '48%',
+                    backgroundColor: item.backColor,
+                    flexDirection: 'row',
+                    columnGap: vw(2),
+                    alignItems: 'center',
+                  },
+                  isSelected && {borderWidth: 3, borderColor: item.txtColor},
+                ]}>
                 <Image source={item.img} />
-                <Text style={{color: '#757575'}}>{item.label}</Text>
+                <Text style={{color: item.txtColor}}>{item.label}</Text>
               </TouchableOpacity>
             );
           })}
