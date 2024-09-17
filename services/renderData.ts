@@ -94,3 +94,5 @@ export const TaskReminderRadio = [
   '1 ngày',
   '2 ngày',
 ];
+
+export const TaskRepeatRadio = ['Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'CN'];

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import {
   StyleSheet,
@@ -12,9 +11,9 @@ import useStatusBar from '../../services/useStatusBarCustom';
 import TaskAdditionComponent from '../../components/home/TaskAdditionComponent';
 import {centerAll, vh, vw} from '../../services/styleSheet';
 import {datePickerIcon} from '../../assets/svgXML';
-import {TaskAdditionProps} from '../../services/typeProps';
+import {SubTaskInputProps, TaskAdditionProps} from '../../services/typeProps';
 import DatePicker from 'react-native-date-picker';
-import {TaskReminderRadio} from '../../services/renderData';
+import {TaskReminderRadio, TaskRepeatRadio} from '../../services/renderData';
 
 const TaskAddition = () => {
   useStatusBar('#1940B6');
@@ -29,7 +28,9 @@ const TaskAddition = () => {
   });
 
   return (
-    <TaskAdditionComponent title="Việc cần làm mới" subInput={<SubInput />}>
+    <TaskAdditionComponent
+      title="Việc cần làm mới"
+      subInput={<SubInput setTaskData={setTaskData} taskData={taskData} />}>
       <MainInput />
     </TaskAdditionComponent>
   );
@@ -102,12 +103,13 @@ const SubInputItemGroup: React.FC<{
   );
 };
 
-const SubInput: React.FC = () => {
+const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   const [startTime, setStartTime] = useState<Date | undefined>(undefined);
   const [endTime, setEndTime] = useState<Date | undefined>(undefined);
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
   const [selectedReminder, setSelectedReminder] = useState<number | null>(null);
+  const [selectedRepeat, setSelectedRepeat] = useState<number | null>(null);
 
   const calculateDuration = () => {
     if (!startTime || !endTime) {
@@ -227,7 +229,41 @@ const SubInput: React.FC = () => {
                   },
                   centerAll,
                 ]}>
-                <Text style={isSelected ? {color: 'white'} : {color: '#757575'}}>
+                <Text
+                  style={isSelected ? {color: 'white'} : {color: '#757575'}}>
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </SubInputItemGroup>
+      <SubInputItemGroup title="Lặp lại">
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+            flexWrap: 'wrap',
+            marginTop: vh(2),
+            justifyContent: 'space-between',
+            rowGap: vh(2),
+          }}>
+          {TaskRepeatRadio.map((item, index) => {
+            const isSelected = selectedRepeat === index;
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => setSelectedRepeat(index)}
+                style={[
+                  {
+                    borderRadius: vw(20),
+                    padding: vh(1),
+                    backgroundColor: isSelected ? '#1940B6' : '#EEF1FE',
+                  },
+                  centerAll,
+                ]}>
+                <Text
+                  style={isSelected ? {color: 'white'} : {color: '#757575'}}>
                   {item}
                 </Text>
               </TouchableOpacity>

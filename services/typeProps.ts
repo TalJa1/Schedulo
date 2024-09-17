@@ -37,3 +37,8 @@ export interface TaskAdditionProps {
   repeat: string[];
   group: string;
 }
+
+export interface SubTaskInputProps {
+  taskData: TaskAdditionProps;
+  setTaskData: React.Dispatch<React.SetStateAction<TaskAdditionProps>>;
+}
