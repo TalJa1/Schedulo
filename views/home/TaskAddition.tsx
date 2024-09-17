@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import useStatusBar from '../../services/useStatusBarCustom';
 import TaskAdditionComponent from '../../components/home/TaskAdditionComponent';
@@ -95,13 +101,122 @@ const SubInputItemGroup: React.FC<{
 };
 
 const SubInput: React.FC = () => {
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+
+  const calculateDuration = () => {
+    if (!startTime || !endTime) {
+      return '';
+    }
+
+    const [startHours, startMinutes] = startTime.split(':').map(Number);
+    const [endHours, endMinutes] = endTime.split(':').map(Number);
+
+    let durationHours = endHours - startHours;
+    let durationMinutes = endMinutes - startMinutes;
+
+    if (durationMinutes < 0) {
+      durationMinutes += 60;
+      durationHours -= 1;
+    }
+
+    if (durationHours < 0) {
+      durationHours += 24;
+    }
+
+    return `${durationHours}h ${durationMinutes}p`;
+  };
+
   return (
     <View style={{marginVertical: vh(2)}}>
       <SubInputItemGroup title="Chọn giờ">
-        <View></View>
+        <View style={styles.container}>
+          <View style={styles.timeContainer}>
+            <View style={styles.timeLabelContainer}>
+              <Text style={styles.timeLabel}>Start</Text>
+              <Text style={styles.timeLabel}>End</Text>
+            </View>
+            <View style={styles.timeInputContainer}>
+              <TextInput
+                style={styles.timeInput}
+                placeholder="HH:mm"
+                value={startTime}
+                onChangeText={setStartTime}
+                keyboardType="numeric"
+              />
+              <Text style={styles.separator}>-</Text>
+              <TextInput
+                style={styles.timeInput}
+                placeholder="HH:mm"
+                value={endTime}
+                onChangeText={setEndTime}
+                keyboardType="numeric"
+              />
+            </View>
+          </View>
+          <View style={styles.durationContainer}>
+            <Text style={styles.durationLabel}>Thời lượng</Text>
+            <Text style={styles.durationValue}>{calculateDuration()}</Text>
+          </View>
+        </View>
       </SubInputItemGroup>
     </View>
   );
 };
 
 export default TaskAddition;
+
+const styles = StyleSheet.create({
+  container: {
+    padding: vw(5),
+  },
+  timeContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  timeLabelContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: vw(5),
+  },
+  timeLabel: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#363851',
+  },
+  timeInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: vw(2),
+  },
+  timeInput: {
+    width: vw(20),
+    height: vw(10),
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  separator: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginHorizontal: vw(2),
+  },
+  durationContainer: {
+    alignItems: 'center',
+    marginTop: vw(5),
+  },
+  durationLabel: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#363851',
+  },
+  durationValue: {
+    fontSize: 16,
+    color: '#363851',
+    marginTop: vw(2),
+  },
+});
