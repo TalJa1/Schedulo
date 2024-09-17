@@ -83,3 +83,14 @@ export const TaskGroupRadio = [
     txtColor: '#E0EBF2',
   },
 ];
+
+export const TaskReminderRadio = [
+  'Đúng giờ',
+  '15 phút',
+  '30 phút',
+  '1 tiếng',
+  '6 tiếng',
+  '12 tiếng',
+  '1 ngày',
+  '2 ngày',
+];

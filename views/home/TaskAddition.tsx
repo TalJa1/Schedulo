@@ -80,10 +80,26 @@ const MainInput: React.FC = () => {
   );
 };
 
+const SubInputItemGroup: React.FC<{
+  title: string;
+  children: React.ReactNode;
+}> = ({children, title}) => {
+  return (
+    <View style={{paddingHorizontal: vw(5)}}>
+      <Text style={{color: '#363851', fontSize: 16, fontWeight: '700'}}>
+        {title}
+      </Text>
+      {children}
+    </View>
+  );
+};
+
 const SubInput: React.FC = () => {
   return (
-    <View>
-      <Text>SubInput</Text>
+    <View style={{marginVertical: vh(2)}}>
+      <SubInputItemGroup title="Chọn giờ">
+        <View></View>
+      </SubInputItemGroup>
     </View>
   );
 };
