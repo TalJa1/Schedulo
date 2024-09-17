@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import useStatusBar from '../../services/useStatusBarCustom';
 import TaskAdditionComponent from '../../components/home/TaskAdditionComponent';
 import {centerAll, vh, vw} from '../../services/styleSheet';
@@ -43,7 +43,9 @@ const TaskAddition = () => {
     <TaskAdditionComponent
       title="Việc cần làm mới"
       subInput={<SubInput setTaskData={setTaskData} taskData={taskData} />}>
-      <MainInput setTaskData={setTaskData} taskData={taskData} />
+      <View>
+        <MainInput setTaskData={setTaskData} taskData={taskData} />
+      </View>
     </TaskAdditionComponent>
   );
 };
@@ -196,6 +198,21 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   const [endTime, setEndTime] = useState<Date | undefined>(undefined);
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    validateTaskData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskData]);
+
+  const validateTaskData = () => {
+    const { time, reminder, repeat, group } = taskData;
+    if (time && reminder && repeat.length > 0 && group) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  };
 
   const calculateDuration = () => {
     if (!startTime || !endTime) {
@@ -230,6 +247,8 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   };
+
+  const handleAdd = () => {};
 
   return (
     <View style={{paddingVertical: vh(2), rowGap: vh(2), flex: 1}}>
@@ -405,6 +424,20 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
           })}
         </View>
       </SubInputItemGroup>
+      <View style={centerAll}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: isButtonDisabled ? '#D3D3D3' : '#1940B6',
+            width: '70%',
+            paddingVertical: vh(1.5),
+            borderRadius: 10,
+          }}
+          disabled={isButtonDisabled}>
+          <Text style={{textAlign: 'center', color: 'white', fontSize: 16}}>
+            Cập nhật
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
