@@ -13,11 +13,12 @@ import {centerAll, containerStyle, vh, vw} from '../../services/styleSheet';
 import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
 import {getDayOfWeekByIndex, getTodayIndex} from '../../services/timeServices';
-import {tabs} from '../../services/renderData';
+import {generateEmptyTaskData, tabs} from '../../services/renderData';
 import {floatingBtnIcon} from '../../assets/svgXML';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {HomeTaskBtnProps} from '../../services/typeProps';
+import {HomeTaskBtnProps, TaskAdditionProps} from '../../services/typeProps';
+import {loadData, saveData} from '../../services/storage';
 
 const Home = () => {
   useStatusBar('#363851');
@@ -26,6 +27,9 @@ const Home = () => {
   const [selectedDay, setSelectedDay] = useState('');
   const [tabCurrent, setTabCurrent] = useState(0);
   const todayIndex = getTodayIndex();
+  const [taskData, setTaskData] = useState<TaskAdditionProps[]>([]);
+
+  console.log('taskData', taskData);
 
   useEffect(() => {
     setSelectedDay(getDayOfWeekByIndex(weekDayIndex));
@@ -41,6 +45,18 @@ const Home = () => {
         break;
     }
   };
+
+  useEffect(() => {
+    loadData<TaskAdditionProps[]>('TaskStorage')
+      .then(loadedData => {
+        setTaskData(loadedData);
+        console.log('loadedData', loadedData);
+      })
+      .catch(() => {
+        saveData('TaskStorage', generateEmptyTaskData());
+        setTaskData(generateEmptyTaskData());
+      });
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
