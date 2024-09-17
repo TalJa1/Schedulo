@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs";
+import {Dayjs} from 'dayjs';
 
 export interface HeaderComponentProps {
   setDayIndex: React.Dispatch<React.SetStateAction<number>>;
