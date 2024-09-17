@@ -1,5 +1,3 @@
-import {Dayjs} from 'dayjs';
-
 export interface HeaderComponentProps {
   setDayIndex: React.Dispatch<React.SetStateAction<number>>;
   dayIndex: number;
@@ -33,7 +31,7 @@ export interface HomeTaskBtnProps {
 export interface TaskAdditionProps {
   title: string;
   note: string;
-  date: Dayjs;
+  date: Date;
   time: string; // format HH:mm - HH:mm
   reminder: string;
   repeat: string[];

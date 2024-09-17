@@ -15,20 +15,20 @@ import {centerAll, vh, vw} from '../../services/styleSheet';
 import {datePickerIcon} from '../../assets/svgXML';
 import {SubTaskInputProps, TaskAdditionProps} from '../../services/typeProps';
 import DatePicker from 'react-native-date-picker';
-import DateTimePicker from 'react-native-ui-datepicker';
 import {
   TaskGroupRadio,
   TaskReminderRadio,
   TaskRepeatRadio,
 } from '../../services/renderData';
 import dayjs from 'dayjs';
+import DateTimePicker from 'react-native-ui-datepicker';
 
 const TaskAddition = () => {
   useStatusBar('#1940B6');
   const [taskData, setTaskData] = useState<TaskAdditionProps>({
     title: '',
     note: '',
-    date: dayjs(),
+    date: new Date(),
     time: '', //format HH:mm - HH:mm
     reminder: '',
     repeat: [],
@@ -141,7 +141,7 @@ const MainInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
                 const selectedDate = dayjs(params.date).startOf('day');
                 setTaskData({
                   ...taskData,
-                  date: selectedDate,
+                  date: selectedDate.toDate(),
                 });
               }}
               firstDayOfWeek={1}
