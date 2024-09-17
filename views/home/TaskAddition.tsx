@@ -1,13 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import useStatusBar from '../../services/useStatusBarCustom';
 import TaskAdditionComponent from '../../components/home/TaskAdditionComponent';
 import {vh, vw} from '../../services/styleSheet';
 import {datePickerIcon} from '../../assets/svgXML';
+import {TaskAdditionProps} from '../../services/typeProps';
 
 const TaskAddition = () => {
   useStatusBar('#1940B6');
+  const [taskData, setTaskData] = useState<TaskAdditionProps>({
+    title: '',
+    note: '',
+    date: '',
+    time: '', //format HH:mm - HH:mm
+    reminder: '',
+    repeat: [],
+    group: '',
+  });
+
   return (
     <TaskAdditionComponent title="Việc cần làm mới" subInput={<SubInput />}>
       <MainInput />
@@ -48,18 +60,20 @@ const MainInput: React.FC = () => {
         </Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TextInput
+            editable={false}
             style={{
               flex: 1,
               borderBottomColor: '#D2D2D2',
               borderBottomWidth: 1,
               borderColor: '#D2D2D2',
             }}
+            value=""
             placeholder={'Chọn 1 ngày'}
             placeholderTextColor={'#FFFFFF4D'}
           />
-          <View style={{position: 'absolute', right: 0}}>
+          <TouchableOpacity style={{position: 'absolute', right: 0}}>
             {datePickerIcon(vw(7), vw(7))}
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -75,8 +89,3 @@ const SubInput: React.FC = () => {
 };
 
 export default TaskAddition;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const styles = StyleSheet.create({
-  container: {flex: 1},
-});

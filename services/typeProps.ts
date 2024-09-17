@@ -27,3 +27,13 @@ export interface HomeTaskBtnProps {
   tabIndex: number;
   handleNavigate: () => void;
 }
+
+export interface TaskAdditionProps {
+  title: string;
+  note: string;
+  date: string;
+  time: string; // format HH:mm - HH:mm
+  reminder: string;
+  repeat: string[];
+  group: string;
+}
