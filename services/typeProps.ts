@@ -42,4 +42,3 @@ export interface SubTaskInputProps {
   taskData: TaskAdditionProps;
   setTaskData: React.Dispatch<React.SetStateAction<TaskAdditionProps>>;
 }
-

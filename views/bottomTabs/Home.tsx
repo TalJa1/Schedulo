@@ -27,9 +27,7 @@ const Home = () => {
   const [selectedDay, setSelectedDay] = useState('');
   const [tabCurrent, setTabCurrent] = useState(0);
   const todayIndex = getTodayIndex();
-  const [taskData, setTaskData] = useState<TaskAdditionProps[]>([]);
-
-  console.log('taskData', taskData);
+  const [taskData, setTaskData] = useState<TaskAdditionProps[][]>([]);
 
   useEffect(() => {
     setSelectedDay(getDayOfWeekByIndex(weekDayIndex));
@@ -47,7 +45,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    loadData<TaskAdditionProps[]>('TaskStorage')
+    loadData<TaskAdditionProps[][]>('TaskStorage')
       .then(loadedData => {
         setTaskData(loadedData);
         console.log('loadedData', loadedData);

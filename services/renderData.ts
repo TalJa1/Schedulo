@@ -107,7 +107,7 @@ export interface TaskItem {
   group: string;
 }
 
-export const generateEmptyTaskData = (): TaskItem[] => {
+export const generateEmptyTaskData = (): TaskItem[][] => {
   const emptyTask: TaskItem = {
     title: '',
     note: '',
@@ -118,5 +118,6 @@ export const generateEmptyTaskData = (): TaskItem[] => {
     group: '',
   };
 
-  return Array.from({ length: 7 }, () => ({ ...emptyTask }));
+  // Create an array of 7 arrays, each containing the emptyTask object
+  return Array.from({ length: 7 }, () => [ { ...emptyTask } ]);
 };

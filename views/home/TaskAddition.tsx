@@ -201,7 +201,7 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [tmpStorage, setTmpStorage] = useState<TaskAdditionProps[]>([]);
+  const [tmpStorage, setTmpStorage] = useState<TaskAdditionProps[][]>([]);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   useEffect(() => {
@@ -252,13 +252,8 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
     return `${hours}:${minutes}`;
   };
 
-  const getDayOfWeekIndex = (date: Date) => {
-    const day = date.getDay();
-    return day === 0 ? 6 : day - 1; // Convert Sunday (0) to 6 and shift other days by 1
-  };
-
   useEffect(() => {
-    loadData<TaskAdditionProps[]>('TaskStorage')
+    loadData<TaskAdditionProps[][]>('TaskStorage')
       .then(data => {
         setTmpStorage(data);
       })
@@ -270,9 +265,30 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
   const handleAdd = () => {
     const dayIndex = getDayOfWeekIndex(taskData.date);
 
-    tmpStorage[dayIndex] = {...taskData};
-    saveData('TaskStorage', tmpStorage);
+    // Create a copy of the existing tmpStorage array
+    const updatedTmpStorage = [...tmpStorage];
+
+    // Ensure the dayIndex array exists
+    if (!updatedTmpStorage[dayIndex]) {
+      updatedTmpStorage[dayIndex] = [];
+    }
+
+    // Push the new taskData into the specific dayIndex array
+    updatedTmpStorage[dayIndex] = [...updatedTmpStorage[dayIndex], taskData];
+
+    // Update the state with the new array
+    setTmpStorage(updatedTmpStorage);
+
+    // Save the updated array to storage
+    saveData('TaskStorage', updatedTmpStorage);
+
+    // Navigate to the main screen
     navigation.navigate('Main');
+  };
+
+  const getDayOfWeekIndex = (date: Date) => {
+    const day = date.getDay();
+    return day === 0 ? 6 : day - 1; // Convert Sunday (0) to 6 and shift other days by 1
   };
 
   return (
