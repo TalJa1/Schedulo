@@ -35,6 +35,7 @@ import {
 import {loadData, saveData} from '../../services/storage';
 import {CircularProgress} from 'react-native-circular-progress';
 import dayjs from 'dayjs';
+import CheckBox from '@react-native-community/checkbox';
 
 const Home = () => {
   useStatusBar('#363851');
@@ -122,6 +123,9 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
   const [randomTasks, setRandomTasks] = useState<
     {title: string; isFinished: boolean}[]
   >([]);
+  const [checkedTasks, setCheckedTasks] = useState<{[key: number]: boolean}>(
+    {},
+  );
 
   const splitTime = (time: string) => {
     const [startTime, endTime] = time.split(' - ');
@@ -137,6 +141,14 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
 
     setRandomTasks(getRandomTasks());
   }, []);
+
+  const handleCheck = (index: number) => {
+    setCheckedTasks(prev => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
   return (
     <View style={{paddingHorizontal: vw(5)}}>
       {isToday ? (
@@ -311,11 +323,48 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
             {randomTasks.map((task, index) => (
               <View
                 key={index}
-                style={{backgroundColor: '#F7EDDF', borderRadius: 5}}>
-                <Text
-                  style={{color: '#000000', fontSize: 13, fontWeight: '700'}}>
-                  {task.title}
-                </Text>
+                style={{
+                  backgroundColor: '#F7EDDF',
+                  borderRadius: 5,
+                  flexDirection: 'row',
+                  height: vh(10),
+                }}>
+                <View
+                  style={[
+                    {
+                      width: '20%',
+                      alignItems: 'center',
+                    },
+                    centerAll,
+                  ]}>
+                  <CheckBox
+                    tintColors={{true: '#1940B6', false: '#D3D3D3'}}
+                    value={checkedTasks[index] || false}
+                    onValueChange={() => handleCheck(index)}
+                  />
+                </View>
+                <View
+                  style={{
+                    width: 1,
+                    height: '70%',
+                    backgroundColor: '#3C3C4321',
+                    alignSelf: 'center',
+                  }}
+                />
+                <View
+                  style={{
+                    paddingLeft: vw(5),
+                    justifyContent: 'space-evenly',
+                  }}>
+                  <Text
+                    style={{color: '#1940B6', fontWeight: '700', fontSize: 11}}>
+                    Bài tập
+                  </Text>
+                  <Text
+                    style={{color: '#000000', fontSize: 13, fontWeight: '700'}}>
+                    {task.title}
+                  </Text>
+                </View>
               </View>
             ))}
           </View>
