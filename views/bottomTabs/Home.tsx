@@ -19,7 +19,11 @@ import {
 import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
 import {getDayOfWeekByIndex, getTodayIndex} from '../../services/timeServices';
-import {generateEmptyTaskData, tabs} from '../../services/renderData';
+import {
+  generateEmptyTaskData,
+  ShouldDoTask,
+  tabs,
+} from '../../services/renderData';
 import {floatingBtnIcon} from '../../assets/svgXML';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -115,10 +119,24 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
   tabDateIndex,
 }) => {
   const [finish, setFinish] = useState(0);
+  const [randomTasks, setRandomTasks] = useState<
+    {title: string; isFinished: boolean}[]
+  >([]);
+
   const splitTime = (time: string) => {
     const [startTime, endTime] = time.split(' - ');
     return {startTime, endTime};
   };
+
+  useEffect(() => {
+    // Function to get 3 random items from ShouldDoTask
+    const getRandomTasks = () => {
+      const shuffled = ShouldDoTask.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 3);
+    };
+
+    setRandomTasks(getRandomTasks());
+  }, []);
   return (
     <View style={{paddingHorizontal: vw(5)}}>
       {isToday ? (
@@ -289,6 +307,18 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
               : `-${dayjs(taskData[tabDateIndex][0].date).format('dd/MM')}`}
             :
           </Text>
+          <View style={{rowGap: vh(2), marginTop: vh(1)}}>
+            {randomTasks.map((task, index) => (
+              <View
+                key={index}
+                style={{backgroundColor: '#F7EDDF', borderRadius: 5}}>
+                <Text
+                  style={{color: '#000000', fontSize: 13, fontWeight: '700'}}>
+                  {task.title}
+                </Text>
+              </View>
+            ))}
+          </View>
         </View>
       </View>
     </View>

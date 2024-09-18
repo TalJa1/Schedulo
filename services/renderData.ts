@@ -119,5 +119,48 @@ export const generateEmptyTaskData = (): TaskItem[][] => {
   };
 
   // Create an array of 7 arrays, each containing the emptyTask object
-  return Array.from({ length: 7 }, () => [ { ...emptyTask } ]);
+  return Array.from({length: 7}, () => [{...emptyTask}]);
 };
+
+export const ShouldDoTask = [
+  {
+    title: 'Hoàn thành bài tập tin học',
+    isFinished: false,
+  },
+  {
+    title: 'Đọc sách giáo khoa 30 phút',
+    isFinished: false,
+  },
+  {
+    title: 'Ôn tập bài giảng buổi sáng',
+    isFinished: false,
+  },
+  {
+    title: 'Chuẩn bị bài cho ngày mai',
+    isFinished: false,
+  },
+  {
+    title: 'Dọn dẹp góc học tập',
+    isFinished: false,
+  },
+  {
+    title: 'Học từ vựng tiếng Anh',
+    isFinished: false,
+  },
+  {
+    title: 'Làm bài tập toán',
+    isFinished: false,
+  },
+  {
+    title: 'Nghiên cứu tài liệu tham khảo',
+    isFinished: false,
+  },
+  {
+    title: 'Thực hành lập trình',
+    isFinished: false,
+  },
+  {
+    title: 'Viết bài luận văn',
+    isFinished: false,
+  },
+];
