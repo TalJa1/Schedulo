@@ -45,4 +45,6 @@ export interface SubTaskInputProps {
 
 export interface RenderTaskViewProps {
   isToday: boolean;
+  taskData: TaskAdditionProps[][];
+  tabDateIndex: number;
 }

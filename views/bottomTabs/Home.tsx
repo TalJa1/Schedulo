@@ -83,7 +83,11 @@ const Home = () => {
                   handleNavigate={handleNavigate}
                 />
               ) : (
-                <RenderTaskView isToday={todayIndex === weekDayIndex} />
+                <RenderTaskView
+                  isToday={todayIndex === weekDayIndex}
+                  taskData={taskData}
+                  tabDateIndex={weekDayIndex}
+                />
               )}
             </>
           )}
@@ -97,7 +101,11 @@ const Home = () => {
   );
 };
 
-const RenderTaskView: React.FC<RenderTaskViewProps> = ({isToday}) => {
+const RenderTaskView: React.FC<RenderTaskViewProps> = ({
+  isToday,
+  taskData,
+  tabDateIndex,
+}) => {
   const [finish, setFinish] = useState(0);
   return (
     <View style={{paddingHorizontal: vw(5)}}>
@@ -173,6 +181,15 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({isToday}) => {
           Xem trước các công việc cần làm trong ngầy mai nào!
         </Text>
       )}
+      <View style={{marginVertical: vh(3)}}>
+        {taskData[tabDateIndex].map((task, index) => {
+          return (
+            <View key={index}>
+              <Image source={require('../../assets/promodoro/clock.png')} />
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 };
