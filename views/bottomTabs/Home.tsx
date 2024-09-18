@@ -25,7 +25,7 @@ import {
   tabs,
 } from '../../services/renderData';
 import {floatingBtnIcon} from '../../assets/svgXML';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
   HomeTaskBtnProps,
@@ -61,17 +61,24 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    loadData<TaskAdditionProps[][]>('TaskStorage')
-      .then(loadedData => {
-        setTaskData(loadedData);
-        // console.log('loadedData', loadedData);
-      })
-      .catch(() => {
-        saveData('TaskStorage', generateEmptyTaskData());
-        setTaskData(generateEmptyTaskData());
-      });
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const loadedData = await loadData<TaskAdditionProps[][]>(
+            'TaskStorage',
+          );
+          setTaskData(loadedData);
+          // console.log('loadedData', loadedData);
+        } catch (error) {
+          await saveData('TaskStorage', generateEmptyTaskData());
+          setTaskData(generateEmptyTaskData());
+        }
+      };
+
+      fetchData();
+    }, []),
+  );
 
   return (
     <SafeAreaView style={styles.container}>
