@@ -190,7 +190,7 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
             textAlign: 'center',
             marginVertical: vh(1),
           }}>
-          Xem trước các công việc cần làm trong ngầy mai nào!
+          Xem trước các công việc cần làm trong ngày mai nào!
         </Text>
       )}
       <View
@@ -267,7 +267,7 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
                     </View>
                     <Text
                       style={{color: 'white', fontSize: 12, fontWeight: '700'}}>
-                      Học thêm
+                      {task.group}
                     </Text>
                   </View>
                   <Text style={{color: '#363851', fontWeight: '700'}}>
