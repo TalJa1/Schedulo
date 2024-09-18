@@ -142,6 +142,10 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
     setRandomTasks(getRandomTasks());
   }, []);
 
+  useEffect(() => {
+    setFinish(Object.values(checkedTasks).filter(task => task).length);
+  }, [checkedTasks]);
+
   const handleCheck = (index: number) => {
     setCheckedTasks(prev => ({
       ...prev,
