@@ -9,7 +9,13 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {centerAll, containerStyle, vh, vw} from '../../services/styleSheet';
+import {
+  centerAll,
+  containerStyle,
+  NavigationBarStyle,
+  vh,
+  vw,
+} from '../../services/styleSheet';
 import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
 import {getDayOfWeekByIndex, getTodayIndex} from '../../services/timeServices';
@@ -63,7 +69,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{flex: 1}}>
+      <ScrollView >
         <View style={{flex: 1}}>
           <HeaderComponent
             dayIndex={weekDayIndex}
@@ -96,6 +102,7 @@ const Home = () => {
           handleNavigate={handleNavigate}
           tabIndex={tabCurrent}
         />
+        <View style={NavigationBarStyle} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -107,6 +114,10 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
   tabDateIndex,
 }) => {
   const [finish, setFinish] = useState(0);
+  const splitTime = (time: string) => {
+    const [startTime, endTime] = time.split(' - ');
+    return {startTime, endTime};
+  };
   return (
     <View style={{paddingHorizontal: vw(5)}}>
       {isToday ? (
@@ -182,13 +193,26 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
         </Text>
       )}
       <View style={{marginVertical: vh(3)}}>
-        {taskData[tabDateIndex].map((task, index) => {
-          return (
-            <View key={index}>
-              <Image source={require('../../assets/promodoro/clock.png')} />
-            </View>
-          );
-        })}
+        {taskData &&
+          taskData[tabDateIndex] &&
+          taskData[tabDateIndex].map((task, index) => {
+            return (
+              <View key={index}>
+                <View style={{backgroundColor: '#EF87AA'}}>
+                  <Image source={require('../../assets/promodoro/clock.png')} />
+                  <Text
+                    style={{color: '#363851', fontSize: 13, fontWeight: '700'}}>
+                    {splitTime(task.time).startTime}
+                  </Text>
+                  <Text
+                    style={{color: '#FFFFFF', fontSize: 13, fontWeight: '700'}}>
+                    {splitTime(task.time).endTime}
+                  </Text>
+                </View>
+                <View></View>
+              </View>
+            );
+          })}
       </View>
     </View>
   );
