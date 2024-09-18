@@ -30,6 +30,7 @@ import {
 } from '../../services/typeProps';
 import {loadData, saveData} from '../../services/storage';
 import {CircularProgress} from 'react-native-circular-progress';
+import dayjs from 'dayjs';
 
 const Home = () => {
   useStatusBar('#363851');
@@ -280,6 +281,15 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
               </View>
             );
           })}
+        <View>
+          <Text style={{color: '#000000', fontSize: 16, fontWeight: '700'}}>
+            Các công việc cần làm{' '}
+            {isToday
+              ? 'hôm nay'
+              : `-${dayjs(taskData[tabDateIndex][0].date).format('dd/MM')}`}
+            :
+          </Text>
+        </View>
       </View>
     </View>
   );
