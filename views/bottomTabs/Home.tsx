@@ -69,7 +69,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView >
+      <ScrollView>
         <View style={{flex: 1}}>
           <HeaderComponent
             dayIndex={weekDayIndex}
@@ -98,12 +98,12 @@ const Home = () => {
             </>
           )}
         </View>
-        <FloatingActionButton
-          handleNavigate={handleNavigate}
-          tabIndex={tabCurrent}
-        />
-        <View style={NavigationBarStyle} />
       </ScrollView>
+      <FloatingActionButton
+        handleNavigate={handleNavigate}
+        tabIndex={tabCurrent}
+      />
+      <View style={NavigationBarStyle} />
     </SafeAreaView>
   );
 };
@@ -192,13 +192,35 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
           Xem trước các công việc cần làm trong ngầy mai nào!
         </Text>
       )}
-      <View style={{marginVertical: vh(3)}}>
+      <View
+        style={{
+          marginVertical: vh(3),
+          rowGap: vh(1.5),
+          borderRadius: 5,
+          overflow: 'hidden',
+        }}>
         {taskData &&
           taskData[tabDateIndex] &&
           taskData[tabDateIndex].map((task, index) => {
             return (
-              <View key={index}>
-                <View style={{backgroundColor: '#EF87AA'}}>
+              <View
+                key={index}
+                style={{
+                  flexDirection: 'row',
+                  borderRadius: 5,
+                  overflow: 'hidden',
+                  borderWidth: 2,
+                  borderColor: '#363851',
+                }}>
+                <View
+                  style={{
+                    backgroundColor: '#EF87AA',
+                    alignItems: 'center',
+                    width: '30%',
+                    paddingVertical: vh(1),
+                    borderRightWidth: 2,
+                    borderRightColor: '#363851',
+                  }}>
                   <Image source={require('../../assets/promodoro/clock.png')} />
                   <Text
                     style={{color: '#363851', fontSize: 13, fontWeight: '700'}}>
@@ -209,7 +231,52 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
                     {splitTime(task.time).endTime}
                   </Text>
                 </View>
-                <View></View>
+                <View
+                  style={{
+                    backgroundColor: '#59C3A1',
+                    width: '70%',
+                    paddingVertical: vh(1),
+                    paddingHorizontal: vw(5),
+                    justifyContent: 'space-between',
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      columnGap: vw(2),
+                    }}>
+                    <View
+                      style={{
+                        borderColor: '#363851',
+                        borderWidth: 1,
+                        flexShrink: 0,
+                        alignSelf: 'flex-start', // Align the View to fit its content
+                        padding: 5,
+                        borderRadius: 5,
+                        backgroundColor: '#EF87AA',
+                      }}>
+                      <Text
+                        style={{
+                          color: '#363851',
+                          fontSize: 12,
+                          fontWeight: '700',
+                        }}>
+                        NHẮC NHỞ
+                      </Text>
+                    </View>
+                    <Text
+                      style={{color: 'white', fontSize: 12, fontWeight: '700'}}>
+                      Học thêm
+                    </Text>
+                  </View>
+                  <Text style={{color: '#363851', fontWeight: '700'}}>
+                    {task.title}
+                  </Text>
+                  <Text
+                    style={{fontSize: 12, color: '#E2FFF5', fontWeight: '700'}}>
+                    Note: {task.note}
+                  </Text>
+                </View>
               </View>
             );
           })}
