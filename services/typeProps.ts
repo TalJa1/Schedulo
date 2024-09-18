@@ -42,3 +42,7 @@ export interface SubTaskInputProps {
   taskData: TaskAdditionProps;
   setTaskData: React.Dispatch<React.SetStateAction<TaskAdditionProps>>;
 }
+
+export interface RenderTaskViewProps {
+  isToday: boolean;
+}

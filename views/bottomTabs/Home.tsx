@@ -17,8 +17,13 @@ import {generateEmptyTaskData, tabs} from '../../services/renderData';
 import {floatingBtnIcon} from '../../assets/svgXML';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {HomeTaskBtnProps, TaskAdditionProps} from '../../services/typeProps';
+import {
+  HomeTaskBtnProps,
+  RenderTaskViewProps,
+  TaskAdditionProps,
+} from '../../services/typeProps';
 import {loadData, saveData} from '../../services/storage';
+import {CircularProgress} from 'react-native-circular-progress';
 
 const Home = () => {
   useStatusBar('#363851');
@@ -48,7 +53,7 @@ const Home = () => {
     loadData<TaskAdditionProps[][]>('TaskStorage')
       .then(loadedData => {
         setTaskData(loadedData);
-        console.log('loadedData', loadedData);
+        // console.log('loadedData', loadedData);
       })
       .catch(() => {
         saveData('TaskStorage', generateEmptyTaskData());
@@ -68,11 +73,19 @@ const Home = () => {
           {weekDayIndex < todayIndex && tabCurrent === 0 ? (
             <DoneTaskView />
           ) : (
-            <NoTaskView
-              selectedDay={selectedDay}
-              tabIndex={tabCurrent}
-              handleNavigate={handleNavigate}
-            />
+            <>
+              {taskData[weekDayIndex] &&
+              taskData[weekDayIndex][0] &&
+              taskData[weekDayIndex][0].title === '' ? (
+                <NoTaskView
+                  selectedDay={selectedDay}
+                  tabIndex={tabCurrent}
+                  handleNavigate={handleNavigate}
+                />
+              ) : (
+                <RenderTaskView isToday={todayIndex === weekDayIndex} />
+              )}
+            </>
           )}
         </View>
         <FloatingActionButton
@@ -81,6 +94,86 @@ const Home = () => {
         />
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const RenderTaskView: React.FC<RenderTaskViewProps> = ({isToday}) => {
+  const [finish, setFinish] = useState(0);
+  return (
+    <View style={{paddingHorizontal: vw(5)}}>
+      {isToday ? (
+        <View
+          style={{
+            backgroundColor: '#1940B6',
+            borderRadius: 10,
+            marginTop: vh(5),
+            height: vh(15),
+            flexDirection: 'row',
+          }}>
+          <Image
+            style={{position: 'relative', top: -vh(3), left: -vw(3)}}
+            source={require('../../assets/home/progress.png')}
+          />
+          <View
+            style={{
+              width: '50%',
+              alignItems: 'flex-start',
+              justifyContent: 'space-evenly',
+            }}>
+            <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: '700'}}>
+              Bạn đã hoàn thành
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '80%',
+              }}>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{color: '#D6E1F2', fontSize: 24, fontWeight: '700'}}>
+                  <Text style={{color: '#F5C443'}}>{finish}</Text>/3
+                </Text>
+                <Text style={{color: '#F5C443'}}>việc</Text>
+              </View>
+              <View>
+                <CircularProgress
+                  size={vw(18)}
+                  width={vw(1.5)}
+                  fill={(finish / 3) * 100}
+                  tintColor="#F5C443"
+                  backgroundColor="#D6E1F2"
+                  rotation={0}
+                  lineCap="round">
+                  {() => (
+                    <Text
+                      style={{
+                        color: '#F5C443',
+                        fontSize: 20,
+                        fontWeight: '700',
+                      }}>
+                      {finish * 33}%
+                    </Text>
+                  )}
+                </CircularProgress>
+              </View>
+            </View>
+          </View>
+        </View>
+      ) : (
+        <Text
+          style={{
+            color: '#1940B6',
+            fontWeight: '700',
+            fontSize: 20,
+            textAlign: 'center',
+            marginVertical: vh(1),
+          }}>
+          Xem trước các công việc cần làm trong ngầy mai nào!
+        </Text>
+      )}
+    </View>
   );
 };
 
