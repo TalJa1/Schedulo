@@ -56,3 +56,13 @@ export interface ChallengeComponentProps {
   selectedDay: string;
   handleNavigate: () => void;
 }
+
+export interface TaskItem {
+  title: string;
+  note: string;
+  date: Date;
+  time: string; // format HH:mm - HH:mm
+  reminder: string;
+  repeat: string[];
+  group: string;
+}

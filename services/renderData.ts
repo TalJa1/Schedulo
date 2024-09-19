@@ -1,3 +1,5 @@
+import {TaskItem} from './typeProps';
+
 export const tabs = ['Việc cần làm', 'Thử thách', 'Thời gian biểu'];
 
 export const PromodoroPlayContent = [
@@ -96,16 +98,6 @@ export const TaskReminderRadio = [
 ];
 
 export const TaskRepeatRadio = ['Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'CN'];
-
-export interface TaskItem {
-  title: string;
-  note: string;
-  date: Date;
-  time: string; // format HH:mm - HH:mm
-  reminder: string;
-  repeat: string[];
-  group: string;
-}
 
 export const generateEmptyTaskData = (): TaskItem[][] => {
   const emptyTask: TaskItem = {
