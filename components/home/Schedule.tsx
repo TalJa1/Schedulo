@@ -1,16 +1,16 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const Challenge: React.FC = () => {
+const Schedule = () => {
   return (
     <View style={styles.container}>
-      <Text>Challenge</Text>
+      <Text>Schedule</Text>
     </View>
   );
 };
 
-export default Challenge;
+export default Schedule;
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: 'white'},
+  container: {backgroundColor: 'black'},
 });

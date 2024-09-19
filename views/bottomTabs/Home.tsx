@@ -36,6 +36,8 @@ import {loadData, saveData} from '../../services/storage';
 import {CircularProgress} from 'react-native-circular-progress';
 import dayjs from 'dayjs';
 import CheckBox from '@react-native-community/checkbox';
+import Challenge from '../../components/home/Challenge';
+import Schedule from '../../components/home/Schedule';
 
 const Home = () => {
   useStatusBar('#363851');
@@ -89,27 +91,33 @@ const Home = () => {
             setDayIndex={setWeekDayIndex}
           />
           <TabRender tabCurrent={tabCurrent} setTabCurrent={setTabCurrent} />
-          {weekDayIndex < todayIndex && tabCurrent === 0 ? (
-            <DoneTaskView />
-          ) : (
+          {tabCurrent === 0 && (
             <>
-              {taskData[weekDayIndex] &&
-              taskData[weekDayIndex][0] &&
-              taskData[weekDayIndex][0].title === '' ? (
-                <NoTaskView
-                  selectedDay={selectedDay}
-                  tabIndex={tabCurrent}
-                  handleNavigate={handleNavigate}
-                />
+              {weekDayIndex < todayIndex && tabCurrent === 0 ? (
+                <DoneTaskView />
               ) : (
-                <RenderTaskView
-                  isToday={todayIndex === weekDayIndex}
-                  taskData={taskData}
-                  tabDateIndex={weekDayIndex}
-                />
+                <>
+                  {taskData[weekDayIndex] &&
+                  taskData[weekDayIndex][0] &&
+                  taskData[weekDayIndex][0].title === '' ? (
+                    <NoTaskView
+                      selectedDay={selectedDay}
+                      tabIndex={tabCurrent}
+                      handleNavigate={handleNavigate}
+                    />
+                  ) : (
+                    <RenderTaskView
+                      isToday={todayIndex === weekDayIndex}
+                      taskData={taskData}
+                      tabDateIndex={weekDayIndex}
+                    />
+                  )}
+                </>
               )}
             </>
           )}
+          {tabCurrent === 1 && <Challenge />}
+          {tabCurrent === 2 && <Schedule />}
         </View>
       </ScrollView>
       <FloatingActionButton
