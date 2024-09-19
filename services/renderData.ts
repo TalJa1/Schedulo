@@ -170,8 +170,9 @@ export const ShouldDoTask = [
 export const generateChallengeData = (): ChallengeItem[][] => {
   const emptyChallenge: ChallengeItem = {
     title: '',
-    subTitle: '',
-    isFinished: false,
+    aim: '',
+    date: new Date(),
+    reminder: '',
   };
 
   // Create an array of 7 arrays, each containing the emptyChallenge object

@@ -55,6 +55,7 @@ export interface ChallengeComponentProps {
   tabCurrentIndex: number;
   selectedDay: string;
   handleNavigate: () => void;
+  challengeData: ChallengeItem[][];
 }
 
 export interface TaskItem {
@@ -69,6 +70,7 @@ export interface TaskItem {
 
 export interface ChallengeItem {
   title: string;
-  subTitle:string;
-  isFinished: boolean;
+  aim: string;
+  date: Date;
+  reminder: string;
 }

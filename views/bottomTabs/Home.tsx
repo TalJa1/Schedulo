@@ -20,6 +20,7 @@ import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
 import {getDayOfWeekByIndex, getTodayIndex} from '../../services/timeServices';
 import {
+  generateChallengeData,
   generateEmptyTaskData,
   ShouldDoTask,
   tabs,
@@ -28,6 +29,7 @@ import {floatingBtnIcon} from '../../assets/svgXML';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
+  ChallengeItem,
   HomeTaskBtnProps,
   RenderTaskViewProps,
   TaskAdditionProps,
@@ -47,6 +49,9 @@ const Home = () => {
   const [tabCurrent, setTabCurrent] = useState(0);
   const todayIndex = getTodayIndex();
   const [taskData, setTaskData] = useState<TaskAdditionProps[][]>([]);
+  const [taskDataChallenge, setTaskDataChallenge] = useState<ChallengeItem[][]>(
+    [],
+  );
 
   useEffect(() => {
     setSelectedDay(getDayOfWeekByIndex(weekDayIndex));
@@ -71,10 +76,15 @@ const Home = () => {
             'TaskStorage',
           );
           setTaskData(loadedData);
-          // console.log('loadedData', loadedData);
+          const loadDataChallenge = await loadData<ChallengeItem[][]>(
+            'ChallengeStorage',
+          );
+          setTaskDataChallenge(loadDataChallenge);
         } catch (error) {
           await saveData('TaskStorage', generateEmptyTaskData());
+          await saveData('ChallengeStorage', generateChallengeData());
           setTaskData(generateEmptyTaskData());
+          setTaskDataChallenge(generateChallengeData());
         }
       };
 
@@ -123,6 +133,7 @@ const Home = () => {
               tabCurrentIndex={tabCurrent}
               todayIndex={todayIndex}
               weekDayIndex={weekDayIndex}
+              challengeData={taskDataChallenge}
             />
           )}
           {tabCurrent === 2 && <Schedule />}
