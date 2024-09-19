@@ -80,7 +80,7 @@ const SubInput: React.FC<challengeInputProps> = ({
   };
 
   return (
-    <View style={{flex: 1, paddingVertical: vh(2)}}>
+    <View style={{flexGrow: 1, paddingVertical: vh(2)}}>
       <SubInputItemGroup title="Nhắc nhở">
         <View
           style={{
@@ -117,20 +117,22 @@ const SubInput: React.FC<challengeInputProps> = ({
           })}
         </View>
       </SubInputItemGroup>
-      <View style={[centerAll, {}]}>
-        <TouchableOpacity
-          onPress={handleAdd}
-          style={{
-            backgroundColor: isButtonDisabled ? '#D3D3D3' : '#1940B6',
-            width: '70%',
-            paddingVertical: vh(1.5),
-            borderRadius: 10,
-          }}
-          disabled={isButtonDisabled}>
-          <Text style={{textAlign: 'center', color: 'white', fontSize: 16}}>
-            Cập nhật
-          </Text>
-        </TouchableOpacity>
+      <View style={[centerAll, {flex: 1}]}>
+        <View style={{position: 'absolute', bottom: vh(5), width: vw(70)}}>
+          <TouchableOpacity
+            onPress={handleAdd}
+            style={{
+              backgroundColor: isButtonDisabled ? '#D3D3D3' : '#1940B6',
+              width: '100%',
+              paddingVertical: vh(1.5),
+              borderRadius: 10,
+            }}
+            disabled={isButtonDisabled}>
+            <Text style={{textAlign: 'center', color: 'white', fontSize: 16}}>
+              Cập nhật
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
