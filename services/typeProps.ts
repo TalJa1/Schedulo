@@ -48,3 +48,11 @@ export interface RenderTaskViewProps {
   taskData: TaskAdditionProps[][];
   tabDateIndex: number;
 }
+
+export interface ChallengeComponentProps {
+  weekDayIndex: number;
+  todayIndex: number;
+  tabCurrentIndex: number;
+  selectedDay: string;
+  handleNavigate: () => void;
+}

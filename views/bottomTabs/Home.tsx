@@ -116,7 +116,15 @@ const Home = () => {
               )}
             </>
           )}
-          {tabCurrent === 1 && <Challenge />}
+          {tabCurrent === 1 && (
+            <Challenge
+              handleNavigate={handleNavigate}
+              selectedDay={selectedDay}
+              tabCurrentIndex={tabCurrent}
+              todayIndex={todayIndex}
+              weekDayIndex={weekDayIndex}
+            />
+          )}
           {tabCurrent === 2 && <Schedule />}
         </View>
       </ScrollView>
