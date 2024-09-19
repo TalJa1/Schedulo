@@ -56,7 +56,7 @@ const Home = () => {
         navigation.navigate('TaskAddition');
         break;
       case 1:
-        console.log('Navigate to challenge');
+        navigation.navigate('ChallengeAddition');
         break;
     }
   };
