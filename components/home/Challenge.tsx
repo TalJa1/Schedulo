@@ -3,7 +3,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {ChallengeComponentProps, ChallengeItem} from '../../services/typeProps';
-import {vh, vw} from '../../services/styleSheet';
+import {centerAll, vh, vw} from '../../services/styleSheet';
 import CheckBox from '@react-native-community/checkbox';
 
 const Challenge: React.FC<ChallengeComponentProps> = ({
@@ -26,8 +26,70 @@ const Challenge: React.FC<ChallengeComponentProps> = ({
         challengeData[weekDayIndex][0].title === '' ? (
         <EmptyView handleNavigate={handleNavigate} />
       ) : (
-        <ContentView />
+        <ContentView
+          data={challengeData[weekDayIndex]}
+          isToday={todayIndex === weekDayIndex}
+        />
       )}
+    </View>
+  );
+};
+
+const ContentView: React.FC<{data: ChallengeItem[]; isToday: boolean}> = ({
+  data,
+  isToday,
+}) => {
+  const [checkedTasks, setCheckedTasks] = useState<{[index: number]: boolean}>(
+    {},
+  );
+
+  const handleCheck = (index: number) => {
+    setCheckedTasks(prev => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+  return (
+    <View style={{rowGap: vh(2)}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '100%',
+          alignItems: 'center',
+          paddingHorizontal: vw(5),
+          columnGap: vw(5),
+        }}>
+        <Image
+          style={{width: vw(20), height: vw(20), resizeMode: 'contain'}}
+          source={require('../../assets/home/challenge.png')}
+        />
+        <Text
+          style={{color: '#1940B6', fontSize: 20, fontWeight: '700', flex: 1}}>
+          Cố lên, bạn sắp đạt được mục tiêu rồi!
+        </Text>
+      </View>
+      <View style={{paddingHorizontal: vw(5), rowGap: vh(2)}}>
+        {data.map((value, i) => {
+          return (
+            <View key={i} style={styles.checkContainer}>
+              <View style={[styles.checkCheckBox, centerAll]}>
+                <CheckBox
+                  disabled={!isToday}
+                  tintColors={{true: '#1940B6', false: '#D3D3D3'}}
+                  value={checkedTasks[i] || false}
+                  onValueChange={() => handleCheck(i)}
+                />
+              </View>
+              <View style={styles.checkDivider} />
+
+              <View style={styles.checkTxtGrp1}>
+                <Text style={styles.checkTitle}>{value.title}</Text>
+                <Text style={styles.checkAim}>{value.aim}</Text>
+              </View>
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 };
@@ -67,14 +129,6 @@ const EmptyView: React.FC<{handleNavigate: () => void}> = ({
         }}>
         <Text style={{color: '#2F2F2F', fontSize: 16}}>Tạo thử thách</Text>
       </TouchableOpacity>
-    </View>
-  );
-};
-
-const ContentView: React.FC = () => {
-  return (
-    <View>
-      <Text>Challenge</Text>
     </View>
   );
 };
@@ -143,4 +197,26 @@ export default Challenge;
 
 const styles = StyleSheet.create({
   container: {flex: 1},
+  checkTitle: {color: '#1940B6', fontSize: 16, fontWeight: '700'},
+  checkAim: {color: '#878787', fontSize: 10, fontWeight: '300'},
+  checkContainer: {
+    backgroundColor: '#F7EDDF',
+    borderRadius: 5,
+    flexDirection: 'row',
+    height: vh(10),
+  },
+  checkCheckBox: {
+    width: '20%',
+    alignItems: 'center',
+  },
+  checkDivider: {
+    width: 1,
+    height: '70%',
+    backgroundColor: '#3C3C4321',
+    alignSelf: 'center',
+  },
+  checkTxtGrp1: {
+    paddingLeft: vw(5),
+    justifyContent: 'space-evenly',
+  },
 });
