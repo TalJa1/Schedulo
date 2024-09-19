@@ -128,7 +128,7 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
 }) => {
   const [finish, setFinish] = useState(0);
   const [randomTasks, setRandomTasks] = useState<
-    {title: string; isFinished: boolean; date: string}[]
+    {title: string; isFinished: boolean; date: string; img: any}[]
   >([]);
   const [checkedTasks, setCheckedTasks] = useState<{
     [date: string]: {[index: number]: boolean};
@@ -362,8 +362,6 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
                   <CheckBox
                     disabled={!isToday}
                     tintColors={{true: '#1940B6', false: '#D3D3D3'}}
-                    // value={checkedTasks[task.date]?.[index] || false}
-                    // onValueChange={() => handleCheck(task.date, index)}
                     value={
                       isToday
                         ? checkedTasks[task.date]?.[index] || false
@@ -396,6 +394,10 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
                     {task.title}
                   </Text>
                 </View>
+                <Image
+                  style={{position: 'absolute', right: 0}}
+                  source={task.img}
+                />
               </View>
             ))}
           </View>
