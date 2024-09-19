@@ -46,8 +46,6 @@ const Home = () => {
   const todayIndex = getTodayIndex();
   const [taskData, setTaskData] = useState<TaskAdditionProps[][]>([]);
 
-  console.log('taskData', taskData[3]);
-
   useEffect(() => {
     setSelectedDay(getDayOfWeekByIndex(weekDayIndex));
   }, [weekDayIndex]);
@@ -233,7 +231,9 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
             textAlign: 'center',
             marginVertical: vh(1),
           }}>
-          Xem trước các công việc cần làm trong ngày mai nào!
+          {`Xem trước các công việc cần làm trong ${dayjs(
+            taskData[tabDateIndex][0].date,
+          ).format('DD/MM')} nào!`}
         </Text>
       )}
       <View
@@ -329,7 +329,7 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
             Các công việc cần làm{' '}
             {isToday
               ? 'hôm nay'
-              : `-${dayjs(taskData[tabDateIndex][0].date).format('dd/MM')}`}
+              : `- ${dayjs(taskData[tabDateIndex][0].date).format('DD/MM')}`}
             :
           </Text>
           <View style={{rowGap: vh(2), marginTop: vh(1)}}>
