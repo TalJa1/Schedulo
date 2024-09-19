@@ -22,7 +22,15 @@ const Challenge: React.FC<ChallengeComponentProps> = ({
 
   return (
     <View style={styles.container}>
-      {todayIndex > weekDayIndex ? <PastDayView /> : <FutureDayView />}
+      {todayIndex > weekDayIndex ? (
+        <PastDayView />
+      ) : challengeData[weekDayIndex] &&
+        challengeData[weekDayIndex][0] &&
+        challengeData[weekDayIndex][0].title === '' ? (
+        <EmptyView />
+      ) : (
+        <ContentView />
+      )}
     </View>
   );
 };
@@ -35,7 +43,7 @@ const EmptyView: React.FC = () => {
   );
 };
 
-const FutureDayView: React.FC = () => {
+const ContentView: React.FC = () => {
   return (
     <View>
       <Text>Challenge</Text>
