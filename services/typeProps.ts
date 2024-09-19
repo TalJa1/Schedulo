@@ -66,3 +66,9 @@ export interface TaskItem {
   repeat: string[];
   group: string;
 }
+
+export interface ChallengeItem {
+  title: string;
+  subTitle:string;
+  isFinished: boolean;
+}

@@ -1,4 +1,4 @@
-import {TaskItem} from './typeProps';
+import {ChallengeItem, TaskItem} from './typeProps';
 
 export const tabs = ['Việc cần làm', 'Thử thách', 'Thời gian biểu'];
 
@@ -166,3 +166,14 @@ export const ShouldDoTask = [
     img: require('../assets/home/homework2.png'),
   },
 ];
+
+export const generateChallengeData = (): ChallengeItem[][] => {
+  const emptyChallenge: ChallengeItem = {
+    title: '',
+    subTitle: '',
+    isFinished: false,
+  };
+
+  // Create an array of 7 arrays, each containing the emptyChallenge object
+  return Array.from({length: 7}, () => [{...emptyChallenge}]);
+};
