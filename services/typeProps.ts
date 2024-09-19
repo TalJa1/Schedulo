@@ -43,6 +43,18 @@ export interface SubTaskInputProps {
   setTaskData: React.Dispatch<React.SetStateAction<TaskAdditionProps>>;
 }
 
+export interface ChallengeItem {
+  title: string;
+  aim: string;
+  date: Date;
+  reminder: string;
+}
+
+export interface challengeInputProps {
+  challengeData: ChallengeItem;
+  setChallengeData: React.Dispatch<React.SetStateAction<ChallengeItem>>;
+}
+
 export interface RenderTaskViewProps {
   isToday: boolean;
   taskData: TaskAdditionProps[][];
@@ -66,11 +78,4 @@ export interface TaskItem {
   reminder: string;
   repeat: string[];
   group: string;
-}
-
-export interface ChallengeItem {
-  title: string;
-  aim: string;
-  date: Date;
-  reminder: string;
 }
