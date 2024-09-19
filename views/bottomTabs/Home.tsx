@@ -53,6 +53,9 @@ const Home = () => {
     [],
   );
 
+  console.log('taskData', taskData);
+  console.log('taskDataChallenge', taskDataChallenge);
+
   useEffect(() => {
     setSelectedDay(getDayOfWeekByIndex(weekDayIndex));
   }, [weekDayIndex]);

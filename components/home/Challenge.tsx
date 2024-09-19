@@ -14,6 +14,7 @@ const Challenge: React.FC<ChallengeComponentProps> = ({
   weekDayIndex,
   challengeData,
 }) => {
+
   return (
     <View style={styles.container}>
       {todayIndex > weekDayIndex ? (

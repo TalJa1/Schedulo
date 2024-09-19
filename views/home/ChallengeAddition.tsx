@@ -15,8 +15,11 @@ import dayjs from 'dayjs';
 import DateTimePicker from 'react-native-ui-datepicker';
 import {challengeInputProps, ChallengeItem} from '../../services/typeProps';
 import useStatusBar from '../../services/useStatusBarCustom';
-import {TaskReminderRadio} from '../../services/renderData';
-import {saveData} from '../../services/storage';
+import {
+  generateChallengeData,
+  TaskReminderRadio,
+} from '../../services/renderData';
+import {loadData, saveData} from '../../services/storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -70,6 +73,24 @@ const SubInput: React.FC<challengeInputProps> = ({
   const [tmpStorage, setTmpStorage] = useState<ChallengeItem[][]>([]);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
+  const fetchData = async () => {
+    try {
+      const loadDataChallenge = await loadData<ChallengeItem[][]>(
+        'ChallengeStorage',
+      );
+      setTmpStorage(loadDataChallenge);
+    } catch (error) {
+      saveData('ChallengeStorage', generateChallengeData());
+      setTmpStorage(generateChallengeData());
+    }
+  };
+
+  fetchData();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   useEffect(() => {
     // Check if all fields are filled
     const allFieldsFilled = Object.values(challengeData).every(
@@ -111,7 +132,7 @@ const SubInput: React.FC<challengeInputProps> = ({
     // Save the updated array to storage
     saveData('ChallengeStorage', updatedTmpStorage);
 
-    // Navigate to the main screen
+    // // Navigate to the main screen
     navigation.navigate('Main');
   };
 
