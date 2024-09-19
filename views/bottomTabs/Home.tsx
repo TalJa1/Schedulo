@@ -142,6 +142,7 @@ const Home = () => {
           {tabCurrent === 2 && (
             <Schedule
               selectedDay={selectedDay}
+              todayIndex={todayIndex}
               weekDayIndex={weekDayIndex}
             />
           )}

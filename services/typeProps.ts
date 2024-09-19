@@ -81,6 +81,7 @@ export interface TaskItem {
 }
 
 export interface SchedulePageProps {
+  todayIndex: number;
   weekDayIndex: number;
   selectedDay: string;
 }

@@ -5,8 +5,12 @@ import {SchedulePageProps} from '../../services/typeProps';
 import {generateFormattedDate} from '../../services/timeServices';
 import {vw} from '../../services/styleSheet';
 
-const Schedule: React.FC<SchedulePageProps> = ({selectedDay, weekDayIndex}) => {
-  console.log('Schedule', selectedDay, weekDayIndex);
+const Schedule: React.FC<SchedulePageProps> = ({
+  selectedDay,
+  weekDayIndex,
+  todayIndex,
+}) => {
+  console.log('Schedule', selectedDay, weekDayIndex, todayIndex);
 
   return (
     <View style={styles.container}>
