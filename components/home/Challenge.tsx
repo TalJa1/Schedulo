@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {ChallengeComponentProps, ChallengeItem} from '../../services/typeProps';
-import {vw} from '../../services/styleSheet';
+import {vh, vw} from '../../services/styleSheet';
 import CheckBox from '@react-native-community/checkbox';
 
 const Challenge: React.FC<ChallengeComponentProps> = ({
@@ -31,7 +31,7 @@ const Challenge: React.FC<ChallengeComponentProps> = ({
       ) : challengeData[weekDayIndex] &&
         challengeData[weekDayIndex][0] &&
         challengeData[weekDayIndex][0].title === '' ? (
-        <EmptyView />
+        <EmptyView handleNavigate={handleNavigate} />
       ) : (
         <ContentView />
       )}
@@ -39,10 +39,41 @@ const Challenge: React.FC<ChallengeComponentProps> = ({
   );
 };
 
-const EmptyView: React.FC = () => {
+const EmptyView: React.FC<{handleNavigate: () => void}> = ({
+  handleNavigate,
+}) => {
   return (
-    <View>
-      <Text>Challenge</Text>
+    <View
+      style={{
+        paddingHorizontal: vw(5),
+        marginVertical: vh(2),
+        alignItems: 'center',
+        rowGap: vh(2),
+      }}>
+      <Text
+        style={{
+          color: '#1940B6',
+          fontSize: 20,
+          fontWeight: '700',
+          textAlign: 'center',
+        }}>
+        Tạo thử thách cho bản thân đi chứ? Cải thiện sức khỏe thì sao?
+      </Text>
+      <Image
+        style={{width: vw(50), height: vw(50), resizeMode: 'contain'}}
+        source={require('../../assets/home/challenge1.png')}
+      />
+      <TouchableOpacity
+        onPress={handleNavigate}
+        style={{
+          borderWidth: 1,
+          borderColor: '#2F2F2F',
+          borderRadius: 10,
+          paddingVertical: vw(2),
+          paddingHorizontal: vw(5),
+        }}>
+        <Text style={{color: '#2F2F2F', fontSize: 16}}>Tạo thử thách</Text>
+      </TouchableOpacity>
     </View>
   );
 };
