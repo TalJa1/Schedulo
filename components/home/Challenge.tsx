@@ -14,7 +14,6 @@ const Challenge: React.FC<ChallengeComponentProps> = ({
   weekDayIndex,
   challengeData,
 }) => {
-
   return (
     <View style={styles.container}>
       {todayIndex > weekDayIndex ? (
@@ -71,6 +70,7 @@ const ContentView: React.FC<{data: ChallengeItem[]; isToday: boolean}> = ({
       </View>
       <View style={{paddingHorizontal: vw(5), rowGap: vh(2)}}>
         {data.map((value, i) => {
+          const isChecked = checkedTasks[i] || false;
           return (
             <View key={i} style={styles.checkContainer}>
               <View style={[styles.checkCheckBox, centerAll]}>
@@ -84,9 +84,23 @@ const ContentView: React.FC<{data: ChallengeItem[]; isToday: boolean}> = ({
               <View style={styles.checkDivider} />
 
               <View style={styles.checkTxtGrp1}>
-                <Text style={styles.checkTitle}>{value.title}</Text>
+                <Text
+                  style={[styles.checkTitle, isChecked && styles.checkedText]}>
+                  {value.title}
+                </Text>
                 <Text style={styles.checkAim}>{value.aim}</Text>
               </View>
+              <Image
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  width: vw(15),
+                  height: vw(15),
+                  resizeMode: 'contain',
+                  alignSelf: 'center',
+                }}
+                source={require('../../assets/home/homework1.png')}
+              />
             </View>
           );
         })}
@@ -173,16 +187,20 @@ const PastDayView: React.FC<{data: ChallengeItem[]; isToday: boolean}> = ({
           <>
             {data.map((value, index) => {
               return (
-                <View key={index}>
-                  <CheckBox
-                    disabled={!isToday}
-                    tintColors={{true: '#1940B6', false: '#D3D3D3'}}
-                    value={checkedTasks[index] || false}
-                    onValueChange={() => handleCheck(index)}
-                  />
-                  <View>
-                    <Text>{value.title}</Text>
-                    <Text>{value.aim}</Text>
+                <View key={index} style={styles.checkContainer}>
+                  <View style={[styles.checkCheckBox, centerAll]}>
+                    <CheckBox
+                      disabled={!isToday}
+                      tintColors={{true: '#1940B6', false: '#D3D3D3'}}
+                      value={checkedTasks[index] || false}
+                      onValueChange={() => handleCheck(index)}
+                    />
+                  </View>
+                  <View style={styles.checkDivider} />
+
+                  <View style={styles.checkTxtGrp1}>
+                    <Text style={styles.checkTitle}>{value.title}</Text>
+                    <Text style={styles.checkAim}>{value.aim}</Text>
                   </View>
                 </View>
               );
@@ -205,6 +223,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: 'row',
     height: vh(10),
+    width: '100%',
   },
   checkCheckBox: {
     width: '20%',
@@ -219,5 +238,9 @@ const styles = StyleSheet.create({
   checkTxtGrp1: {
     paddingLeft: vw(5),
     justifyContent: 'space-evenly',
+  },
+  checkedText: {
+    color: '#878787',
+    textDecorationLine: 'line-through',
   },
 });
