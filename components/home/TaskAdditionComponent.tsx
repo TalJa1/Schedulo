@@ -13,12 +13,14 @@ import {backArrowIcon, searchIcon} from '../../assets/svgXML';
 import {vh, vw} from '../../services/styleSheet';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import useStatusBar from '../../services/useStatusBarCustom';
 
 const TaskAdditionComponent: React.FC<TaskAdditionComponentProps> = ({
   title,
   subInput,
   children,
 }) => {
+  useStatusBar('#1940B6');
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
