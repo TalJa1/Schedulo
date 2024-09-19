@@ -23,7 +23,7 @@ const TaskAdditionComponent: React.FC<TaskAdditionComponentProps> = ({
   useStatusBar('#1940B6');
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <Header title={title} />
         <View style={styles.nodeContainer}>{children}</View>
         <View style={styles.nodeContainer1}>{subInput}</View>
