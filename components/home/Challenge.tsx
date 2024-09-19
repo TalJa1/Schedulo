@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
@@ -13,14 +14,6 @@ const Challenge: React.FC<ChallengeComponentProps> = ({
   weekDayIndex,
   challengeData,
 }) => {
-  console.log(
-    'Challenge',
-    selectedDay,
-    tabCurrentIndex,
-    todayIndex,
-    weekDayIndex,
-  );
-
   return (
     <View style={styles.container}>
       {todayIndex > weekDayIndex ? (

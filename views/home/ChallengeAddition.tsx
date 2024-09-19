@@ -13,9 +13,12 @@ import {centerAll, vh, vw} from '../../services/styleSheet';
 import {datePickerIcon} from '../../assets/svgXML';
 import dayjs from 'dayjs';
 import DateTimePicker from 'react-native-ui-datepicker';
-import {challengeInputProps} from '../../services/typeProps';
+import {challengeInputProps, ChallengeItem} from '../../services/typeProps';
 import useStatusBar from '../../services/useStatusBarCustom';
 import {TaskReminderRadio} from '../../services/renderData';
+import {saveData} from '../../services/storage';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const ChallengeAddition = () => {
   useStatusBar('#1940B6');
@@ -64,6 +67,8 @@ const SubInput: React.FC<challengeInputProps> = ({
   setChallengeData,
 }) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [tmpStorage, setTmpStorage] = useState<ChallengeItem[][]>([]);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   useEffect(() => {
     // Check if all fields are filled
@@ -73,10 +78,41 @@ const SubInput: React.FC<challengeInputProps> = ({
     setIsButtonDisabled(!allFieldsFilled);
   }, [challengeData]);
 
+  const getDayOfWeekIndex = (date: Date) => {
+    const day = date.getDay();
+    return day === 0 ? 6 : day - 1; // Convert Sunday (0) to 6 and shift other days by 1
+  };
+
   const handleAdd = () => {
-    // Handle the add action
-    console.log('Challenge added:', challengeData);
-    // Add your logic here
+    const dayIndex = getDayOfWeekIndex(challengeData.date);
+
+    // Create a copy of the existing tmpStorage array
+    const updatedTmpStorage = [...tmpStorage];
+
+    // Ensure the dayIndex array exists
+    if (!updatedTmpStorage[dayIndex]) {
+      updatedTmpStorage[dayIndex] = [];
+    }
+
+    // Remove items with empty title
+    updatedTmpStorage[dayIndex] = updatedTmpStorage[dayIndex].filter(
+      item => item.title !== '',
+    );
+
+    // Push the new challengeData into the specific dayIndex array
+    updatedTmpStorage[dayIndex] = [
+      ...updatedTmpStorage[dayIndex],
+      challengeData,
+    ];
+
+    // Update the state with the new array
+    setTmpStorage(updatedTmpStorage);
+
+    // Save the updated array to storage
+    saveData('ChallengeStorage', updatedTmpStorage);
+
+    // Navigate to the main screen
+    navigation.navigate('Main');
   };
 
   return (
@@ -117,8 +153,14 @@ const SubInput: React.FC<challengeInputProps> = ({
           })}
         </View>
       </SubInputItemGroup>
-      <View style={[centerAll, {flex: 1}]}>
-        <View style={{position: 'absolute', bottom: vh(5), width: vw(70)}}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          marginTop: vh(2),
+        }}>
+        <View style={{width: vw(70)}}>
           <TouchableOpacity
             onPress={handleAdd}
             style={{
