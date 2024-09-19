@@ -126,41 +126,51 @@ export const ShouldDoTask = [
   {
     title: 'Hoàn thành bài tập tin học',
     isFinished: false,
+    img: require('../assets/home/homework1.png'),
   },
   {
     title: 'Đọc sách giáo khoa 30 phút',
     isFinished: false,
+    img: require('../assets/home/homework2.png'),
   },
   {
     title: 'Ôn tập bài giảng buổi sáng',
     isFinished: false,
+    img: require('../assets/home/homework2.png'),
   },
   {
     title: 'Chuẩn bị bài cho ngày mai',
     isFinished: false,
+    img: require('../assets/home/homework1.png'),
   },
   {
     title: 'Dọn dẹp góc học tập',
     isFinished: false,
+    img: require('../assets/home/homework2.png'),
   },
   {
     title: 'Học từ vựng tiếng Anh',
     isFinished: false,
+    img: require('../assets/home/homework1.png'),
   },
   {
     title: 'Làm bài tập toán',
     isFinished: false,
+    img: require('../assets/home/homework2.png'),
   },
   {
     title: 'Nghiên cứu tài liệu tham khảo',
     isFinished: false,
+    img: require('../assets/home/homework1.png'),
   },
   {
     title: 'Thực hành lập trình',
     isFinished: false,
+    img: require('../assets/home/homework1.png'),
   },
   {
     title: 'Viết bài luận văn',
     isFinished: false,
+    img: require('../assets/home/homework2.png'),
   },
 ];
