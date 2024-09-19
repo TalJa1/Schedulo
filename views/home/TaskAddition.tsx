@@ -273,6 +273,11 @@ const SubInput: React.FC<SubTaskInputProps> = ({setTaskData, taskData}) => {
       updatedTmpStorage[dayIndex] = [];
     }
 
+    // Remove items with empty title
+    updatedTmpStorage[dayIndex] = updatedTmpStorage[dayIndex].filter(
+      item => item.title !== '',
+    );
+
     // Push the new taskData into the specific dayIndex array
     updatedTmpStorage[dayIndex] = [...updatedTmpStorage[dayIndex], taskData];
 

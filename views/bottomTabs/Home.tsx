@@ -46,6 +46,8 @@ const Home = () => {
   const todayIndex = getTodayIndex();
   const [taskData, setTaskData] = useState<TaskAdditionProps[][]>([]);
 
+  console.log('taskData', taskData[3]);
+
   useEffect(() => {
     setSelectedDay(getDayOfWeekByIndex(weekDayIndex));
   }, [weekDayIndex]);
