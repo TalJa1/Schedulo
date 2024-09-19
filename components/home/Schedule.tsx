@@ -1,10 +1,18 @@
+/* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {SchedulePageProps} from '../../services/typeProps';
+import {generateFormattedDate} from '../../services/timeServices';
+import {vw} from '../../services/styleSheet';
 
-const Schedule = () => {
+const Schedule: React.FC<SchedulePageProps> = ({selectedDay, weekDayIndex}) => {
+  console.log('Schedule', selectedDay, weekDayIndex);
+
   return (
     <View style={styles.container}>
-      <Text>Schedule</Text>
+      <Text style={{color: '#000000', fontSize: 14, fontWeight: '700'}}>
+        {generateFormattedDate(weekDayIndex)}
+      </Text>
     </View>
   );
 };
@@ -12,5 +20,5 @@ const Schedule = () => {
 export default Schedule;
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: 'black'},
+  container: {flex: 1, paddingHorizontal: vw(5)},
 });

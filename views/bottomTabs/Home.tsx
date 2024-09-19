@@ -139,7 +139,12 @@ const Home = () => {
               challengeData={taskDataChallenge}
             />
           )}
-          {tabCurrent === 2 && <Schedule />}
+          {tabCurrent === 2 && (
+            <Schedule
+              selectedDay={selectedDay}
+              weekDayIndex={weekDayIndex}
+            />
+          )}
         </View>
       </ScrollView>
       <FloatingActionButton

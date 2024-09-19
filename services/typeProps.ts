@@ -79,3 +79,8 @@ export interface TaskItem {
   repeat: string[];
   group: string;
 }
+
+export interface SchedulePageProps {
+  weekDayIndex: number;
+  selectedDay: string;
+}

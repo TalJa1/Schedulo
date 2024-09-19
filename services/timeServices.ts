@@ -58,3 +58,36 @@ export const getDayOfWeekByIndex = (index: number) => {
   ];
   return daysOfWeek[index];
 };
+
+export const generateFormattedDate = (weekDayIndex: number): string => {
+  const daysOfWeek = [
+    'Chủ nhật',
+    'Thứ 2',
+    'Thứ 3',
+    'Thứ 4',
+    'Thứ 5',
+    'Thứ 6',
+    'Thứ 7',
+  ];
+
+  // Get the current date
+  const currentDate = new Date();
+
+  // Calculate the start of the week (Monday)
+  const startOfWeek = new Date(currentDate);
+  const day = currentDate.getDay();
+  const diff = currentDate.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+  startOfWeek.setDate(diff);
+
+  // Calculate the date for the given weekDayIndex
+  const targetDate = new Date(startOfWeek);
+  targetDate.setDate(startOfWeek.getDate() + weekDayIndex);
+
+  // Format the date
+  const dayOfWeek = daysOfWeek[weekDayIndex];
+  const date = targetDate.getDate();
+  const month = targetDate.getMonth() + 1; // Months are zero-based
+  const year = targetDate.getFullYear();
+
+  return `${dayOfWeek}, ngày ${date} tháng ${month} năm ${year}`;
+};
