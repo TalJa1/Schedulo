@@ -128,11 +128,11 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
 }) => {
   const [finish, setFinish] = useState(0);
   const [randomTasks, setRandomTasks] = useState<
-    {title: string; isFinished: boolean}[]
+    {title: string; isFinished: boolean; date: string}[]
   >([]);
-  const [checkedTasks, setCheckedTasks] = useState<{[key: number]: boolean}>(
-    {},
-  );
+  const [checkedTasks, setCheckedTasks] = useState<{
+    [date: string]: {[index: number]: boolean};
+  }>({});
 
   const splitTime = (time: string) => {
     const [startTime, endTime] = time.split(' - ');
@@ -143,20 +143,29 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
     // Function to get 3 random items from ShouldDoTask
     const getRandomTasks = () => {
       const shuffled = ShouldDoTask.sort(() => 0.5 - Math.random());
-      return shuffled.slice(0, 3);
+      return shuffled
+        .slice(0, 3)
+        .map(task => ({...task, date: dayjs().format('YYYY-MM-DD')}));
     };
 
     setRandomTasks(getRandomTasks());
   }, []);
 
   useEffect(() => {
-    setFinish(Object.values(checkedTasks).filter(task => task).length);
+    setFinish(
+      Object.values(checkedTasks)
+        .flatMap(dateTasks => Object.values(dateTasks))
+        .filter(task => task).length,
+    );
   }, [checkedTasks]);
 
-  const handleCheck = (index: number) => {
+  const handleCheck = (date: string, index: number) => {
     setCheckedTasks(prev => ({
       ...prev,
-      [index]: !prev[index],
+      [date]: {
+        ...prev[date],
+        [index]: !prev[date]?.[index],
+      },
     }));
   };
 
@@ -351,9 +360,18 @@ const RenderTaskView: React.FC<RenderTaskViewProps> = ({
                     centerAll,
                   ]}>
                   <CheckBox
+                    disabled={!isToday}
                     tintColors={{true: '#1940B6', false: '#D3D3D3'}}
-                    value={checkedTasks[index] || false}
-                    onValueChange={() => handleCheck(index)}
+                    // value={checkedTasks[task.date]?.[index] || false}
+                    // onValueChange={() => handleCheck(task.date, index)}
+                    value={
+                      isToday
+                        ? checkedTasks[task.date]?.[index] || false
+                        : false
+                    }
+                    onValueChange={() =>
+                      isToday && handleCheck(task.date, index)
+                    }
                   />
                 </View>
                 <View
