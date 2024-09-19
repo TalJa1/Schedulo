@@ -7,15 +7,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TaskAdditionComponent from '../../components/home/TaskAdditionComponent';
 import {centerAll, vh, vw} from '../../services/styleSheet';
 import {datePickerIcon} from '../../assets/svgXML';
 import dayjs from 'dayjs';
 import DateTimePicker from 'react-native-ui-datepicker';
 import {challengeInputProps} from '../../services/typeProps';
+import useStatusBar from '../../services/useStatusBarCustom';
+import {TaskReminderRadio} from '../../services/renderData';
 
 const ChallengeAddition = () => {
+  useStatusBar('#1940B6');
   const [challengeData, setChallengeData] = useState({
     title: '',
     aim: '',
@@ -24,7 +27,14 @@ const ChallengeAddition = () => {
   });
 
   return (
-    <TaskAdditionComponent title="Thử thách" subInput={<SubInput />}>
+    <TaskAdditionComponent
+      title="Thử thách"
+      subInput={
+        <SubInput
+          challengeData={challengeData}
+          setChallengeData={setChallengeData}
+        />
+      }>
       <View>
         <MainInput
           challengeData={challengeData}
@@ -32,6 +42,97 @@ const ChallengeAddition = () => {
         />
       </View>
     </TaskAdditionComponent>
+  );
+};
+
+const SubInputItemGroup: React.FC<{
+  title: string;
+  children: React.ReactNode;
+}> = ({children, title}) => {
+  return (
+    <View style={{paddingHorizontal: vw(5)}}>
+      <Text style={{color: '#363851', fontSize: 16, fontWeight: '700'}}>
+        {title}
+      </Text>
+      {children}
+    </View>
+  );
+};
+
+const SubInput: React.FC<challengeInputProps> = ({
+  challengeData,
+  setChallengeData,
+}) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    // Check if all fields are filled
+    const allFieldsFilled = Object.values(challengeData).every(
+      value => value !== '',
+    );
+    setIsButtonDisabled(!allFieldsFilled);
+  }, [challengeData]);
+
+  const handleAdd = () => {
+    // Handle the add action
+    console.log('Challenge added:', challengeData);
+    // Add your logic here
+  };
+
+  return (
+    <View style={{flex: 1, paddingVertical: vh(2)}}>
+      <SubInputItemGroup title="Nhắc nhở">
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+            flexWrap: 'wrap',
+            marginTop: vh(2),
+            justifyContent: 'space-between',
+            rowGap: vh(2),
+          }}>
+          {TaskReminderRadio.map((item, index) => {
+            const isSelected = challengeData.reminder === item;
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  setChallengeData({...challengeData, reminder: item})
+                }
+                style={[
+                  {
+                    width: '23%',
+                    borderRadius: 6,
+                    paddingVertical: vh(1),
+                    backgroundColor: isSelected ? '#1940B6' : '#EEF1FE',
+                  },
+                  centerAll,
+                ]}>
+                <Text
+                  style={isSelected ? {color: 'white'} : {color: '#757575'}}>
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </SubInputItemGroup>
+      <View style={[centerAll, {}]}>
+        <TouchableOpacity
+          onPress={handleAdd}
+          style={{
+            backgroundColor: isButtonDisabled ? '#D3D3D3' : '#1940B6',
+            width: '70%',
+            paddingVertical: vh(1.5),
+            borderRadius: 10,
+          }}
+          disabled={isButtonDisabled}>
+          <Text style={{textAlign: 'center', color: 'white', fontSize: 16}}>
+            Cập nhật
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
@@ -163,14 +264,6 @@ const MainInput: React.FC<challengeInputProps> = ({
           </View>
         </View>
       </Modal>
-    </View>
-  );
-};
-
-const SubInput = () => {
-  return (
-    <View>
-      <Text>SubInput</Text>
     </View>
   );
 };
