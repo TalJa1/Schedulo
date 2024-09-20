@@ -36,7 +36,6 @@ const TodayView: React.FC = () => {
   return (
     <View
       style={{
-        paddingHorizontal: vw(5),
         rowGap: vh(2),
         marginVertical: vh(2),
       }}>
@@ -48,6 +47,7 @@ const TodayView: React.FC = () => {
                 height: '100%',
                 justifyContent: 'space-around',
                 width: '20%',
+                alignItems: 'center',
               }}>
               <Text style={styles.time}>{item.from}</Text>
               <Text style={styles.time}>{item.to}</Text>
