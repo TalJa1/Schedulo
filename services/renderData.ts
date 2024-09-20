@@ -179,14 +179,19 @@ export const generateChallengeData = (): ChallengeItem[][] => {
   return Array.from({length: 7}, () => [{...emptyChallenge}]);
 };
 
-const generateRandomTime = (): string => {
-  const hours = Math.floor(Math.random() * 24)
-    .toString()
-    .padStart(2, '0');
-  const minutes = Math.floor(Math.random() * 60)
-    .toString()
-    .padStart(2, '0');
-  return `${hours}:${minutes}`;
+const generateOrderedTimes = (count: number): string[] => {
+  const times: string[] = [];
+  let currentTime = new Date();
+  currentTime.setHours(8, 0, 0, 0); // Start at 08:00
+
+  for (let i = 0; i < count; i++) {
+    const hours = currentTime.getHours().toString().padStart(2, '0');
+    const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+    times.push(`${hours}:${minutes}`);
+    currentTime.setMinutes(currentTime.getMinutes() + 60); // Increment by 60 minutes
+  }
+
+  return times;
 };
 
 const titles = [
@@ -216,9 +221,11 @@ const notes = [
 ];
 
 export const generateScheduleData = (): ScheduleDataProps[] => {
+  const times = generateOrderedTimes(20); // Generate 20 times for from and to
+
   return Array.from({length: 10}, (_, index) => ({
-    from: generateRandomTime(),
-    to: generateRandomTime(),
+    from: times[index * 2],
+    to: times[index * 2 + 1],
     title: titles[index % titles.length],
     note: notes[index % notes.length],
     ischecked: Math.random() < 0.5,

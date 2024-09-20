@@ -87,6 +87,6 @@ const NoContentView: React.FC = () => {
 export default Schedule;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, paddingHorizontal: vw(5)},
+  container: {flex: 1, paddingHorizontal: vw(5),paddingBottom:vh(2)},
   time: {color: '#878787', fontSize: 12, fontWeight: '300'},
 });
