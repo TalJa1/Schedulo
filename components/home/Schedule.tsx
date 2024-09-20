@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScheduleDataProps, SchedulePageProps} from '../../services/typeProps';
 import {generateFormattedDate} from '../../services/timeServices';
 import {centerAll, vh, vw} from '../../services/styleSheet';
@@ -8,9 +8,12 @@ import {generateScheduleData} from '../../services/renderData';
 import {scheduleClockIcon, threedotsIcon} from '../../assets/svgXML';
 
 const Schedule: React.FC<SchedulePageProps> = ({weekDayIndex, todayIndex}) => {
-  const [scheduleData, setScheduleData] = useState<ScheduleDataProps[]>(
-    generateScheduleData(),
-  );
+  const [scheduleData, setScheduleData] = useState<ScheduleDataProps[]>([]);
+
+  useEffect(() => {
+    setScheduleData(generateScheduleData());
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={{color: '#000000', fontSize: 14, fontWeight: '700'}}>
