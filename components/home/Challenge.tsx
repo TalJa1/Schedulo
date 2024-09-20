@@ -68,7 +68,7 @@ const ContentView: React.FC<{data: ChallengeItem[]; isToday: boolean}> = ({
           Cố lên, bạn sắp đạt được mục tiêu rồi!
         </Text>
       </View>
-      <View style={{paddingHorizontal: vw(5), rowGap: vh(2)}}>
+      <View style={styles.challengeGrp}>
         {data.map((value, i) => {
           const isChecked = checkedTasks[i] || false;
           return (
@@ -152,17 +152,6 @@ const PastDayView: React.FC<{data: ChallengeItem[]; isToday: boolean}> = ({
   data,
   isToday,
 }) => {
-  const [checkedTasks, setCheckedTasks] = useState<{[index: number]: boolean}>(
-    {},
-  );
-
-  const handleCheck = (index: number) => {
-    setCheckedTasks(prev => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
-  };
-
   return (
     <View>
       <View
@@ -192,16 +181,27 @@ const PastDayView: React.FC<{data: ChallengeItem[]; isToday: boolean}> = ({
                     <CheckBox
                       disabled={!isToday}
                       tintColors={{true: '#1940B6', false: '#D3D3D3'}}
-                      value={checkedTasks[index] || false}
-                      onValueChange={() => handleCheck(index)}
+                      value={true}
                     />
                   </View>
                   <View style={styles.checkDivider} />
-
                   <View style={styles.checkTxtGrp1}>
-                    <Text style={styles.checkTitle}>{value.title}</Text>
+                    <Text style={[styles.checkTitle, styles.checkedText]}>
+                      {value.title}
+                    </Text>
                     <Text style={styles.checkAim}>{value.aim}</Text>
                   </View>
+                  <Image
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      width: vw(15),
+                      height: vw(15),
+                      resizeMode: 'contain',
+                      alignSelf: 'center',
+                    }}
+                    source={require('../../assets/home/homework1.png')}
+                  />
                 </View>
               );
             })}
@@ -224,6 +224,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: vh(10),
     width: '100%',
+    marginBottom: vh(1),
   },
   checkCheckBox: {
     width: '20%',
@@ -243,4 +244,5 @@ const styles = StyleSheet.create({
     color: '#878787',
     textDecorationLine: 'line-through',
   },
+  challengeGrp: {paddingHorizontal: vw(5), rowGap: vh(2)},
 });
