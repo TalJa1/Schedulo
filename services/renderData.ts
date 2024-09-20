@@ -228,6 +228,6 @@ export const generateScheduleData = (): ScheduleDataProps[] => {
     to: times[index * 2 + 1],
     title: titles[index % titles.length],
     note: notes[index % notes.length],
-    ischecked: Math.random() < 0.5,
+    ischecked: false,
   }));
 };

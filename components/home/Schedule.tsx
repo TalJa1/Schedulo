@@ -1,13 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import {SchedulePageProps} from '../../services/typeProps';
+import {ScheduleDataProps, SchedulePageProps} from '../../services/typeProps';
 import {generateFormattedDate} from '../../services/timeServices';
 import {centerAll, vh, vw} from '../../services/styleSheet';
 import {generateScheduleData} from '../../services/renderData';
 import {scheduleClockIcon, threedotsIcon} from '../../assets/svgXML';
 
 const Schedule: React.FC<SchedulePageProps> = ({weekDayIndex, todayIndex}) => {
+  const [scheduleData, setScheduleData] = useState<ScheduleDataProps[]>(
+    generateScheduleData(),
+  );
   return (
     <View style={styles.container}>
       <Text style={{color: '#000000', fontSize: 14, fontWeight: '700'}}>
@@ -15,7 +18,11 @@ const Schedule: React.FC<SchedulePageProps> = ({weekDayIndex, todayIndex}) => {
       </Text>
       <View>
         {weekDayIndex <= todayIndex ? (
-          <TodayView isToday={weekDayIndex === todayIndex} />
+          <TodayView
+            isToday={weekDayIndex === todayIndex}
+            scheduleData={scheduleData}
+            setScheduleData={setScheduleData}
+          />
         ) : (
           <NoContentView />
         )}
@@ -24,7 +31,11 @@ const Schedule: React.FC<SchedulePageProps> = ({weekDayIndex, todayIndex}) => {
   );
 };
 
-const TodayView: React.FC<{isToday: boolean}> = ({isToday}) => {
+const TodayView: React.FC<{
+  isToday: boolean;
+  scheduleData: ScheduleDataProps[];
+  setScheduleData: React.Dispatch<React.SetStateAction<ScheduleDataProps[]>>;
+}> = ({isToday, setScheduleData}) => {
   const [iconColors, setIconColors] = useState<string[]>(
     Array(10).fill('#F1F1F1'),
   );
@@ -33,6 +44,12 @@ const TodayView: React.FC<{isToday: boolean}> = ({isToday}) => {
     setIconColors(prevColors =>
       prevColors.map((color, i) =>
         i === index ? (color === '#F1F1F1' ? '#E0483C' : '#F1F1F1') : color,
+      ),
+    );
+
+    setScheduleData(prevData =>
+      prevData.map((item, i) =>
+        i === index ? {...item, isCheck: !item.ischecked} : item,
       ),
     );
   };
