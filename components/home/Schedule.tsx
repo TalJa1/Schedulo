@@ -1,18 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {SchedulePageProps} from '../../services/typeProps';
 import {generateFormattedDate} from '../../services/timeServices';
 import {centerAll, vh, vw} from '../../services/styleSheet';
 import {generateScheduleData} from '../../services/renderData';
+import {scheduleClockIcon, threedotsIcon} from '../../assets/svgXML';
 
-const Schedule: React.FC<SchedulePageProps> = ({
-  selectedDay,
-  weekDayIndex,
-  todayIndex,
-}) => {
-  console.log('Schedule', selectedDay, weekDayIndex, todayIndex);
-
+const Schedule: React.FC<SchedulePageProps> = ({weekDayIndex, todayIndex}) => {
   return (
     <View style={styles.container}>
       <Text style={{color: '#000000', fontSize: 14, fontWeight: '700'}}>
@@ -26,6 +21,18 @@ const Schedule: React.FC<SchedulePageProps> = ({
 };
 
 const TodayView: React.FC = () => {
+  const [iconColors, setIconColors] = useState<string[]>(
+    Array(10).fill('#F1F1F1'),
+  );
+
+  const toggleIconColor = (index: number) => {
+    setIconColors(prevColors =>
+      prevColors.map((color, i) =>
+        i === index ? (color === '#F1F1F1' ? '#E0483C' : '#F1F1F1') : color,
+      ),
+    );
+  };
+
   return (
     <View
       style={{
@@ -36,9 +43,43 @@ const TodayView: React.FC = () => {
       {generateScheduleData().map((item, index) => {
         return (
           <View key={index} style={{flexDirection: 'row', height: vh(10)}}>
-            <View style={{height: '100%', justifyContent: 'space-between'}}>
+            <View
+              style={{
+                height: '100%',
+                justifyContent: 'space-around',
+                width: '20%',
+              }}>
               <Text style={styles.time}>{item.from}</Text>
               <Text style={styles.time}>{item.to}</Text>
+            </View>
+            <View
+              style={{
+                width: '80%',
+                borderRadius: 10, // Add border radius
+                shadowColor: '#000', // Shadow color
+                shadowOffset: {width: 0, height: 1}, // Subtle shadow offset
+                shadowOpacity: 0.1, // Lower shadow opacity
+                shadowRadius: 2, // Smaller shadow radius
+                elevation: 2, // Lower elevation for Android shadow
+                backgroundColor: '#fff',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: vw(2),
+              }}>
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'space-around',
+                }}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.note}>{item.note}</Text>
+              </View>
+              <View style={{paddingVertical: vh(1)}}>
+                {threedotsIcon(vw(5), vw(5), '#000000')}
+                <TouchableOpacity onPress={() => toggleIconColor(index)}>
+                  {scheduleClockIcon(vw(5), vw(5), iconColors[index])}
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         );
@@ -87,6 +128,8 @@ const NoContentView: React.FC = () => {
 export default Schedule;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, paddingHorizontal: vw(5),paddingBottom:vh(2)},
+  container: {flex: 1, paddingHorizontal: vw(5), paddingBottom: vh(2)},
   time: {color: '#878787', fontSize: 12, fontWeight: '300'},
+  title: {color: '#000000', fontSize: 14, fontWeight: '500'},
+  note: {color: '#878787', fontSize: 10, fontWeight: '300'},
 });
