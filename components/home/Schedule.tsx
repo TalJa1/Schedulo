@@ -14,13 +14,17 @@ const Schedule: React.FC<SchedulePageProps> = ({weekDayIndex, todayIndex}) => {
         {generateFormattedDate(weekDayIndex)}
       </Text>
       <View>
-        {weekDayIndex <= todayIndex ? <TodayView /> : <NoContentView />}
+        {weekDayIndex <= todayIndex ? (
+          <TodayView isToday={weekDayIndex === todayIndex} />
+        ) : (
+          <NoContentView />
+        )}
       </View>
     </View>
   );
 };
 
-const TodayView: React.FC = () => {
+const TodayView: React.FC<{isToday: boolean}> = ({isToday}) => {
   const [iconColors, setIconColors] = useState<string[]>(
     Array(10).fill('#F1F1F1'),
   );
@@ -76,8 +80,14 @@ const TodayView: React.FC = () => {
               </View>
               <View style={{paddingVertical: vh(1)}}>
                 {threedotsIcon(vw(5), vw(5), '#000000')}
-                <TouchableOpacity onPress={() => toggleIconColor(index)}>
-                  {scheduleClockIcon(vw(5), vw(5), iconColors[index])}
+                <TouchableOpacity
+                  disabled={!isToday}
+                  onPress={() => toggleIconColor(index)}>
+                  {scheduleClockIcon(
+                    vw(5),
+                    vw(5),
+                    isToday ? iconColors[index] : '#F1F1F1',
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
