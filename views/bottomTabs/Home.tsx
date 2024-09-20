@@ -9,14 +9,37 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {centerAll, containerStyle, vh, vw} from '../../services/styleSheet';
+import {
+  centerAll,
+  containerStyle,
+  NavigationBarStyle,
+  vh,
+  vw,
+} from '../../services/styleSheet';
 import useStatusBar from '../../services/useStatusBarCustom';
 import HeaderComponent from '../../components/home/HeaderComponent';
 import {getDayOfWeekByIndex, getTodayIndex} from '../../services/timeServices';
-import {tabs} from '../../services/renderData';
+import {
+  generateChallengeData,
+  generateEmptyTaskData,
+  ShouldDoTask,
+  tabs,
+} from '../../services/renderData';
 import {floatingBtnIcon} from '../../assets/svgXML';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  ChallengeItem,
+  HomeTaskBtnProps,
+  RenderTaskViewProps,
+  TaskAdditionProps,
+} from '../../services/typeProps';
+import {loadData, saveData} from '../../services/storage';
+import {CircularProgress} from 'react-native-circular-progress';
+import dayjs from 'dayjs';
+import CheckBox from '@react-native-community/checkbox';
+import Challenge from '../../components/home/Challenge';
+import Schedule from '../../components/home/Schedule';
 
 const Home = () => {
   useStatusBar('#363851');
@@ -25,6 +48,13 @@ const Home = () => {
   const [selectedDay, setSelectedDay] = useState('');
   const [tabCurrent, setTabCurrent] = useState(0);
   const todayIndex = getTodayIndex();
+  const [taskData, setTaskData] = useState<TaskAdditionProps[][]>([]);
+  const [taskDataChallenge, setTaskDataChallenge] = useState<ChallengeItem[][]>(
+    [],
+  );
+
+  console.log('taskData', taskData);
+  console.log('taskDataChallenge', taskDataChallenge);
 
   useEffect(() => {
     setSelectedDay(getDayOfWeekByIndex(weekDayIndex));
@@ -36,43 +66,388 @@ const Home = () => {
         navigation.navigate('TaskAddition');
         break;
       case 1:
-        console.log('Navigate to challenge');
+        navigation.navigate('ChallengeAddition');
         break;
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const loadedData = await loadData<TaskAdditionProps[][]>(
+            'TaskStorage',
+          );
+          setTaskData(loadedData);
+          const loadDataChallenge = await loadData<ChallengeItem[][]>(
+            'ChallengeStorage',
+          );
+          setTaskDataChallenge(loadDataChallenge);
+        } catch (error) {
+          await saveData('TaskStorage', generateEmptyTaskData());
+          await saveData('ChallengeStorage', generateChallengeData());
+          setTaskData(generateEmptyTaskData());
+          setTaskDataChallenge(generateChallengeData());
+        }
+      };
+
+      fetchData();
+    }, []),
+  );
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{flex: 1}}>
+      <ScrollView>
         <View style={{flex: 1}}>
           <HeaderComponent
             dayIndex={weekDayIndex}
             setDayIndex={setWeekDayIndex}
           />
           <TabRender tabCurrent={tabCurrent} setTabCurrent={setTabCurrent} />
-          {weekDayIndex < todayIndex && tabCurrent === 0 ? (
-            <DoneTaskView />
-          ) : (
+          {tabCurrent === 0 && (
             <>
-              <NoTaskView
-                selectedDay={selectedDay}
-                tabIndex={tabCurrent}
-                handleNavigate={handleNavigate}
-              />
+              {weekDayIndex < todayIndex && tabCurrent === 0 ? (
+                <DoneTaskView />
+              ) : (
+                <>
+                  {taskData[weekDayIndex] &&
+                  taskData[weekDayIndex][0] &&
+                  taskData[weekDayIndex][0].title === '' ? (
+                    <NoTaskView
+                      selectedDay={selectedDay}
+                      tabIndex={tabCurrent}
+                      handleNavigate={handleNavigate}
+                    />
+                  ) : (
+                    <RenderTaskView
+                      isToday={todayIndex === weekDayIndex}
+                      taskData={taskData}
+                      tabDateIndex={weekDayIndex}
+                    />
+                  )}
+                </>
+              )}
             </>
           )}
+          {tabCurrent === 1 && (
+            <Challenge
+              handleNavigate={handleNavigate}
+              selectedDay={selectedDay}
+              tabCurrentIndex={tabCurrent}
+              todayIndex={todayIndex}
+              weekDayIndex={weekDayIndex}
+              challengeData={taskDataChallenge}
+            />
+          )}
+          {tabCurrent === 2 && (
+            <Schedule
+              selectedDay={selectedDay}
+              todayIndex={todayIndex}
+              weekDayIndex={weekDayIndex}
+            />
+          )}
         </View>
-        <FloatingActionButton />
       </ScrollView>
+      <FloatingActionButton
+        handleNavigate={handleNavigate}
+        tabIndex={tabCurrent}
+      />
+      <View style={NavigationBarStyle} />
     </SafeAreaView>
   );
 };
 
-const NoTaskView: React.FC<{
-  selectedDay: string;
-  tabIndex: number;
-  handleNavigate: () => void;
-}> = ({selectedDay, handleNavigate, tabIndex}) => {
+const RenderTaskView: React.FC<RenderTaskViewProps> = ({
+  isToday,
+  taskData,
+  tabDateIndex,
+}) => {
+  const [finish, setFinish] = useState(0);
+  const [randomTasks, setRandomTasks] = useState<
+    {title: string; isFinished: boolean; date: string; img: any}[]
+  >([]);
+  const [checkedTasks, setCheckedTasks] = useState<{
+    [date: string]: {[index: number]: boolean};
+  }>({});
+
+  const splitTime = (time: string) => {
+    const [startTime, endTime] = time.split(' - ');
+    return {startTime, endTime};
+  };
+
+  useEffect(() => {
+    // Function to get 3 random items from ShouldDoTask
+    const getRandomTasks = () => {
+      const shuffled = ShouldDoTask.sort(() => 0.5 - Math.random());
+      return shuffled
+        .slice(0, 3)
+        .map(task => ({...task, date: dayjs().format('YYYY-MM-DD')}));
+    };
+
+    setRandomTasks(getRandomTasks());
+  }, []);
+
+  useEffect(() => {
+    setFinish(
+      Object.values(checkedTasks)
+        .flatMap(dateTasks => Object.values(dateTasks))
+        .filter(task => task).length,
+    );
+  }, [checkedTasks]);
+
+  const handleCheck = (date: string, index: number) => {
+    setCheckedTasks(prev => ({
+      ...prev,
+      [date]: {
+        ...prev[date],
+        [index]: !prev[date]?.[index],
+      },
+    }));
+  };
+
+  return (
+    <View style={{paddingHorizontal: vw(5)}}>
+      {isToday ? (
+        <View
+          style={{
+            backgroundColor: '#1940B6',
+            borderRadius: 10,
+            marginTop: vh(5),
+            height: vh(15),
+            flexDirection: 'row',
+          }}>
+          <Image
+            style={{position: 'relative', top: -vh(3), left: -vw(3)}}
+            source={require('../../assets/home/progress.png')}
+          />
+          <View
+            style={{
+              width: '50%',
+              alignItems: 'flex-start',
+              justifyContent: 'space-evenly',
+            }}>
+            <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: '700'}}>
+              Bạn đã hoàn thành
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '80%',
+              }}>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{color: '#D6E1F2', fontSize: 24, fontWeight: '700'}}>
+                  <Text style={{color: '#F5C443'}}>{finish}</Text>/3
+                </Text>
+                <Text style={{color: '#F5C443'}}>việc</Text>
+              </View>
+              <View>
+                <CircularProgress
+                  size={vw(18)}
+                  width={vw(1.5)}
+                  fill={(finish / 3) * 100}
+                  tintColor="#F5C443"
+                  backgroundColor="#D6E1F2"
+                  rotation={0}
+                  lineCap="round">
+                  {() => (
+                    <Text
+                      style={{
+                        color: '#F5C443',
+                        fontSize: 20,
+                        fontWeight: '700',
+                      }}>
+                      {finish * 33}%
+                    </Text>
+                  )}
+                </CircularProgress>
+              </View>
+            </View>
+          </View>
+        </View>
+      ) : (
+        <Text
+          style={{
+            color: '#1940B6',
+            fontWeight: '700',
+            fontSize: 20,
+            textAlign: 'center',
+            marginVertical: vh(1),
+          }}>
+          {`Xem trước các công việc cần làm trong ${dayjs(
+            taskData[tabDateIndex][0].date,
+          ).format('DD/MM')} nào!`}
+        </Text>
+      )}
+      <View
+        style={{
+          marginVertical: vh(3),
+          rowGap: vh(1.5),
+          borderRadius: 5,
+          overflow: 'hidden',
+        }}>
+        {taskData &&
+          taskData[tabDateIndex] &&
+          taskData[tabDateIndex].map((task, index) => {
+            return (
+              <View
+                key={index}
+                style={{
+                  flexDirection: 'row',
+                  borderRadius: 5,
+                  overflow: 'hidden',
+                  borderWidth: 2,
+                  borderColor: '#363851',
+                }}>
+                <View
+                  style={{
+                    backgroundColor: '#EF87AA',
+                    alignItems: 'center',
+                    width: '30%',
+                    paddingVertical: vh(1),
+                    borderRightWidth: 2,
+                    borderRightColor: '#363851',
+                  }}>
+                  <Image source={require('../../assets/promodoro/clock.png')} />
+                  <Text
+                    style={{color: '#363851', fontSize: 13, fontWeight: '700'}}>
+                    {splitTime(task.time).startTime}
+                  </Text>
+                  <Text
+                    style={{color: '#FFFFFF', fontSize: 13, fontWeight: '700'}}>
+                    {splitTime(task.time).endTime}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: '#59C3A1',
+                    width: '70%',
+                    paddingVertical: vh(1),
+                    paddingHorizontal: vw(5),
+                    justifyContent: 'space-between',
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      columnGap: vw(2),
+                    }}>
+                    <View
+                      style={{
+                        borderColor: '#363851',
+                        borderWidth: 1,
+                        flexShrink: 0,
+                        alignSelf: 'flex-start', // Align the View to fit its content
+                        padding: 5,
+                        borderRadius: 5,
+                        backgroundColor: '#EF87AA',
+                      }}>
+                      <Text
+                        style={{
+                          color: '#363851',
+                          fontSize: 12,
+                          fontWeight: '700',
+                        }}>
+                        NHẮC NHỞ
+                      </Text>
+                    </View>
+                    <Text
+                      style={{color: 'white', fontSize: 12, fontWeight: '700'}}>
+                      {task.group}
+                    </Text>
+                  </View>
+                  <Text style={{color: '#363851', fontWeight: '700'}}>
+                    {task.title}
+                  </Text>
+                  <Text
+                    style={{fontSize: 12, color: '#E2FFF5', fontWeight: '700'}}>
+                    Note: {task.note}
+                  </Text>
+                </View>
+              </View>
+            );
+          })}
+        <View>
+          <Text style={{color: '#000000', fontSize: 16, fontWeight: '700'}}>
+            Các công việc cần làm{' '}
+            {isToday
+              ? 'hôm nay'
+              : `- ${dayjs(taskData[tabDateIndex][0].date).format('DD/MM')}`}
+            :
+          </Text>
+          <View style={{rowGap: vh(2), marginTop: vh(1)}}>
+            {randomTasks.map((task, index) => (
+              <View
+                key={index}
+                style={{
+                  backgroundColor: '#F7EDDF',
+                  borderRadius: 5,
+                  flexDirection: 'row',
+                  height: vh(10),
+                }}>
+                <View
+                  style={[
+                    {
+                      width: '20%',
+                      alignItems: 'center',
+                    },
+                    centerAll,
+                  ]}>
+                  <CheckBox
+                    disabled={!isToday}
+                    tintColors={{true: '#1940B6', false: '#D3D3D3'}}
+                    value={
+                      isToday
+                        ? checkedTasks[task.date]?.[index] || false
+                        : false
+                    }
+                    onValueChange={() =>
+                      isToday && handleCheck(task.date, index)
+                    }
+                  />
+                </View>
+                <View
+                  style={{
+                    width: 1,
+                    height: '70%',
+                    backgroundColor: '#3C3C4321',
+                    alignSelf: 'center',
+                  }}
+                />
+                <View
+                  style={{
+                    paddingLeft: vw(5),
+                    justifyContent: 'space-evenly',
+                  }}>
+                  <Text
+                    style={{color: '#1940B6', fontWeight: '700', fontSize: 11}}>
+                    Bài tập
+                  </Text>
+                  <Text
+                    style={{color: '#000000', fontSize: 13, fontWeight: '700'}}>
+                    {task.title}
+                  </Text>
+                </View>
+                <Image
+                  style={{position: 'absolute', right: 0}}
+                  source={task.img}
+                />
+              </View>
+            ))}
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const NoTaskView: React.FC<
+  HomeTaskBtnProps & {
+    selectedDay: string;
+  }
+> = ({selectedDay, handleNavigate, tabIndex}) => {
   return (
     <View
       style={[
@@ -124,9 +499,14 @@ const DoneTaskView: React.FC = () => {
   );
 };
 
-const FloatingActionButton: React.FC = () => {
+const FloatingActionButton: React.FC<HomeTaskBtnProps> = ({
+  handleNavigate,
+  tabIndex,
+}) => {
   return (
     <TouchableOpacity
+      disabled={tabIndex > 1}
+      onPress={handleNavigate}
       style={{
         position: 'absolute',
         bottom: vh(15),

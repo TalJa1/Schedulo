@@ -23,3 +23,7 @@ export const containerStyle: TextStyle = {
   flex: 1,
   backgroundColor: 'white',
 };
+
+export const NavigationBarStyle: TextStyle = {
+  height: vh(8),
+};

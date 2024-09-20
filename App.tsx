@@ -10,6 +10,7 @@ import Profile from './views/bottomTabs/Profile';
 import CustomTabBar from './components/CustomTabbar';
 import TaskAddition from './views/home/TaskAddition';
 import PromoSegment from './views/promodoro/PromoSegment';
+import ChallengeAddition from './views/home/ChallengeAddition';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -62,6 +63,11 @@ const App = () => {
         <Stack.Screen
           name="TaskAddition"
           component={TaskAddition}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ChallengeAddition"
+          component={ChallengeAddition}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

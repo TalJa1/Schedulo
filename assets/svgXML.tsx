@@ -9,6 +9,28 @@ export const test = (w?: any, h?: any, color?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const scheduleClockIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.5 7V11L12.5 13M16.5 1L19.5 4M1.5 4L4.5 1M18.5 11C18.5 15.4183 14.9183 19 10.5 19C6.08172 19 2.5 15.4183 2.5 11C2.5 6.58172 6.08172 3 10.5 3C14.9183 3 18.5 6.58172 18.5 11Z" stroke=${
+    color ?? '#F1F1F1'
+  } style="stroke:#F1F1F1;stroke:color(display-p3 0.9458 0.9458 0.9458);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const datePickerIcon = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="28" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 20.8V23.3312L21.35 24.85M18.5 1.75V7.75M9.5 1.75V7.75M9.5 15.25H1.276M1.276 15.25C1.25844 15.7313 1.25 16.2311 1.25 16.75C1.25 24.1141 2.96141 27.6276 8 28.9061M1.276 15.25C1.58841 6.68915 4.76893 4 14 4C22.0518 4 25.5002 6.04598 26.4572 12.25M26.75 23.5C26.75 27.2279 23.7279 30.25 20 30.25C16.2721 30.25 13.25 27.2279 13.25 23.5C13.25 19.7721 16.2721 16.75 20 16.75C23.7279 16.75 26.75 19.7721 26.75 23.5Z" stroke=${
+    color ?? 'white'
+  } style="stroke:white;stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const yellowStarIcon = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M8 11.3333L4 13.3333L5 9.33333L2 6L6.33333 5.66667L8 2L9.66667 5.66667L14 6L11 9.33333L12 13.3333L8 11.3333Z" fill="#F5C443" style="fill:#F5C443;fill:color(display-p3 0.9608 0.7686 0.2627);fill-opacity:1;"/>
