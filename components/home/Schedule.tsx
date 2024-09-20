@@ -4,6 +4,7 @@ import React from 'react';
 import {SchedulePageProps} from '../../services/typeProps';
 import {generateFormattedDate} from '../../services/timeServices';
 import {centerAll, vh, vw} from '../../services/styleSheet';
+import {generateScheduleData} from '../../services/renderData';
 
 const Schedule: React.FC<SchedulePageProps> = ({
   selectedDay,
@@ -25,7 +26,25 @@ const Schedule: React.FC<SchedulePageProps> = ({
 };
 
 const TodayView: React.FC = () => {
-  return <View></View>;
+  return (
+    <View
+      style={{
+        paddingHorizontal: vw(5),
+        rowGap: vh(2),
+        marginVertical: vh(2),
+      }}>
+      {generateScheduleData().map((item, index) => {
+        return (
+          <View key={index} style={{flexDirection: 'row', height: vh(10)}}>
+            <View style={{height: '100%', justifyContent: 'space-between'}}>
+              <Text style={styles.time}>{item.from}</Text>
+              <Text style={styles.time}>{item.to}</Text>
+            </View>
+          </View>
+        );
+      })}
+    </View>
+  );
 };
 
 const NoContentView: React.FC = () => {
@@ -69,4 +88,5 @@ export default Schedule;
 
 const styles = StyleSheet.create({
   container: {flex: 1, paddingHorizontal: vw(5)},
+  time: {color: '#878787', fontSize: 12, fontWeight: '300'},
 });
