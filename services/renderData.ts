@@ -1,4 +1,4 @@
-import {ChallengeItem, TaskItem} from './typeProps';
+import {ChallengeItem, ScheduleDataProps, TaskItem} from './typeProps';
 
 export const tabs = ['Việc cần làm', 'Thử thách', 'Thời gian biểu'];
 
@@ -177,4 +177,50 @@ export const generateChallengeData = (): ChallengeItem[][] => {
 
   // Create an array of 7 arrays, each containing the emptyChallenge object
   return Array.from({length: 7}, () => [{...emptyChallenge}]);
+};
+
+const generateRandomTime = (): string => {
+  const hours = Math.floor(Math.random() * 24)
+    .toString()
+    .padStart(2, '0');
+  const minutes = Math.floor(Math.random() * 60)
+    .toString()
+    .padStart(2, '0');
+  return `${hours}:${minutes}`;
+};
+
+const titles = [
+  'Học toán',
+  'Học văn',
+  'Học tiếng Anh',
+  'Học lịch sử',
+  'Học địa lý',
+  'Học sinh học',
+  'Học hóa học',
+  'Học vật lý',
+  'Học thể dục',
+  'Học âm nhạc',
+];
+
+const notes = [
+  'Ôn tập chương 1',
+  'Làm bài tập về nhà',
+  'Đọc sách tham khảo',
+  'Luyện nghe tiếng Anh',
+  'Viết bài luận',
+  'Thực hành thí nghiệm',
+  'Tham gia câu lạc bộ',
+  'Tập thể dục buổi sáng',
+  'Nghe nhạc thư giãn',
+  'Thực hành kỹ năng sống',
+];
+
+export const generateScheduleData = (): ScheduleDataProps[] => {
+  return Array.from({length: 10}, (_, index) => ({
+    from: generateRandomTime(),
+    to: generateRandomTime(),
+    title: titles[index % titles.length],
+    note: notes[index % notes.length],
+    ischecked: Math.random() < 0.5,
+  }));
 };

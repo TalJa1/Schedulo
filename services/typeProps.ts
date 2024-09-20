@@ -85,3 +85,11 @@ export interface SchedulePageProps {
   weekDayIndex: number;
   selectedDay: string;
 }
+
+export interface ScheduleDataProps {
+  from: string;
+  to: string;
+  title: string;
+  note: string;
+  ischecked: boolean;
+}

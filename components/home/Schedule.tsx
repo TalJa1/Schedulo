@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {SchedulePageProps} from '../../services/typeProps';
 import {generateFormattedDate} from '../../services/timeServices';
-import {vw} from '../../services/styleSheet';
+import {centerAll, vh, vw} from '../../services/styleSheet';
 
 const Schedule: React.FC<SchedulePageProps> = ({
   selectedDay,
@@ -17,6 +17,50 @@ const Schedule: React.FC<SchedulePageProps> = ({
       <Text style={{color: '#000000', fontSize: 14, fontWeight: '700'}}>
         {generateFormattedDate(weekDayIndex)}
       </Text>
+      <View>
+        {weekDayIndex <= todayIndex ? <TodayView /> : <NoContentView />}
+      </View>
+    </View>
+  );
+};
+
+const TodayView: React.FC = () => {
+  return <View></View>;
+};
+
+const NoContentView: React.FC = () => {
+  return (
+    <View
+      style={[
+        centerAll,
+        {paddingHorizontal: vw(5), rowGap: vh(2), marginVertical: vh(2)},
+      ]}>
+      <Text
+        style={{
+          color: '#1940B6',
+          fontSize: 20,
+          fontWeight: '700',
+          textAlign: 'center',
+        }}>
+        Hãy tạo kế hoạch cho ngày CUỐI TUẦN nào!!
+      </Text>
+      <Image
+        style={{width: vw(50), height: vw(50), resizeMode: 'contain'}}
+        source={require('../../assets/home/schedule.png')}
+      />
+      <TouchableOpacity
+        disabled={true}
+        style={{
+          borderWidth: 1,
+          borderColor: '#2F2F2F',
+          paddingVertical: vh(1),
+          paddingHorizontal: vw(5),
+          borderRadius: 10,
+        }}>
+        <Text style={{color: '#2F2F2F', fontSize: 16, fontWeight: '400'}}>
+          Tạo kế hoạch
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
